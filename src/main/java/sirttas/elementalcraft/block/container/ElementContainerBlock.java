@@ -1,16 +1,13 @@
 package sirttas.elementalcraft.block.container;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
@@ -18,7 +15,6 @@ import javax.annotation.Nonnull;
 public class ElementContainerBlock extends AbstractConnectedElementContainerBlock {
 
 	public static final String NAME = "container";
-	public static final MapCodec<ElementContainerBlock> CODEC = simpleCodec(ElementContainerBlock::new);
 
 	private static final VoxelShape BASE = Block.box(0D, 0D, 0D, 16D, 2D, 16D);
 	private static final VoxelShape GLASS = Block.box(2D, 2D, 2D, 14D, 15D, 14D);
@@ -32,8 +28,7 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE, GLASS, PIPE_1, PIPE_2, PIPE_3, PIPE_4, CONNECTOR);
 
-	public ElementContainerBlock(BlockBehaviour.Properties properties) {
-		super(properties);
+	public ElementContainerBlock() {
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(NORTH, false)
 				.setValue(EAST, false)
@@ -55,11 +50,6 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 
 	@Override
 	public int getDefaultCapacity() {
-		return ECConfig.SERVER.containerCapacity.get();
-	}
-
-	@Override
-	protected @NotNull MapCodec<? extends ElementContainerBlock> codec() {
-		return CODEC;
+		return ECConfig.COMMON.tankCapacity.get();
 	}
 }

@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:strongly_contained_crystal"
-  }
+  },
+  "show_notification": true
 }

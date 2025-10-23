@@ -2,15 +2,9 @@
   "attributes": {
     "minecraft:generic.attack_knockback": [
       {
-        "Amount": 1.0,
-        "Name": "Knockback modifier",
-        "Operation": "addition",
-        "UUID": [
-          2138040497,
-          1812809716,
-          -2120205627,
-          -629570771
-        ]
+        "amount": 1.0,
+        "name": "Knockback modifier",
+        "operation": "addition"
       }
     ]
   },
@@ -20,6 +14,5 @@
   "element_type": "air",
   "range": 5.0,
   "spell_type": "combat",
-  "strength": 5.0,
   "weight": 10
 }

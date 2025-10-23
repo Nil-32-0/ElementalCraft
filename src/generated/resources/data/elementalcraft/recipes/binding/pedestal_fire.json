@@ -7,7 +7,7 @@
       "item": "elementalcraft:infuser"
     },
     {
-      "item": "elementalcraft:fine_fire_gem"
+      "tag": "elementalcraft:gems/fine_fire"
     },
     {
       "tag": "forge:ingots/swift_alloy"
@@ -20,7 +20,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:pedestal_fire"
+    "item": "elementalcraft:pedestal_fire"
   }
 }

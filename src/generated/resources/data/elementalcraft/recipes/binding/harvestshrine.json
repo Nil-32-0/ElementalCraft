@@ -10,7 +10,7 @@
       "item": "elementalcraft:earthcrystal"
     },
     {
-      "item": "elementalcraft:crude_earth_gem"
+      "tag": "elementalcraft:gems/crude_earth"
     },
     {
       "item": "minecraft:diamond_hoe"
@@ -20,7 +20,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:harvestshrine"
+    "item": "elementalcraft:harvestshrine"
   }
 }

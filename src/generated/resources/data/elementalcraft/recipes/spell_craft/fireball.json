@@ -4,12 +4,11 @@
     "item": "elementalcraft:firecrystal"
   },
   "gem": {
-    "item": "minecraft:diamond"
+    "tag": "elementalcraft:gems/input_fire"
   },
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:scroll",
-    "tag": {
+    "item": "elementalcraft:scroll",
+    "nbt": {
       "elementalcraft": {
         "spell": "elementalcraft:fireball"
       }

@@ -1,37 +1,30 @@
 package sirttas.elementalcraft.block.anchor;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.network.PacketDistributor;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.network.PacketDistributor;
 import sirttas.elementalcraft.block.shape.ECShapes;
+import sirttas.elementalcraft.network.message.MessageHandler;
+import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 
 public class TranslocationAnchorBlock extends Block {
 
     public static final String NAME = "translocation_anchor";
-    public static final MapCodec<TranslocationAnchorBlock> CODEC = simpleCodec(TranslocationAnchorBlock::new);
 
     private static final VoxelShape SHAPE = Shapes.or(ECShapes.SOURCE_DISPLACEMENT_PLATE_SHAPE, Block.box(3D, 3D, 3D, 13D, 4D, 13D));
 
-    public TranslocationAnchorBlock(BlockBehaviour.Properties properties) {
-        super(properties);
-    }
-
-    @Override
-    protected @NotNull MapCodec<TranslocationAnchorBlock> codec() {
-        return CODEC;
+    public TranslocationAnchorBlock() {
+        super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
     }
 
     @Nonnull
@@ -78,7 +71,7 @@ public class TranslocationAnchorBlock extends Block {
     }
 
     private void sendToPlayers(@Nonnull Level level) {
-        PacketDistributor.DIMENSION.with(level.dimension()).send(TranslocationAnchorListPayload.create(level));
+        MessageHandler.CHANNEL.send(PacketDistributor.DIMENSION.with(level::dimension), TranslocationAnchorListMessage.create(level));
     }
 
     @Override

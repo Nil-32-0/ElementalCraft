@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:source_analysis_glass"
-  }
+  },
+  "show_notification": true
 }

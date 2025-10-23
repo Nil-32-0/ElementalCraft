@@ -15,6 +15,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
-		return this.getLevel().getEntitiesOfClass(clazz, getRange(), e -> !e.isSpectator());
+		return new ArrayList<>(this.getLevel().getEntitiesOfClass(clazz, getRange(), e -> !e.isSpectator()));
 	}
 
 	@Override

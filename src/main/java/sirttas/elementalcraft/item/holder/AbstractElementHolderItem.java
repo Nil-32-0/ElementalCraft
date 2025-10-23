@@ -12,13 +12,14 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.NeoForgeMod;
-import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import net.minecraftforge.common.ForgeMod;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.property.ECProperties;
@@ -62,26 +63,21 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	protected boolean isValidSource(BlockState state) {
-		return state.is(ECBlocks.SOURCE.get());
+		return state.getBlock() == ECBlocks.SOURCE.get();
 	}
 
 	@Override
-	public boolean canInteractWithSource(BlockState state) {
+	public boolean canInteractWithSource(ItemStack stack, BlockState state) {
 		return isValidSource(state);
 	}
 
 	@Nonnull
     @Override
 	public InteractionResult useOn(UseOnContext context) {
-		var player = context.getPlayer();
-
-		if (player == null) {
-			return InteractionResult.PASS;
-		}
-
 		var pos = context.getClickedPos();
 		var level = context.getLevel();
 		var stack = context.getItemInHand();
+		var player = context.getPlayer();
 		var result = tick(level, player, pos, stack);
 
 		if (result.consumesAction()) {
@@ -94,7 +90,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	@Override
 	public void onUseTick(@Nonnull Level level, @Nonnull LivingEntity player, @Nonnull ItemStack stack, int count) {
 		var pos = this.getSavedPos(stack);
-		var reachAttribute = player.getAttribute(NeoForgeMod.ENTITY_REACH.value());
+		var reachAttribute = player.getAttribute(ForgeMod.ENTITY_REACH.get());
 		var reach = reachAttribute != null ? reachAttribute.getValue() : 5;
 		
 		if (player.blockPosition().distSqr(pos) + 1 > reach * reach || !this.tick(player.level(), player, pos, stack).consumesAction()) {
@@ -112,40 +108,35 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	private InteractionResult tick(Level level, LivingEntity entity, BlockPos pos, ItemStack stack) {
 		var amount = this.transferAmount.getAsInt();
 		var blockstate = level.getBlockState(pos);
-		var storage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, null);
 
-		if (storage == null) {
-			return InteractionResult.PASS;
-		}
+		return BlockEntityHelper.getElementStorageAt(level, pos).map(storage -> {
+			IElementStorage holder = getElementStorage(stack);
+			boolean isSource = isValidSource(blockstate);
+			ElementType elementType = this.getElementType(storage, blockstate);
 
-		var holder = getElementStorage(stack);
-		var isSource = isValidSource(blockstate);
-		var elementType = this.getElementType(storage, blockstate);
+			if (elementType != ElementType.NONE) {
+				if (isSource || entity.isShiftKeyDown()) {
+					if (isSource || storage.canPipeExtract(elementType, null)) {
+						var value = storage.transferTo(holder, elementType, amount);
 
-		if (elementType == ElementType.NONE) {
-			return InteractionResult.PASS;
-		}
+						if (value > 0) {
+							ParticleHelper.createElementFlowParticle(elementType, level, Vec3.atCenterOf(pos), entity.getRopeHoldPosition(0), level.random);
+							return InteractionResult.CONSUME;
+						}
+						return InteractionResult.PASS;
+					}
+				} else if (storage.canPipeInsert(elementType, null)) {
+					var value = holder.transferTo(storage, elementType, amount);
 
-		if (isSource || entity.isShiftKeyDown()) {
-			if (isSource || storage.canPipeExtract(elementType, null)) {
-				var value = storage.transferTo(holder, elementType, amount);
-
-				if (value > 0) {
-					ParticleHelper.createElementFlowParticle(elementType, level, Vec3.atCenterOf(pos), entity.getRopeHoldPosition(0), level.random);
-					return InteractionResult.CONSUME;
+					if (value > 0) {
+						ParticleHelper.createElementFlowParticle(elementType, level, entity.getRopeHoldPosition(0), Vec3.atCenterOf(pos), level.random);
+						return InteractionResult.CONSUME;
+					}
+					return InteractionResult.PASS;
 				}
-				return InteractionResult.PASS;
-			}
-		} else if (storage.canPipeInsert(elementType, null)) {
-			var value = holder.transferTo(storage, elementType, amount);
-
-			if (value > 0) {
-				ParticleHelper.createElementFlowParticle(elementType, level, entity.getRopeHoldPosition(0), Vec3.atCenterOf(pos), level.random);
-				return InteractionResult.CONSUME;
 			}
 			return InteractionResult.PASS;
-		}
-		return InteractionResult.PASS;
+		}).orElse(InteractionResult.PASS);
 	}
 
 	@Override
@@ -181,16 +172,6 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	@Nonnull
 	@Override
 	public Optional<TooltipComponent> getTooltipImage(@Nonnull ItemStack stack) {
-		if (stack.isEmpty()) {
-			return Optional.empty();
-		}
-
-		var storage = stack.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM, null);
-
-		if (storage == null) {
-			return Optional.empty();
-		}
-
-		return Optional.of(new ElementGaugeTooltip(storage));
+		return ElementStorageHelper.get(stack).map(ElementGaugeTooltip::new);
 	}
 }

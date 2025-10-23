@@ -9,7 +9,7 @@
       "item": "elementalcraft:watercrystal"
     },
     "e": {
-      "item": "elementalcraft:pristine_earth_gem"
+      "tag": "elementalcraft:gems/pristine_earth"
     },
     "s": {
       "item": "elementalcraft:springaline_block"
@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_crystal_growth"
-  }
+  },
+  "show_notification": true
 }

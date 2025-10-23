@@ -2,7 +2,6 @@ package sirttas.elementalcraft.datagen.loot;
 
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -14,15 +13,13 @@ import net.minecraft.world.level.storage.loot.functions.SetNbtFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 import sirttas.elementalcraft.loot.function.RandomSpell;
 import sirttas.elementalcraft.nbt.NBTHelper;
-import sirttas.elementalcraft.rune.Runes;
 
 import javax.annotation.Nonnull;
 import java.util.function.BiConsumer;
@@ -44,7 +41,7 @@ public class ECChestLoot implements LootTableSubProvider {
 
 	@Nonnull
 	private static ResourceLocation createPath(String inject) {
-		return ElementalCraftApi.createRL("chests/" + inject);
+		return ElementalCraft.createRL("chests/" + inject);
 	}
 
 	private static LootTable.Builder createInject() {
@@ -85,12 +82,12 @@ public class ECChestLoot implements LootTableSubProvider {
 	private static LootTable.Builder createWithType(NumberProvider range, ElementType type) {
 		return addVanilla(LootTable.lootTable().withPool(createBase(range)
 				.add(LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getCrystalForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6))).setWeight(40))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10))).setWeight(20))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForElement(type)).setWeight(5))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getCrystalForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6))).setWeight(40))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10))).setWeight(20))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type)).setWeight(5))
 				.add(randomSpell(type).setWeight(15))
-				.add(rune(getSmallRune(type)).setWeight(10))
-				.add(rune(getMediumRune(type)).setWeight(5))));
+				.add(rune(getSmallRuneName(type)).setWeight(10))
+				.add(rune(getMediumRuneName(type)).setWeight(5))));
 	}
 
 	@Nonnull
@@ -100,7 +97,7 @@ public class ECChestLoot implements LootTableSubProvider {
 				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_INGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
 				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_NUGGET.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5))).setWeight(15))
 				.add(randomSpell(type).setWeight(15))
-				.add(rune(getMediumRune(type)).setWeight(10))
+				.add(rune(getMediumRuneName(type)).setWeight(10))
 				.add(rune(getLargeRuneName(type)).setWeight(5))
 				.add(LootItem.lootTableItem(ECItems.PURE_CRYSTAL.get()).setWeight(2));
 	}
@@ -130,39 +127,39 @@ public class ECChestLoot implements LootTableSubProvider {
 		return LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder(type));
 	}
 
-	private static LootPoolSingletonContainer.Builder<?> rune(ResourceKey<Rune> rune) {
+	private static LootPoolSingletonContainer.Builder<?> rune(String runeName) {
 		var tag = new CompoundTag();
 
-		NBTHelper.getOrCreate(tag, ECNames.EC_NBT).putString(ECNames.RUNE, rune.location().toString());
+		NBTHelper.getOrCreate(tag, ECNames.EC_NBT).putString(ECNames.RUNE, ElementalCraft.createRL(runeName).toString());
 		return LootItem.lootTableItem(ECItems.RUNE.get()).apply(SetNbtFunction.setTag(tag));
 	}
 
-	private static ResourceKey<Rune> getSmallRune(ElementType type) {
+	private static String getSmallRuneName(ElementType type) {
 		return switch (type) {
-			case AIR -> Runes.WII;
-			case EARTH -> Runes.SOARYN;
-			case FIRE -> Runes.MANX;
-			case WATER -> Runes.CLAPTRAP;
+			case AIR -> "wii";
+			case EARTH -> "soaryn";
+			case FIRE -> "manx";
+			case WATER -> "claptrap";
 			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}
 
-	private static ResourceKey<Rune> getMediumRune(ElementType type) {
+	private static String getMediumRuneName(ElementType type) {
 		return switch (type) {
-			case AIR -> Runes.FUS;
-			case EARTH -> Runes.KAWORU;
-			case FIRE -> Runes.JITA;
-			case WATER -> Runes.BOMBADIL;
+			case AIR -> "fus";
+			case EARTH -> "kaworu";
+			case FIRE -> "jita";
+			case WATER -> "bombadil";
 			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}
 
-	private static ResourceKey<Rune> getLargeRuneName(ElementType type) {
+	private static String getLargeRuneName(ElementType type) {
 		return switch (type) {
-			case AIR -> Runes.ZOD;
-			case EARTH -> Runes.MEWTWO;
-			case FIRE -> Runes.TANO;
-			case WATER -> Runes.TZEENTCH;
+			case AIR -> "zod";
+			case EARTH -> "mewtwo";
+			case FIRE -> "tano";
+			case WATER -> "tzeentch";
 			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}

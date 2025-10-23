@@ -9,7 +9,7 @@
       "item": "minecraft:diamond_pickaxe"
     },
     "e": {
-      "item": "elementalcraft:pristine_earth_gem"
+      "tag": "elementalcraft:gems/pristine_earth"
     },
     "p": {
       "item": "elementalcraft:purecrystal"
@@ -25,6 +25,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:mole\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:mole"
+      }
+    }
+  },
+  "show_notification": true
 }

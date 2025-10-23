@@ -1,15 +1,12 @@
 package sirttas.elementalcraft.block.shrine.spring;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
@@ -19,7 +16,6 @@ import javax.annotation.Nonnull;
 public class SpringShrineBlock extends AbstractShrineBlock<SpringShrineBlockEntity> {
 
 	public static final String NAME = "springshrine";
-	public static final MapCodec<SpringShrineBlock> CODEC = simpleCodec(SpringShrineBlock::new);
 
 	private static final VoxelShape PIPE_NORTH = Block.box(7D, 12D, 4D, 9D, 16D, 6D);
 	private static final VoxelShape PIPE_SOUTH = Block.box(7D, 12D, 10D, 9D, 16D, 12D);
@@ -33,13 +29,8 @@ public class SpringShrineBlock extends AbstractShrineBlock<SpringShrineBlockEnti
 	
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, PIPE_NORTH, PIPE_SOUTH, PIPE_WEST, PIPE_EAST, PIPE_NORTH_WEST, PIPE_NORTH_EAST, PIPE_SOUTH_WEST, PIPE_SOUTH_EAST);
 
-	public SpringShrineBlock(BlockBehaviour.Properties properties) {
-		super(ElementType.WATER, properties);
-	}
-
-	@Override
-	protected @NotNull MapCodec<SpringShrineBlock> codec() {
-		return CODEC;
+	public SpringShrineBlock() {
+		super(ElementType.WATER);
 	}
 
 	@Nonnull

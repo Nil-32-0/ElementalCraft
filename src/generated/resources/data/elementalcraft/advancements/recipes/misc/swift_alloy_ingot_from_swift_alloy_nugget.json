@@ -20,13 +20,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_swift_alloy_nugget"
+      "has_swift_alloy_nugget",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:swift_alloy_ingot_from_swift_alloy_nugget"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

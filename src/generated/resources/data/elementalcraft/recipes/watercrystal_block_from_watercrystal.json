@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "elementalcraft:watercrystal_block"
-  }
+  },
+  "show_notification": true
 }

@@ -6,7 +6,7 @@
       "item": "elementalcraft:unset_jewel"
     },
     "e": {
-      "item": "elementalcraft:crude_earth_gem"
+      "tag": "elementalcraft:gems/crude_earth"
     },
     "g": {
       "tag": "forge:gravel"
@@ -22,6 +22,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:tortoise\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:tortoise"
+      }
+    }
+  },
+  "show_notification": true
 }

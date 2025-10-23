@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
 
@@ -30,7 +30,7 @@ public class AoeSpell extends Spell {
 		if (caster instanceof LivingEntity livingSender) {
 			var attribute = livingSender.getAttribute(Attributes.ATTACK_DAMAGE);
 			float damageBase = attribute != null ? (float) attribute.getValue() : 1;
-			float damageMultiplier = (1 + EnchantmentHelper.getSweepingDamageRatio(livingSender)) * getStrength();
+			float damageMultiplier = (1 + EnchantmentHelper.getSweepingDamageRatio(livingSender));
 
 			for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class, livingSender.getBoundingBox().inflate(range + 1, 0.25D, range + 1))) {
 				hitTarget(livingSender, target, damageBase, damageMultiplier);
@@ -80,7 +80,7 @@ public class AoeSpell extends Spell {
 
 			stack.getItem().hurtEnemy(stack, target, player);
 			if (stack.isEmpty()) {
-				EventHooks.onPlayerDestroyItem(player, copy, InteractionHand.MAIN_HAND);
+				ForgeEventFactory.onPlayerDestroyItem(player, copy, InteractionHand.MAIN_HAND);
 				sender.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
 			}
 		}

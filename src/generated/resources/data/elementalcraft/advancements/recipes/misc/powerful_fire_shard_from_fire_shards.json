@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_fire_shard"
+      "has_fire_shard",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:powerful_fire_shard_from_fire_shards"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

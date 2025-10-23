@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.sorter;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
@@ -22,7 +20,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -33,7 +30,6 @@ import javax.annotation.Nullable;
 public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 
 	public static final String NAME = "sorter";
-	public static final MapCodec<SorterBlock> CODEC = simpleCodec(SorterBlock::new);
 
 	private static final VoxelShape CORE_VOID = Shapes.or(Block.box(5D, 6D, 6D, 11D, 10D, 10D), Block.box(6D, 5D, 6D, 10D, 11D, 10D),
 			Block.box(6D, 6D, 5D, 10D, 10D, 11D));
@@ -41,16 +37,10 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 			Block.box(6D, 6D, 6D, 10D, 10D, 10D));
 
 
-	public SorterBlock(BlockBehaviour.Properties properties) {
-		super(properties);
+	public SorterBlock() {
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(SOURCE, Direction.SOUTH)
 				.setValue(TARGET, Direction.NORTH));
-	}
-
-	@Override
-	protected @NotNull MapCodec<SorterBlock> codec() {
-		return CODEC;
 	}
 
 	@Override
@@ -83,14 +73,14 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 	@Nonnull
     @Override
 	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return blockGetter instanceof Level level && level.isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurrentShape(state);
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+		return worldIn instanceof Level && ((Level) worldIn).isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurentShape(state);
 	}
 	@Nonnull
     @Override
 	@Deprecated
 	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return getCurrentShape(state);
+		return getCurentShape(state);
 	}
 
 	@Nonnull

@@ -13,11 +13,10 @@
       "item": "elementalcraft:purecrystal"
     },
     {
-      "item": "elementalcraft:pristine_earth_gem"
+      "tag": "elementalcraft:gems/pristine_earth"
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:reservoir_earth"
+    "item": "elementalcraft:reservoir_earth"
   }
 }

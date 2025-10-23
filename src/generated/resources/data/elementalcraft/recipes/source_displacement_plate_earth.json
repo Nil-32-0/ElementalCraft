@@ -6,7 +6,7 @@
       "item": "elementalcraft:purecrystal"
     },
     "g": {
-      "item": "elementalcraft:pristine_earth_gem"
+      "tag": "elementalcraft:gems/pristine_earth"
     },
     "s": {
       "tag": "forge:ingots/swift_alloy"
@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:source_displacement_plate_earth"
-  }
+  },
+  "show_notification": true
 }

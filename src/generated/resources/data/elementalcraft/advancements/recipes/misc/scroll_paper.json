@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_air_silk"
+      "has_air_silk",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:scroll_paper"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

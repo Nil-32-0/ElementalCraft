@@ -4,7 +4,7 @@
   "icon": "elementalcraft:inscriber",
   "advancement": "elementalcraft:pickup/crystallizer",
   "turnin": "elementalcraft:pickup/inscriber",
-  "sortnum": 9,
+  "sortnum": 16,
   "pages": [
     {
       "type": "text",
@@ -13,12 +13,7 @@
     {
       "type": "crafting",
       "recipe": "elementalcraft:inscriber",
-      "recipe2": "elementalcraft:drenched_iron_chisel"
-    },
-    {
-      "type": "crafting",
-      "recipe": "elementalcraft:swift_alloy_chisel",
-      "recipe2": "elementalcraft:fireite_chisel"
+      "recipe2": "elementalcraft:chisel"
     },
     {
       "type": "multiblock",

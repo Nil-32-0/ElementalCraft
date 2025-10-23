@@ -10,7 +10,7 @@
       "item": "elementalcraft:firecrystal"
     },
     {
-      "item": "elementalcraft:fine_earth_gem"
+      "tag": "elementalcraft:gems/fine_earth"
     },
     {
       "item": "minecraft:rotten_flesh"
@@ -26,7 +26,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:spawningshrine"
+    "item": "elementalcraft:spawningshrine"
   }
 }

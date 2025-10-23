@@ -13,11 +13,10 @@
       "item": "elementalcraft:purecrystal"
     },
     {
-      "item": "elementalcraft:pristine_air_gem"
+      "tag": "elementalcraft:gems/pristine_air"
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:reservoir_air"
+    "item": "elementalcraft:reservoir_air"
   }
 }

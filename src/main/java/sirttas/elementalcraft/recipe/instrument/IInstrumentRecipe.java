@@ -12,8 +12,4 @@ public interface IInstrumentRecipe<T extends IInstrument> extends IContainerBloc
 
     int getElementAmount();
 
-    default int getElementAmount(T instrument) {
-        return getElementAmount();
-    }
-
 }

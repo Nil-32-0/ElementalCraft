@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "item": "elementalcraft:fine_air_gem"
+      "tag": "elementalcraft:gems/fine_air"
     },
     "c": {
       "item": "elementalcraft:aircrystal"
     },
     "e": {
-      "item": "elementalcraft:fine_earth_gem"
+      "tag": "elementalcraft:gems/fine_earth"
     }
   },
   "pattern": [
@@ -22,6 +22,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:leopard\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:leopard"
+      }
+    }
+  },
+  "show_notification": true
 }

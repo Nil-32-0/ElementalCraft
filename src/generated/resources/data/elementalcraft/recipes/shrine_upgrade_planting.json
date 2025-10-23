@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_planting"
-  }
+  },
+  "show_notification": true
 }

@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_artificial_earth_source_seed"
+      "has_artificial_earth_source_seed",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:natural_earth_source_seed"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

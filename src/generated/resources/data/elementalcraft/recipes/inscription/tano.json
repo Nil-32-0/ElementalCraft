@@ -4,12 +4,7 @@
   "element_type": "fire",
   "ingredients": [
     {
-      "item": "elementalcraft:major_rune_slate"
-    },
-    {
-      "type": "neoforge:nbt",
-      "item": "elementalcraft:rune",
-      "tag": "{elementalcraft:{rune:\"elementalcraft:jita\"}}"
+      "tag": "elementalcraft:gems/pristine_fire"
     },
     {
       "tag": "forge:storage_blocks/coal"
@@ -19,12 +14,14 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:rune",
-    "tag": {
+    "item": "elementalcraft:rune",
+    "nbt": {
       "elementalcraft": {
         "rune": "elementalcraft:tano"
       }
     }
+  },
+  "slate": {
+    "item": "elementalcraft:major_rune_slate"
   }
 }

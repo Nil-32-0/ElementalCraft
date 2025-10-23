@@ -4,12 +4,7 @@
   "element_type": "fire",
   "ingredients": [
     {
-      "item": "elementalcraft:rune_slate"
-    },
-    {
-      "type": "neoforge:nbt",
-      "item": "elementalcraft:rune",
-      "tag": "{elementalcraft:{rune:\"elementalcraft:manx\"}}"
+      "tag": "elementalcraft:gems/fine_fire"
     },
     {
       "item": "minecraft:blaze_rod"
@@ -19,12 +14,14 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:rune",
-    "tag": {
+    "item": "elementalcraft:rune",
+    "nbt": {
       "elementalcraft": {
         "rune": "elementalcraft:jita"
       }
     }
+  },
+  "slate": {
+    "item": "elementalcraft:rune_slate"
   }
 }

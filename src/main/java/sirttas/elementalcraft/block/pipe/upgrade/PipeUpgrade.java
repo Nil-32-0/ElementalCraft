@@ -16,17 +16,17 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.attachment.AttachmentHolder;
-import net.neoforged.neoforge.attachment.AttachmentType;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
-import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.ElementPipeTransferer;
-import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapability;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.loot.parameter.ECLootContextParamSets;
 import sirttas.elementalcraft.loot.parameter.ECLootContextParams;
@@ -35,11 +35,9 @@ import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
-public class PipeUpgrade extends AttachmentHolder implements ItemLike {
+public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements ItemLike {
 
-    public static final String FOLDER = "elementalcraft/pipe_upgrades/";
-    public static final String ATTACHMENTS = "neoforge:attachments";
-
+    public static final String FOLDER = "elementalcraft/pipe_upgrade/";
 
     private final PipeUpgradeType<?> type;
 
@@ -48,21 +46,16 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
     private Item item;
 
     protected PipeUpgrade(PipeUpgradeType<?> type, ElementPipeBlockEntity pipe, Direction direction) {
+        super(PipeUpgrade.class);
         this.type = type;
         this.pipe = pipe;
         this.direction = direction;
     }
 
-    @Nullable
+    @NotNull
     @Override
-    public final <T> T setData(@NotNull AttachmentType<T> type, @NotNull T data) {
-        this.pipe.setChanged();
-        return super.setData(type, data);
-    }
-
-    @Nullable
-    public <T, C> T getCapability(@NotNull final PipeUpgradeCapability<T, C> cap, C context) {
-        return cap.getCapability(this, context);
+    public <T> LazyOptional<T> getCapability(@NotNull final Capability<T> cap, @Nullable final Direction side) {
+        return side == null || side == direction ? super.getCapability(cap, side) : LazyOptional.empty();
     }
 
     public ResourceLocation getKey() {
@@ -70,10 +63,9 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
     }
 
     public void load(CompoundTag tag) {
-        if (tag.contains(ATTACHMENTS, 10)) {
-            this.deserializeAttachments(tag.getCompound(ATTACHMENTS));
+        if (getCapabilities() != null && tag.contains(ECNames.FORGE_CAPS)) {
+            deserializeCaps(tag.getCompound(ECNames.FORGE_CAPS));
         }
-
     }
 
     public CompoundTag save() {
@@ -85,9 +77,12 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
     }
 
     protected void saveAdditional(CompoundTag tag) {
-        CompoundTag attachments = this.serializeAttachments();
-        if (attachments != null) {
-            tag.put(ATTACHMENTS, attachments);
+        if (getCapabilities() != null) {
+            var caps = serializeCaps();
+
+            if (caps != null) {
+                tag.put(ECNames.FORGE_CAPS, caps);
+            }
         }
     }
 
@@ -114,7 +109,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         // NOOP
     }
 
-    public void onTransfer(ElementType type, int amount, @javax.annotation.Nullable IElementTransferPathNode prev, @javax.annotation.Nullable IElementTransferPathNode next) {
+    public void onTransfer(ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) {
         // NOOP
     }
 
@@ -181,9 +176,5 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
             item = this.type.asItem();
         }
         return item;
-    }
-
-    public int getWeight() {
-        return 0;
     }
 }

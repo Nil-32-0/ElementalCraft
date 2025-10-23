@@ -4,12 +4,11 @@
     "item": "elementalcraft:watercrystal"
   },
   "gem": {
-    "item": "elementalcraft:crude_earth_gem"
+    "tag": "elementalcraft:gems/input_water"
   },
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:scroll",
-    "tag": {
+    "item": "elementalcraft:scroll",
+    "nbt": {
       "elementalcraft": {
         "spell": "elementalcraft:ripening"
       }

@@ -1,8 +1,9 @@
 package sirttas.elementalcraft.recipe;
 
-import com.mojang.serialization.Codec;
+import com.google.gson.JsonObject;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,14 +16,11 @@ import sirttas.elementalcraft.item.spell.FocusItem;
 import sirttas.elementalcraft.spell.SpellHelper;
 
 import javax.annotation.Nonnull;
-import java.util.function.Function;
 
 public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingContainer> {
-
-	public static final Codec<ShapedRecipe> CODEC = RecipeSerializer.SHAPED_RECIPE.codec().<ShapedRecipe>xmap(StaffRecipe::new, Function.identity()).stable();
-
-	public StaffRecipe(ShapedRecipe parent) {
-		super(parent.getGroup(), parent.category(), parent.pattern, new ItemStack(ECItems.STAFF.get()), parent.showNotification());
+	
+	private StaffRecipe(ShapedRecipe parent) {
+		super(parent.getId(), parent.getGroup(), parent.category(), parent.getWidth(), parent.getHeight(), parent.getIngredients(), new ItemStack(ECItems.STAFF.get()));
 	}
 
 	@Nonnull
@@ -51,15 +49,15 @@ public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingConta
 	
 	public static class Serializer extends ShapedRecipe.Serializer {
 
-		@Override
 		@Nonnull
-		public Codec<ShapedRecipe> codec() {
-			return CODEC;
+        @Override
+		public ShapedRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
+			return new StaffRecipe(super.fromJson(recipeId, json));
 		}
 
 		@Override
-		public ShapedRecipe fromNetwork(@Nonnull FriendlyByteBuf buffer) {
-			return new StaffRecipe(super.fromNetwork(buffer));
+		public ShapedRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
+			return new StaffRecipe(super.fromNetwork(recipeId, buffer));
 		}
 	}
 }

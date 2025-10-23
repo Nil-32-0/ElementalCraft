@@ -3,7 +3,10 @@
   "category": "misc",
   "key": {
     "C": {
-      "item": "elementalcraft:advanced_shrine_upgrade_core"
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
     },
     "i": {
       "item": "minecraft:clock"
@@ -11,21 +14,19 @@
     "p": {
       "item": "elementalcraft:elementpipe_improved"
     },
-    "u": {
-      "item": "elementalcraft:shrine_upgrade_acceleration"
-    },
     "z": {
-      "type": "neoforge:nbt",
+      "type": "forge:partial_nbt",
       "item": "elementalcraft:rune",
-      "tag": "{elementalcraft:{rune:\"elementalcraft:zod\"}}"
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:zod\"}}"
     }
   },
   "pattern": [
     "ziz",
     "pCp",
-    " u "
+    " c "
   ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_overclocked_acceleration"
-  }
+  },
+  "show_notification": true
 }

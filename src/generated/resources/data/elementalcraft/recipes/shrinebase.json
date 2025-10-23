@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:shrinebase"
-  }
+  },
+  "show_notification": true
 }

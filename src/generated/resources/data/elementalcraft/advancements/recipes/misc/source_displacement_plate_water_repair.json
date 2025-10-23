@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_broken_source_displacement_plate"
+      "has_broken_source_displacement_plate",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:source_displacement_plate_water_repair"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

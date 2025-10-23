@@ -6,7 +6,7 @@
       "item": "elementalcraft:purecrystal"
     },
     "g": {
-      "item": "elementalcraft:pristine_water_gem"
+      "tag": "elementalcraft:gems/pristine_water"
     },
     "s": {
       "tag": "forge:ingots/swift_alloy"
@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:source_displacement_plate_water"
-  }
+  },
+  "show_notification": true
 }

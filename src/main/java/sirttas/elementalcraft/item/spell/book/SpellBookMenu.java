@@ -13,7 +13,7 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.network.payload.PayloadHelper;
+import sirttas.elementalcraft.network.message.MessageHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
@@ -23,7 +23,7 @@ import java.util.stream.IntStream;
 
 public class SpellBookMenu extends AbstractECMenu {
 
-	static final int ROW_COUNT = (Spells.REGISTRY.size() + 9 - 1) / 9;
+	static final int ROW_COUNT = (Spells.REGISTRY.get().getEntries().size() + 9 - 1) / 9;
 	static final int SLOT_COUNT = ROW_COUNT * 9;
 
 	private ItemStack book;
@@ -151,7 +151,7 @@ public class SpellBookMenu extends AbstractECMenu {
 	}
 
 	public boolean canAddSpell(ItemStack stack, Spell spell) {
-		return stack.is(ECItems.SCROLL.get()) && spell.isValid() && SpellHelper.getSpellCount(stack) < ECConfig.SERVER.spellBookMaxSpell.get();
+		return stack.is(ECItems.SCROLL.get()) && spell.isValid() && SpellHelper.getSpellCount(stack) < ECConfig.COMMON.spellBookMaxSpell.get();
 	}
 	
 	@Override
@@ -176,7 +176,7 @@ public class SpellBookMenu extends AbstractECMenu {
 			this.slots.forEach(Slot::setChanged);
 		}
 		if (player instanceof ServerPlayer) {
-			PayloadHelper.sendToPlayer((ServerPlayer) player, new SpellBookPayload(book));
+			MessageHelper.sendToPlayer((ServerPlayer) player, new SpellBookMessage(book));
 		}
 	}
 
@@ -230,7 +230,7 @@ public class SpellBookMenu extends AbstractECMenu {
 
 		@Override
 		public int getMaxStackSize() {
-			return ECConfig.SERVER.spellBookMaxSpell.get();
+			return ECConfig.COMMON.spellBookMaxSpell.get();
 		}
 	}
 }

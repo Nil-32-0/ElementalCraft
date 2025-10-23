@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_protection"
-  }
+  },
+  "show_notification": true
 }

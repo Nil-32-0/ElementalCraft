@@ -17,10 +17,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:elemental_firefuel",
-    "tag": {
-      "Damage": 0
-    }
+    "item": "elementalcraft:elemental_firefuel"
   }
 }

@@ -6,7 +6,7 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "item": "elementalcraft:fine_air_gem"
+      "tag": "elementalcraft:gems/fine_air"
     },
     "c": {
       "item": "elementalcraft:aircrystal"
@@ -22,6 +22,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:hawk\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:hawk"
+      }
+    }
+  },
+  "show_notification": true
 }

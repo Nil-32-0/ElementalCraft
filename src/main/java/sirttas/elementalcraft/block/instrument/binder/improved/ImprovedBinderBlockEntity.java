@@ -18,11 +18,10 @@ public class ImprovedBinderBlockEntity extends BinderBlockEntity implements IInf
 	private static final Config<IBinder, AbstractBindingRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.BINDER_IMPROVED,
 			ECRecipeTypes.BINDING,
-			ECConfig.SERVER.improvedBinderTransferSpeed,
-			ECConfig.SERVER.improvedBinderMaxRunes,
+			ECConfig.COMMON.improvedBinderTransferSpeed,
+			ECConfig.COMMON.improvedBinderMaxRunes,
 			0,
-			true,
-			false
+			true
 	);
 
 	public ImprovedBinderBlockEntity(BlockPos pos, BlockState state) {

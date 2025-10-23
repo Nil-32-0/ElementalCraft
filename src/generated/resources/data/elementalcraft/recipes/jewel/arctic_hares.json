@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "item": "elementalcraft:crude_air_gem"
+      "tag": "elementalcraft:gems/crude_air"
     },
     "f": {
       "item": "minecraft:rabbit_foot"
     },
     "w": {
-      "item": "elementalcraft:fine_water_gem"
+      "tag": "elementalcraft:gems/fine_water"
     }
   },
   "pattern": [
@@ -22,6 +22,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:arctic_hares\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:arctic_hares"
+      }
+    }
+  },
+  "show_notification": true
 }

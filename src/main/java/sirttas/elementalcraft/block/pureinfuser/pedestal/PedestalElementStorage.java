@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
@@ -9,7 +8,7 @@ import sirttas.elementalcraft.config.ECConfig;
 public class PedestalElementStorage extends StaticElementStorage {
 
 	public PedestalElementStorage(ElementType elementType, Runnable syncCallback) {
-		super(elementType, ECConfig.SERVER.pedestalCapacity.get(), syncCallback);
+		super(elementType, ECConfig.COMMON.pedestalCapacity.get(), syncCallback);
 	}
 
 	@Override
@@ -18,7 +17,7 @@ public class PedestalElementStorage extends StaticElementStorage {
 	}
 
 	@Override
-	public boolean doesRenderGauge(Player player) {
+	public boolean doesRenderGauge() {
 		return true;
 	}
 

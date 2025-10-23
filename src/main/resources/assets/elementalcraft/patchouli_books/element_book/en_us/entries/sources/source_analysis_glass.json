@@ -5,7 +5,7 @@
   "advancement": "elementalcraft:pickup/springaline_shard",
   "turnin": "elementalcraft:pickup/source_analysis_glass",
   "priority": true,
-  "sortnum": 3,
+  "sortnum": 2,
   "pages": [
     {
       "type": "text",

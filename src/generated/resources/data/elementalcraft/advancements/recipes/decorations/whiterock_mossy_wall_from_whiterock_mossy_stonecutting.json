@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_whiterock_mossy"
+      "has_whiterock_mossy",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:whiterock_mossy_wall_from_whiterock_mossy_stonecutting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

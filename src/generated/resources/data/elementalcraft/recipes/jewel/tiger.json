@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "item": "elementalcraft:pristine_air_gem"
+      "tag": "elementalcraft:gems/pristine_air"
     },
     "c": {
       "item": "elementalcraft:aircrystal"
     },
     "f": {
-      "item": "elementalcraft:fine_air_gem"
+      "tag": "elementalcraft:gems/fine_air"
     },
     "s": {
       "item": "minecraft:sugar"
@@ -25,6 +25,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:tiger\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:tiger"
+      }
+    }
+  },
+  "show_notification": true
 }

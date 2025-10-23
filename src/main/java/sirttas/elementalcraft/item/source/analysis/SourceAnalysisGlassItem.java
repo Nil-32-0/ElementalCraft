@@ -11,11 +11,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
-import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.item.ECItem;
@@ -56,7 +54,7 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 		player.displayClientMessage(Component.translatable("message.elementalcraft.missing_springaline"), true);
 		return false;
 	}
-
+	
 	@Nonnull
     @Override
 	public InteractionResult useOn(UseOnContext context) {
@@ -80,11 +78,6 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 		}
 		player.openMenu(new Menu(traitMap));
 		return InteractionResult.CONSUME;
-	}
-
-	@Override
-	public boolean canInteractWithSource(BlockState state) {
-		return state.is(ECBlocks.SOURCE.get());
 	}
 
 	private class Menu implements MenuProvider {

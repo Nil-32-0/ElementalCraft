@@ -20,13 +20,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_drenched_iron_nugget"
+      "has_drenched_iron_nugget",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:elementpipe_from_impaired_elementpipe_and_nugget"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

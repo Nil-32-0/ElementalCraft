@@ -3,12 +3,13 @@ package sirttas.elementalcraft.block.pipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import sirttas.elementalcraft.api.element.transfer.ElementTransfererHelper;
+import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
 public interface IPipeConnectedBlock {
 
@@ -36,13 +37,10 @@ public interface IPipeConnectedBlock {
 	}
 	
 	static boolean isConnectable(BlockGetter level, BlockPos from, Direction face) {
-		if (!(level instanceof Level l)) {
-			return false;
-		}
-
 		var opposite = face.getOpposite();
-		var pos = from.relative(face);
-		var transferer = l.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, pos, opposite);
+		IElementTransferer transferer = BlockEntityHelper.getBlockEntity(level, from.relative(face))
+				.flatMap(b -> ElementTransfererHelper.get(b, opposite).resolve())
+				.orElse(null);
 		
 		if (transferer instanceof ElementPipeTransferer elementPipeTransferer) {
 			ConnectionType connection = elementPipeTransferer.getConnection(opposite);

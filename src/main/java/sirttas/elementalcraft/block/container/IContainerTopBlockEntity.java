@@ -19,9 +19,9 @@ public interface IContainerTopBlockEntity {
 	}
 
 	default ElementType getContainerElementType() {
-		ISingleElementStorage container = getContainer();
+		ISingleElementStorage tank = getContainer();
 
-		return container != null ? container.getElementType() : ElementType.NONE;
+		return tank != null ? tank.getElementType() : ElementType.NONE;
 	}
 
 }

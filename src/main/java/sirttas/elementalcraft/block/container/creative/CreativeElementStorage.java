@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.container.creative;
 
-import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 
@@ -25,12 +24,22 @@ public class CreativeElementStorage extends SingleElementStorage {
 	}
 
 	@Override
+	public ElementType getElementType() {
+		return elementType;
+	}
+
+	@Override
 	public int getElementAmount() {
 		return elementCapacity;
 	}
 
 	@Override
-	public boolean doesRenderGauge(Player player) {
+	public int getElementCapacity() {
+		return elementCapacity;
+	}
+
+	@Override
+	public boolean doesRenderGauge() {
 		return true;
 	}
 }

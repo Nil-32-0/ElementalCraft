@@ -5,6 +5,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
@@ -22,6 +25,7 @@ import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,7 +47,7 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
 
     public ElementPumpPipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
         super(PipeUpgradeTypes.ELEMENT_PUMP.get(), pipe, direction);
-        runeHandler = new RuneHandler(ECConfig.SERVER.elementPumpMaxRunes.get(), pipe::setChanged);
+        runeHandler = new RuneHandler(ECConfig.COMMON.elementPumpMaxRunes.get(), pipe::setChanged);
     }
 
     @Override
@@ -70,11 +74,7 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
         return runeHandler;
     }
 
-    @Override
-    public int getWeight() {
-        return -10;
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public void load(@Nonnull CompoundTag compound) {
         super.load(compound);
@@ -89,6 +89,14 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
         compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(getRuneHandler()));
     }
 
+    @Override
+    @Nonnull
+    public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
+        if (cap == ElementalCraftCapabilities.RUNE_HANDLE) {
+            return LazyOptional.of(() -> runeHandler).cast();
+        }
+        return super.getCapability(cap, side);
+    }
 
     private class Path implements IElementTransferPath {
 
@@ -121,8 +129,8 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
             }
 
             var type = parent.getElementType();
-            var multiplier = runeHandler.getTransferSpeed(ECConfig.SERVER.elementPumpMultiplier.get().floatValue());
-            var waste = Math.max(0, ECConfig.SERVER.elementPumpWaste.get().floatValue() / runeHandler.getElementPreservation());
+            var multiplier = runeHandler.getTransferSpeed(ECConfig.COMMON.elementPumpMultiplier.get().floatValue());
+            var waste = Math.max(0, ECConfig.COMMON.elementPumpWaste.get().floatValue() / runeHandler.getElementPreservation());
             var source = nodes.get(0).getStorage();
             var target = nodes.get(nodes.size() - 1).getStorage();
 

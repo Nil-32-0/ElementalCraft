@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "item": "elementalcraft:pristine_air_gem"
+      "tag": "elementalcraft:gems/pristine_air"
     },
     "c": {
       "item": "elementalcraft:purecrystal"
     },
     "e": {
-      "item": "elementalcraft:pristine_earth_gem"
+      "tag": "elementalcraft:gems/pristine_earth"
     },
     "t": {
       "item": "minecraft:totem_of_undying"
@@ -25,6 +25,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:demigod\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:demigod"
+      }
+    }
+  },
+  "show_notification": true
 }

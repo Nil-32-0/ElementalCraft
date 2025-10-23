@@ -4,29 +4,28 @@
   "element_type": "earth",
   "ingredients": [
     {
-      "item": "elementalcraft:minor_rune_slate"
+      "tag": "elementalcraft:gems/crude_earth"
     },
     {
-      "item": "elementalcraft:crude_earth_gem"
-    },
-    {
-      "type": "neoforge:nbt",
+      "type": "forge:partial_nbt",
       "item": "elementalcraft:rune",
-      "tag": "{elementalcraft:{rune:\"elementalcraft:wii\"}}"
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:wii\"}}"
     },
     {
-      "type": "neoforge:nbt",
+      "type": "forge:partial_nbt",
       "item": "elementalcraft:rune",
-      "tag": "{elementalcraft:{rune:\"elementalcraft:manx\"}}"
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:manx\"}}"
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:rune",
-    "tag": {
+    "item": "elementalcraft:rune",
+    "nbt": {
       "elementalcraft": {
         "rune": "elementalcraft:soaryn"
       }
     }
+  },
+  "slate": {
+    "item": "elementalcraft:minor_rune_slate"
   }
 }

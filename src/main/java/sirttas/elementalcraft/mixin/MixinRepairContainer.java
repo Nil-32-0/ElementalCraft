@@ -53,9 +53,9 @@ public abstract class MixinRepairContainer extends ItemCombinerMenu {
 		ItemStack output = getOutput();
 
 		if (!output.isEmpty()) {
-			if (left != ToolInfusion.NONE) {
+			if (left != null) {
 				ToolInfusionHelper.setInfusion(output, left);
-			} else if (right != ToolInfusion.NONE) {
+			} else if (right != null) {
 				if (!Objects.equals(ToolInfusionHelper.getInfusion(output), right)) {
 					cost.set(cost.get() + 4);
 				}

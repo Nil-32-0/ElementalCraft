@@ -23,7 +23,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:growthshrine"
+    "item": "elementalcraft:growthshrine"
   }
 }

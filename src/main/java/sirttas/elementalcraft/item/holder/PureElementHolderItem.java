@@ -3,14 +3,17 @@ package sirttas.elementalcraft.item.holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.util.INBTSerializable;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.config.ECConfig;
 
+import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -19,12 +22,23 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 	public static final String NAME = "pure_element_holder";
 
 	public PureElementHolderItem() {
-		super(ECConfig.SERVER.pureElementHolderCapacity::get, ECConfig.SERVER.pureElementHolderTransferAmount::get);
+		super(ECConfig.COMMON.pureElementHolderCapacity::get, ECConfig.COMMON.pureElementHolderTransferAmount::get);
+	}
+	
+	@Override
+	@Nullable
+	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+		ElementStorage storage = new ElementStorage(stack);
+		
+		if (nbt != null && nbt.contains(ECNames.PARENT)) {
+			storage.deserializeNBT(nbt.getCompound(ECNames.PARENT));
+		}
+		return ElementStorageHelper.createProvider(storage);
 	}
 
 	@Override
 	public IElementStorage getElementStorage(ItemStack stack) {
-		return new ElementStorage(stack);
+		return ElementStorageHelper.get(stack).orElse(new ElementStorage(stack));
 	}
 
 	@Override
@@ -45,7 +59,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 		
 		public ElementStorage(ItemStack stack) {
 			this.stack = stack;
-			refresh();
+			ElementType.ALL_VALID.forEach(type -> amounts.put(type, 0));
 		}
 
 		@Override
@@ -91,11 +105,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 		}
 		
 		private void refresh() {
-			var tag = stack.getTag();
-
-			if (tag != null) {
-				deserializeNBT(tag);
-			}
+			deserializeNBT(stack.getTag());
 		}
 		
 		private void updateAmount() {
@@ -103,7 +113,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 		}
 		
 		@Override
-		public @NotNull CompoundTag serializeNBT() {
+		public CompoundTag serializeNBT() {
 			CompoundTag compound = new CompoundTag();
 
 			serializeNBT(compound);
@@ -115,17 +125,18 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 		}
 		
 		@Override
-		public void deserializeNBT(@NotNull CompoundTag compound) {
-			ElementType.ALL_VALID.forEach(elementType -> {
-			if (compound.contains(elementType.getSerializedName())) {
-				amounts.put(elementType, compound.getInt(elementType.getSerializedName()));
+		public void deserializeNBT(CompoundTag compound) {
+			amounts.replaceAll((elementType, amount) -> {
+				if (compound != null && compound.contains(elementType.getSerializedName())) {
+					return compound.getInt(elementType.getSerializedName());
 				}
+				return 0;
 			});
 		}
 
 		@Override
 		public void fill() {
-			ElementType.ALL_VALID.forEach(type -> amounts.put(type, getElementCapacity(type)));
+			amounts.replaceAll((elementType, amount) -> getElementCapacity(elementType));
 			updateAmount();
 		}
 

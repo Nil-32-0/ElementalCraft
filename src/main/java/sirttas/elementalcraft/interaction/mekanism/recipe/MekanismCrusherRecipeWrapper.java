@@ -3,6 +3,7 @@ package sirttas.elementalcraft.interaction.mekanism.recipe;
 import mekanism.api.recipes.ItemStackToItemStackRecipe;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -40,6 +41,12 @@ public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
 	@Override
 	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
 		return crushingRecipe.getOutput(ItemStack.EMPTY);
+	}
+
+	@Nonnull
+	@Override
+	public ResourceLocation getId() {
+		return crushingRecipe.getId();
 	}
 
 	@Nonnull

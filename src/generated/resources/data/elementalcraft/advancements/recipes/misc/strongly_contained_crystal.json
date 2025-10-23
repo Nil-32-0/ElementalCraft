@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_contained_crystal"
+      "has_contained_crystal",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:strongly_contained_crystal"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

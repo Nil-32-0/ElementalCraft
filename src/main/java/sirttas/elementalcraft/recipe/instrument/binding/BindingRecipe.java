@@ -1,10 +1,11 @@
 package sirttas.elementalcraft.recipe.instrument.binding;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -21,19 +22,12 @@ import java.util.List;
 
 public class BindingRecipe extends AbstractBindingRecipe {
 
-	public static final Codec<BindingRecipe> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			ElementType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(BindingRecipe::getElementType),
-			Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(BindingRecipe::getElementAmount),
-			Ingredient.LIST_CODEC.fieldOf(ECNames.INGREDIENTS).forGetter(BindingRecipe::getIngredients),
-			ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
-	).apply(builder, BindingRecipe::new));
-
 	private final NonNullList<Ingredient> ingredients;
 	private final ItemStack output;
 	private final int elementAmount;
 
-	public BindingRecipe(ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStack output) {
-		super(type);
+	public BindingRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
+		super(id, type);
 		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
 		this.output = output;
 		this.elementAmount = elementAmount;
@@ -49,7 +43,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 		if (binder.getContainerElementType() != getElementType() || binder.getItemCount() != ingredients.size()) {
 			return false;
 		}
-		return Boolean.TRUE.equals(ECConfig.SERVER.binderRecipeMatchOrder.get()) ? matchesOrdered(binder) : RecipeHelper.matchesUnordered(binder.getInventory(), ingredients);
+		return Boolean.TRUE.equals(ECConfig.COMMON.binderRecipeMatchOrder.get()) ? matchesOrdered(binder) : RecipeHelper.matchesUnordered(binder.getInventory(), ingredients);
 	}
 
 	private boolean matchesOrdered(IBinder binder) {
@@ -92,12 +86,20 @@ public class BindingRecipe extends AbstractBindingRecipe {
 
 		@Nonnull
 		@Override
-		public Codec<BindingRecipe> codec() {
-			return CODEC;
+		public BindingRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
+			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
+			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(GsonHelper.getAsJsonArray(json, ECNames.INGREDIENTS));
+			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
+
+			if (!output.isEmpty()) {
+				return new BindingRecipe(recipeId, type, elementAmount, output, ingredients);
+			}
+			throw new IllegalStateException("Binding recipe output is empty!");
 		}
 
 		@Override
-		public BindingRecipe fromNetwork(FriendlyByteBuf buffer) {
+		public BindingRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			var type = ElementType.byName(buffer.readUtf());
 			var elementAmount = buffer.readInt();
 			var output = buffer.readItem();
@@ -105,7 +107,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 			var ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
 
 			ingredients.replaceAll(ignored -> Ingredient.fromNetwork(buffer));
-			return new BindingRecipe(type, elementAmount, ingredients, output);
+			return new BindingRecipe(recipeId, type, elementAmount, output, ingredients);
 		}
 
 		@Override

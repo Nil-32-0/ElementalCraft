@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -26,8 +25,8 @@ public record AttributeToolInfusionEffect(
 	public static final String NAME = ECNames.ATTRIBUTE;
 	public static final Codec<AttributeToolInfusionEffect> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			Codecs.EQUIPMENT_SLOT_TYPE.listOf().fieldOf(ECNames.SLOT).forGetter(i -> i.slots),
-			BuiltInRegistries.ATTRIBUTE.byNameCodec().fieldOf(ECNames.ATTRIBUTE).forGetter(i -> i.attribute),
-			AttributeModifier.CODEC.fieldOf(ECNames.MODIFIER).forGetter(i -> i.modifier)
+			Codecs.ATTRIBUTE.fieldOf(ECNames.ATTRIBUTE).forGetter(i -> i.attribute),
+			Codecs.ATTRIBUTE_MODIFIER.fieldOf(ECNames.MODIFIER).forGetter(i -> i.modifier)
 	).apply(builder, AttributeToolInfusionEffect::new));
 
 	public AttributeToolInfusionEffect(List<EquipmentSlot> slots, Attribute attribute, AttributeModifier modifier) {

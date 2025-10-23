@@ -3,18 +3,18 @@
   "category": "misc",
   "key": {
     "C": {
-      "item": "elementalcraft:advanced_shrine_upgrade_core"
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
     },
     "f": {
       "tag": "forge:nuggets/fireite"
     },
     "t": {
-      "type": "neoforge:nbt",
+      "type": "forge:partial_nbt",
       "item": "elementalcraft:scroll",
-      "tag": "{elementalcraft:{spell:\"elementalcraft:translocation\"}}"
-    },
-    "u": {
-      "item": "elementalcraft:shrine_upgrade_range"
+      "nbt": "{elementalcraft:{spell:\"elementalcraft:translocation\"}}"
     },
     "w": {
       "item": "elementalcraft:whiterock"
@@ -23,9 +23,10 @@
   "pattern": [
     "ftf",
     "wCw",
-    " u "
+    " c "
   ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_translocation"
-  }
+  },
+  "show_notification": true
 }

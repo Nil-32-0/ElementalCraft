@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -28,6 +27,7 @@ import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
+import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AbstractMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
@@ -50,8 +50,7 @@ public abstract class AbstractMillBlock extends AbstractECContainerBlock impleme
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	protected AbstractMillBlock(BlockBehaviour.Properties properties) {
-		super(properties);
+	protected AbstractMillBlock() {
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(WATERLOGGED, false));
@@ -61,7 +60,7 @@ public abstract class AbstractMillBlock extends AbstractECContainerBlock impleme
     @Override
 	@Deprecated
 	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		var mill = (AbstractMillBlockEntity<?, ?>) world.getBlockEntity(pos);
+		var mill = (AbstractMillGrindstoneBlockEntity) world.getBlockEntity(pos);
 		var inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 		var heldItem = player.getItemInHand(hand);
 

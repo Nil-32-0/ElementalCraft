@@ -4,12 +4,7 @@
   "element_type": "air",
   "ingredients": [
     {
-      "item": "elementalcraft:rune_slate"
-    },
-    {
-      "type": "neoforge:nbt",
-      "item": "elementalcraft:rune",
-      "tag": "{elementalcraft:{rune:\"elementalcraft:wii\"}}"
+      "tag": "elementalcraft:gems/fine_air"
     },
     {
       "tag": "forge:string"
@@ -19,12 +14,14 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:rune",
-    "tag": {
+    "item": "elementalcraft:rune",
+    "nbt": {
       "elementalcraft": {
         "rune": "elementalcraft:fus"
       }
     }
+  },
+  "slate": {
+    "item": "elementalcraft:rune_slate"
   }
 }

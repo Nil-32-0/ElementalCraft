@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_creative_container"
+      "has_creative_container",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:creative_container_emptying"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

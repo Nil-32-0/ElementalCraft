@@ -1,14 +1,14 @@
 package sirttas.elementalcraft.world.feature;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
@@ -19,22 +19,22 @@ public class ECFeatures {
 
 	private static final int RADIUS = 400;
 
-	private static final DeferredRegister<Feature<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.FEATURE, ElementalCraftApi.MODID);
+	private static final DeferredRegister<Feature<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.FEATURES, ElementalCraftApi.MODID);
 
-	public static final DeferredHolder<Feature<?>, Feature<IElementTypeFeatureConfig>> SOURCE = DEFERRED_REGISTER.register(SourceFeature.NAME, SourceFeature::new);
+	public static final RegistryObject<Feature<IElementTypeFeatureConfig>> SOURCE = DEFERRED_REGISTER.register(SourceFeature.NAME, SourceFeature::new);
 
 	private ECFeatures() {}
 
 
 	public static void addSpawnSources(ServerLevel level) {
-		if (Boolean.TRUE.equals(ECConfig.SERVER.disableSourceSpawn.get())) {
+		if (Boolean.TRUE.equals(ECConfig.COMMON.disableSourceSpawn.get())) {
 			return;
 		}
 
 		BlockPos pos = level.getSharedSpawnPos().offset(-RADIUS / 2, 0, -RADIUS / 2);
 
 		for (var type : ElementType.ALL_VALID) {
-			for (int i = 0; i < ECConfig.SERVER.sourceSpawnCount.get(); i++) {
+			for (int i = 0; i < ECConfig.COMMON.sourceSpawnCount.get(); i++) {
 				addSpawnSource(level, pos.offset(level.random.nextInt(RADIUS), 0, level.random.nextInt(RADIUS)), type);
 			}
 		}

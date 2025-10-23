@@ -23,14 +23,14 @@ public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> impl
 
 	@Override
 	public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
+		this.renderBackground(guiGraphics);
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 
 	@Override
 	protected void renderLabels(@Nonnull GuiGraphics guiGraphics, int x, int y) {
-		Component text = Component.literal(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.SERVER.spellBookMaxSpell.get()));
+		Component text = Component.literal(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.COMMON.spellBookMaxSpell.get()));
 
 		super.renderLabels(guiGraphics, x, y);
 		guiGraphics.drawString(font, text, this.imageWidth - this.font.width(text.getVisualOrderText()) - this.titleLabelX, this.titleLabelY, 4210752);

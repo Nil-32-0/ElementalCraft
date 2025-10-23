@@ -19,19 +19,19 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
+import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,8 +43,8 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	
 	private final Holder<ShrineUpgrade> upgrade;
 
-	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<ShrineUpgrade> key, BlockBehaviour.Properties properties) {
-		super(properties);
+	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<ShrineUpgrade> key) {
+		super(ECProperties.Blocks.BLOCK_NOT_SOLID);
 		upgrade = ElementalCraft.SHRINE_UPGRADE_MANAGER.getOrCreateHolder(key);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(WATERLOGGED, false));
@@ -84,7 +84,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 		}
 
 		return BlockEntityHelper.getBlockEntityAs(level, shrinePos, AbstractShrineBlockEntity.class)
-				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && getUpgrade().canUpgrade(shrine, level.getBlockState(pos).is(this), facing))
+				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && getUpgrade().canUpgrade(shrine, level.getBlockState(pos).is(this)))
 				.isPresent();
 	}
 

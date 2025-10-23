@@ -3,7 +3,6 @@ package sirttas.elementalcraft.datagen.tag;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
@@ -13,8 +12,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
@@ -25,8 +25,8 @@ import vazkii.botania.api.BotaniaAPI;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
@@ -52,7 +52,6 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(ECTags.Blocks.STRIPPED_CRIMSON, ECTags.Items.STRIPPED_CRIMSON);
 		copy(ECTags.Blocks.STRIPPED_WARPED, ECTags.Items.STRIPPED_WARPED);
 		copy(ECTags.Blocks.STRIPPED_CHERRY, ECTags.Items.STRIPPED_CHERRY);
-		copy(ECTags.Blocks.STRIPPED_BAMBOO, ECTags.Items.STRIPPED_BAMBOO);
 
 		copy(BlockTags.SLABS, ItemTags.SLABS);
 		copy(BlockTags.STAIRS, ItemTags.STAIRS);
@@ -97,7 +96,6 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.INFUSABLE_LEGGINGS).addTag(Tags.Items.ARMORS_LEGGINGS);
 		tag(ECTags.Items.INFUSABLE_BOOTS).addTag(Tags.Items.ARMORS_BOOTS);
 
-		tag(ECTags.Items.CHISELS).add(ECItems.DRENCHED_IRON_CHISEL.get(), ECItems.SWIFT_ALLOY_CHISEL.get(), ECItems.FIREITE_CHISEL.get());
 		tag(ECTags.Items.SPELL_HOLDERS).add(getItems(AbstractSpellHolderItem.class));
 		tag(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.FIRE_CRYSTAL.get(), ECItems.WATER_CRYSTAL.get(), ECItems.EARTH_CRYSTAL.get(), ECItems.AIR_CRYSTAL.get());
 		tag(ECTags.Items.CRYSTALS).add(ECItems.INERT_CRYSTAL.get(), ECItems.CONTAINED_CRYSTAL.get(), ECItems.PURE_CRYSTAL.get()).addTag(ECTags.Items.ELEMENTAL_CRYSTALS);
@@ -121,12 +119,24 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.NUGGETS_FIREITE).add(ECItems.FIREITE_NUGGET.get());
 		tag(Tags.Items.NUGGETS).addTags(ECTags.Items.NUGGETS_DRENCHED_IRON, ECTags.Items.NUGGETS_SWIFT_ALLOY, ECTags.Items.NUGGETS_FIREITE);
 
-		tag(Tags.Items.GEMS).add(
-				ECItems.CRUDE_FIRE_GEM.get(), ECItems.FINE_FIRE_GEM.get(), ECItems.PRISTINE_FIRE_GEM.get(),
-				ECItems.CRUDE_WATER_GEM.get(), ECItems.FINE_WATER_GEM.get(), ECItems.PRISTINE_WATER_GEM.get(),
-				ECItems.CRUDE_EARTH_GEM.get(), ECItems.FINE_EARTH_GEM.get(), ECItems.PRISTINE_EARTH_GEM.get(),
-				ECItems.CRUDE_AIR_GEM.get(), ECItems.FINE_AIR_GEM.get(), ECItems.PRISTINE_AIR_GEM.get()
-		);
+		tag(ECTags.Items.PRISTINE_FIRE_GEMS).add(ECItems.PRISTINE_FIRE_GEM.get());
+		tag(ECTags.Items.FINE_FIRE_GEMS).add(ECItems.FINE_FIRE_GEM.get(), ECItems.PRISTINE_FIRE_GEM.get());
+		tag(ECTags.Items.CRUDE_FIRE_GEMS).add(ECItems.CRUDE_FIRE_GEM.get(), ECItems.FINE_FIRE_GEM.get(), ECItems.PRISTINE_FIRE_GEM.get());
+		tag(ECTags.Items.INPUT_FIRE_GEMS).add(ECItems.CRUDE_FIRE_GEM.get(), ECItems.FINE_FIRE_GEM.get(), ECItems.PRISTINE_FIRE_GEM.get()).addTag(Tags.Items.GEMS_DIAMOND);
+		tag(ECTags.Items.PRISTINE_WATER_GEMS).add(ECItems.PRISTINE_WATER_GEM.get());
+		tag(ECTags.Items.FINE_WATER_GEMS).add(ECItems.FINE_WATER_GEM.get(), ECItems.PRISTINE_WATER_GEM.get());
+		tag(ECTags.Items.CRUDE_WATER_GEMS).add(ECItems.CRUDE_WATER_GEM.get(), ECItems.FINE_WATER_GEM.get(), ECItems.PRISTINE_WATER_GEM.get());
+		tag(ECTags.Items.INPUT_WATER_GEMS).add(ECItems.CRUDE_WATER_GEM.get(), ECItems.FINE_WATER_GEM.get(), ECItems.PRISTINE_WATER_GEM.get()).addTag(Tags.Items.GEMS_DIAMOND);
+		tag(ECTags.Items.PRISTINE_EARTH_GEMS).add(ECItems.PRISTINE_EARTH_GEM.get());
+		tag(ECTags.Items.FINE_EARTH_GEMS).add(ECItems.FINE_EARTH_GEM.get(), ECItems.PRISTINE_EARTH_GEM.get());
+		tag(ECTags.Items.CRUDE_EARTH_GEMS).add(ECItems.CRUDE_EARTH_GEM.get(), ECItems.FINE_EARTH_GEM.get(), ECItems.PRISTINE_EARTH_GEM.get());
+		tag(ECTags.Items.INPUT_EARTH_GEMS).add(ECItems.CRUDE_EARTH_GEM.get(), ECItems.FINE_EARTH_GEM.get(), ECItems.PRISTINE_EARTH_GEM.get()).addTag(Tags.Items.GEMS_DIAMOND);
+		tag(ECTags.Items.PRISTINE_AIR_GEMS).add(ECItems.PRISTINE_AIR_GEM.get());
+		tag(ECTags.Items.FINE_AIR_GEMS).add(ECItems.FINE_AIR_GEM.get(), ECItems.PRISTINE_AIR_GEM.get());
+		tag(ECTags.Items.CRUDE_AIR_GEMS).add(ECItems.CRUDE_AIR_GEM.get(), ECItems.FINE_AIR_GEM.get(), ECItems.PRISTINE_AIR_GEM.get());
+		tag(ECTags.Items.INPUT_AIR_GEMS).add(ECItems.CRUDE_AIR_GEM.get(), ECItems.FINE_AIR_GEM.get(), ECItems.PRISTINE_AIR_GEM.get()).addTag(Tags.Items.GEMS_DIAMOND);
+		tag(ECTags.Items.INPUT_GEMS).addTags(ECTags.Items.INPUT_FIRE_GEMS, ECTags.Items.INPUT_WATER_GEMS, ECTags.Items.INPUT_EARTH_GEMS, ECTags.Items.INPUT_AIR_GEMS);
+		tag(Tags.Items.GEMS).addTags(ECTags.Items.INPUT_GEMS);
 
 		tag(ECTags.Items.HARDENED_RODS).add(ECItems.HARDENED_HANDLE.get());
 		tag(Tags.Items.RODS).addTag(ECTags.Items.HARDENED_RODS);
@@ -162,14 +172,13 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 		addPipeTags();
 
-		tag(ECTags.Items.ENCHANTMENT_HOLDER).add(Items.BOOK, Items.ENCHANTED_BOOK);
 		tag(ECTags.Items.STAFF_CRAFT_SWORD).add(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 
 		addPureOreTags();
 
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);
+		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "special_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "floating_flowers"));
 		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers"));
-		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).add(Items.CHORUS_FLOWER, Items.WITHER_ROSE, Items.SPORE_BLOSSOM).addTag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "special_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "floating_flowers"));
 
 		tag(ECTags.Items.WHITE_FLOWERS).add(Items.LILY_OF_THE_VALLEY);
 		tag(ECTags.Items.ORANGE_FLOWERS).add(Items.ORANGE_TULIP, Items.TORCHFLOWER);
@@ -189,7 +198,6 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.RED_FLOWERS).add(Items.POPPY, Items.ROSE_BUSH, Items.RED_TULIP);
 
 		tag(ItemTags.BEACON_PAYMENT_ITEMS).add(ECItems.DRENCHED_IRON_INGOT.get(), ECItems.SWIFT_ALLOY_INGOT.get(), ECItems.FIREITE_INGOT.get());
-		tag(ItemTags.BOOKSHELF_BOOKS).add(ECItems.SPELL_BOOK.get());
 
 		tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(Tags.Items.TOOLS, Tags.Items.ARMORS, ECTags.Items.SPELL_CAST_TOOLS).add(Items.ELYTRA);
 
@@ -236,7 +244,10 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE,
 				ECTags.Items.PURE_ORES_SOURCE_URANINITE,
 				ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE
-		).addOptionalTag(forge("ores/pendorite"));
+		)
+				.addOptionalTag(forge("ores/pendorite"));
+
+		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
 	}
 
 	private ResourceLocation forge(String name) {
@@ -244,12 +255,12 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	}
 
 	protected <T> Item[] getItems(List<String> modIds, Class<T> clazz, Predicate<T> filter) {
-		return BuiltInRegistries.ITEM.entrySet().stream()
-				.filter(e -> modIds.contains(e.getKey().location().getNamespace()) && clazz.isInstance(e.getValue()))
-				.sorted(Map.Entry.comparingByKey())
-				.map(e -> clazz.cast(e.getValue()))
+		return ForgeRegistries.ITEMS.getValues().stream()
+				.filter(i -> modIds.contains(ForgeRegistries.ITEMS.getKey(i).getNamespace()) && clazz.isInstance(i))
+				.map(clazz::cast)
 				.filter(filter)
 				.map(Item.class::cast)
+				.sorted(Comparator.comparing(ForgeRegistries.ITEMS::getKey))
 				.toArray(Item[]::new);
 	}
 

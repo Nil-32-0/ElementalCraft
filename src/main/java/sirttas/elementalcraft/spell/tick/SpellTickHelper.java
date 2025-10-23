@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.spell.tick;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.spell.Spell;
 
 import javax.annotation.Nonnull;
@@ -12,47 +13,37 @@ public class SpellTickHelper {
 
     private SpellTickHelper() {}
 
-    @Nullable
-    public static ISpellTickManager get(@Nullable Entity entity) {
-        return entity != null ? entity.getCapability(ISpellTickManager.CAPABILITY) : null;
+    @Nonnull
+    public static LazyOptional<ISpellTickManager> get(ICapabilityProvider provider) {
+        return ISpellTickManager.CAPABILITY != null && provider != null ? provider.getCapability(ISpellTickManager.CAPABILITY, null) : LazyOptional.empty();
     }
 
     @Nonnull
-    public static List<AbstractSpellInstance> getSpellInstances(@Nullable Entity entity) {
-        var manager = get(entity);
-
-        if (manager == null) {
-            return Collections.emptyList();
-        }
-
-        return manager.getSpellInstances();
+    public static List<AbstractSpellInstance> getSpellInstances(ICapabilityProvider provider) {
+        return get(provider).map(ISpellTickManager::getSpellInstances).orElse(Collections.emptyList());
     }
 
-    public static void startCooldown(@Nullable Entity entity, Spell spell) {
-        var manager = get(entity);
-
-        if (manager != null) {
-            manager.startCooldown(spell);
-        }
+    public static void startCooldown(ICapabilityProvider provider, Spell spell) {
+        get(provider).ifPresent(m -> m.startCooldown(spell));
     }
 
-    public static boolean hasCooldown(@Nullable Entity entity, Spell spell) {
-        var manager = get(entity);
-
-        return manager != null && manager.hasCooldown(spell);
+    public static boolean hasCooldown(ICapabilityProvider provider, Spell spell) {
+        return get(provider)
+                .map(m -> m.hasCooldown(spell))
+                .orElse(false);
     }
 
 
-    public static float getCooldown(@Nullable Entity entity, Spell spell, float frameTime) {
-        var manager = get(entity);
-
-        return manager != null ? manager.getCooldown(spell, frameTime) : 0;
+    public static float getCooldown(ICapabilityProvider provider, Spell spell, float frameTime) {
+        return get(provider)
+                .map(m -> m.getCooldown(spell, frameTime))
+                .orElse(0f);
     }
 
     @Nullable
-    public static AbstractSpellInstance getSpellInstance(@Nullable Entity entity, Spell spell) {
-        var manager = get(entity);
-
-        return manager != null ? manager.getSpellInstance(spell) : null;
+    public static AbstractSpellInstance getSpellInstance(ICapabilityProvider provider, Spell spell) {
+        return get(provider)
+                .map(m -> m.getSpellInstance(spell))
+                .orElse(null);
     }
 }

@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.common.ToolAction;
+import net.minecraftforge.common.ToolAction;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ECItem;
@@ -91,7 +91,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 
 		player.getAttributes().addTransientAttributeModifiers(attributes);
 		
-		InteractionResult result = Boolean.TRUE.equals(ECConfig.SERVER.spellConsumeOnFail.get()) || spell.consume(player, true) ? castSpell(player, spell) : InteractionResult.FAIL;
+		InteractionResult result = Boolean.TRUE.equals(ECConfig.COMMON.spellConsumeOnFail.get()) || spell.consume(player, true) ? castSpell(player, spell) : InteractionResult.FAIL;
 
 		if (result.consumesAction()) {
 			if (doConsume(player, hand, stack, spell)) {

@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_powerful_water_shard"
+      "has_powerful_water_shard",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:water_shard"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

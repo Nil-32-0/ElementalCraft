@@ -6,7 +6,7 @@
       "item": "elementalcraft:purecrystal"
     },
     "g": {
-      "item": "elementalcraft:pristine_air_gem"
+      "tag": "elementalcraft:gems/pristine_air"
     },
     "s": {
       "tag": "forge:ingots/swift_alloy"
@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:source_displacement_plate_air"
-  }
+  },
+  "show_notification": true
 }

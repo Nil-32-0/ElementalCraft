@@ -14,10 +14,9 @@ public class AirMillWoodSawBlockEntity extends AbstractMillWoodSawBlockEntity {
 	private static final Config<AbstractMillWoodSawBlockEntity, SawingRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.AIR_MILL_WOOD_SAW,
 			ECRecipeTypes.SAWING,
-			ECConfig.SERVER.airMillsTransferSpeed,
-			ECConfig.SERVER.airMillsMaxRunes,
+			ECConfig.COMMON.airMillsTransferSpeed,
+			ECConfig.COMMON.airMillsMaxRunes,
 			1,
-			false,
 			false
 	);
 

@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:spell_desk"
-  }
+  },
+  "show_notification": true
 }

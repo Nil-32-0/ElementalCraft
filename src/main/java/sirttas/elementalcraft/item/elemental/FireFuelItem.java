@@ -4,7 +4,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 
@@ -24,21 +23,15 @@ public class FireFuelItem extends ElementalItem {
     }
 
     @Override
-    public @NotNull ItemStack getCraftingRemainingItem(ItemStack stack) {
-        if (stack.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
         var result = stack.copy();
 
-        if (result.hurt(1, RandomSource.create(), null)) {
-            return ItemStack.EMPTY;
-        }
+        result.hurt(1, RandomSource.create(), null);
         return result;
     }
 
     @Override
-    public int getBurnTime(@NotNull ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
+    public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
         return 200;
     }
 }

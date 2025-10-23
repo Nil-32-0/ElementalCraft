@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.entity.projectile;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -13,6 +12,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -57,7 +57,7 @@ public class ThrownElementCrystal extends ThrowableItemProjectile {
     }
 
     protected void dropFromLootTable() {
-        var itemLocation = BuiltInRegistries.ITEM.getKey(this.getItem().getItem());
+        var itemLocation = ForgeRegistries.ITEMS.getKey(this.getItem().getItem());
         var lootTable = this.level().getServer().getLootData().getLootTable(new ResourceLocation(itemLocation.getNamespace(), "entities/thrown_element_crystal/" + itemLocation.getPath()));
         var params = new LootParams.Builder((ServerLevel)this.level())
                 .withParameter(LootContextParams.THIS_ENTITY, this)

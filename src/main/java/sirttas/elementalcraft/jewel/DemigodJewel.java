@@ -8,8 +8,8 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -45,7 +45,7 @@ public class DemigodJewel extends Jewel {
             entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 900, 1));
             entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1));
             entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0));
-            entity.level().broadcastEntityEvent(entity, EntityEvent.TALISMAN_ACTIVATE);
+            entity.level().broadcastEntityEvent(entity, (byte) 35);
             demigod.consume(entity);
             return true;
         }
@@ -55,7 +55,8 @@ public class DemigodJewel extends Jewel {
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
         if (entity instanceof Player player && super.isActive(entity, elementStorage)) {
-            return ECContainerHelper.getSlotFor(player.getInventory(), new ItemStack(Items.TOTEM_OF_UNDYING)) >= 0;
+            Inventory inv = player.getInventory();
+            return ECContainerHelper.getSlotFor(inv, new ItemStack(Items.TOTEM_OF_UNDYING)) >= 0;
         }
         return false;
     }
@@ -65,7 +66,7 @@ public class DemigodJewel extends Jewel {
     public void consume(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
         super.consume(entity, elementStorage);
         if (entity instanceof Player player) {
-            var inv = player.getInventory();
+            Inventory inv = player.getInventory();
             var slot = ECContainerHelper.getSlotFor(inv, new ItemStack(Items.TOTEM_OF_UNDYING));
 
             if (slot >= 0) {

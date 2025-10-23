@@ -1,15 +1,12 @@
 package sirttas.elementalcraft.block.shrine.sweet;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
@@ -19,7 +16,6 @@ import javax.annotation.Nonnull;
 public class SweetShrineBlock extends AbstractShrineBlock<SweetShrineBlockEntity> {
 
 	public static final String NAME = "sweetshrine";
-	public static final MapCodec<SweetShrineBlock> CODEC = simpleCodec(SweetShrineBlock::new);
 
 	private static final VoxelShape BASE = Block.box(5D, 12D, 5D, 11D, 14D, 11D);
 
@@ -35,13 +31,8 @@ public class SweetShrineBlock extends AbstractShrineBlock<SweetShrineBlockEntity
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, BASE, IRON_NORTH_1, IRON_NORTH_2, IRON_SOUTH_1,
 			IRON_SOUTH_2, IRON_EAST_1, IRON_EAST_2, IRON_WEST_1, IRON_WEST_2);
 
-	public SweetShrineBlock(BlockBehaviour.Properties properties) {
-		super(ElementType.WATER, properties);
-	}
-
-	@Override
-	protected @NotNull MapCodec<SweetShrineBlock> codec() {
-		return CODEC;
+	public SweetShrineBlock() {
+		super(ElementType.WATER);
 	}
 
 	@Nonnull

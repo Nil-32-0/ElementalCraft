@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.container.reservoir;
 
-import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 
@@ -11,7 +10,7 @@ public class ReservoirElementStorage extends StaticElementStorage {
 	}
 	
 	@Override
-	public boolean doesRenderGauge(Player player) {
+	public boolean doesRenderGauge() {
 		return true;
 	}
 }

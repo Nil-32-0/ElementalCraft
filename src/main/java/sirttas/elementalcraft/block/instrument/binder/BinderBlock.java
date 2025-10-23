@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.instrument.binder;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
@@ -26,8 +24,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.IItemHandler;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -41,7 +38,6 @@ import javax.annotation.Nullable;
 public class BinderBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
 	public static final String NAME = "binder";
-	public static final MapCodec<BinderBlock> CODEC = simpleCodec(BinderBlock::new);
 
 	private static final VoxelShape BASE_1 = Block.box(0D, 0D, 0D, 16D, 2D, 16D);
 	private static final VoxelShape BASE_2 = Block.box(2D, 2D, 2D, 14D, 5D, 14D);
@@ -51,17 +47,11 @@ public class BinderBlock extends AbstractECContainerBlock implements IInstrument
 	private static final VoxelShape PIPE_3 = Block.box(1D, 2D, 13D, 3D, 7D, 15D);
 	private static final VoxelShape PIPE_4 = Block.box(13D, 2D, 13D, 15D, 7D, 15D);
 
-	public static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
+	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
-	public BinderBlock(BlockBehaviour.Properties properties) {
-		super(properties);
+	public BinderBlock() {
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(WATERLOGGED, false));
-	}
-
-	@Override
-	protected @NotNull MapCodec<? extends BinderBlock> codec() {
-		return CODEC;
 	}
 	
 	@Override

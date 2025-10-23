@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "item": "elementalcraft:crude_air_gem"
+      "tag": "elementalcraft:gems/crude_air"
     },
     "c": {
       "item": "elementalcraft:watercrystal"
     },
     "w": {
-      "item": "elementalcraft:fine_water_gem"
+      "tag": "elementalcraft:gems/fine_water"
     }
   },
   "pattern": [
@@ -22,6 +22,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:salmon\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:salmon"
+      }
+    }
+  },
+  "show_notification": true
 }

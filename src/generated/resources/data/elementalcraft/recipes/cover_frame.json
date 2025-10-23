@@ -14,5 +14,6 @@
   "result": {
     "count": 8,
     "item": "elementalcraft:cover_frame"
-  }
+  },
+  "show_notification": true
 }

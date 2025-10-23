@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.datagen.loot;
 
 import net.minecraft.Util;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -15,8 +14,9 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerC
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
@@ -89,24 +89,24 @@ public class ECEntityLoot extends EntityLootSubProvider {
 	}
 
 	private void addThrownElementCrystal(ElementType type) {
-		var crystalLocation = BuiltInRegistries.ITEM.getKey(ElementalItemHelper.getCrystalForElement(type));
+		var crystalLocation = ForgeRegistries.ITEMS.getKey(ElementalItemHelper.getCrystalForType(type));
 
 		add(ECEntities.THROWN_ELEMENT_CRYSTAL.get(), new ResourceLocation(crystalLocation.getNamespace(), "entities/thrown_element_crystal/" + crystalLocation.getPath()), LootTable.lootTable().withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1))
-						.add(LootItem.lootTableItem(ElementalItemHelper.getShardForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(5, 7))).setWeight(10))
-						.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForElement(type))))
+						.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(5, 7))).setWeight(10))
+						.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type))))
 				.setParamSet(LootContextParamSets.SELECTOR));
 	}
 
 	private static LootPool.Builder createShardPool(ElementType type) {
 		return LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForElement(type)).when(LootItemKilledByPlayerCondition.killedByPlayer()))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type)).when(LootItemKilledByPlayerCondition.killedByPlayer()))
 				.when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.25F, 0.03F));
 	}
 
 	private void addInject(LootPool.Builder pool, EntityType<?> entityType) {
-		addInject(entityType, LootTable.lootTable().withPool(pool).setParamSet(LootContextParamSets.ENTITY), ElementalCraftApi.createRL(entityType.getDefaultLootTable().getPath()));
+		addInject(entityType, LootTable.lootTable().withPool(pool).setParamSet(LootContextParamSets.ENTITY), ElementalCraft.createRL(entityType.getDefaultLootTable().getPath()));
 	}
 
 	private void addInject(EntityType<?> entityType, LootTable.Builder builder, ResourceLocation location) {

@@ -6,48 +6,24 @@
   "predicate": {
     "type": "dpanvil:cache",
     "value": {
-      "type": "dpanvil:and",
+      "type": "dpanvil:or",
       "values": [
         {
-          "type": "dpanvil:not",
-          "value": {
-            "type": "dpanvil:or",
-            "values": [
-              {
-                "type": "elementalcraft:has_shrine_upgrade",
-                "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar"
-              },
-              {
-                "type": "elementalcraft:has_shrine_upgrade",
-                "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
-              }
-            ]
-          }
-        },
-        {
-          "type": "dpanvil:or",
+          "type": "dpanvil:and",
           "values": [
             {
-              "type": "dpanvil:and",
-              "values": [
-                {
-                  "type": "elementalcraft:has_shrine_upgrade",
-                  "shrine_upgrade": "elementalcraft:shrine_upgrade_filling"
-                },
-                {
-                  "type": "dpanvil:blocks",
-                  "blocks": [
-                    "elementalcraft:springshrine",
-                    "elementalcraft:lavashrine"
-                  ]
-                }
-              ]
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_filling"
             },
             {
-              "type": "dpanvil:tag",
-              "tag": "elementalcraft:shrines/upgradables/strength"
+              "type": "dpanvil:block",
+              "block": "elementalcraft:springshrine"
             }
           ]
+        },
+        {
+          "type": "dpanvil:tag",
+          "tag": "elementalcraft:shrines/upgradables/strength"
         }
       ]
     }

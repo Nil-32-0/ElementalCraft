@@ -20,13 +20,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_swift_alloy_ingot"
+      "has_swift_alloy_ingot",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:source_stabilizer"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

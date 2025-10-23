@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:water_mill_grindstone"
-  }
+  },
+  "show_notification": true
 }

@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_purerock"
+      "has_purerock",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:purerock_wall"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

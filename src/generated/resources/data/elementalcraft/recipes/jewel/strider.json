@@ -9,7 +9,7 @@
       "item": "minecraft:lava_bucket"
     },
     "f": {
-      "item": "elementalcraft:fine_fire_gem"
+      "tag": "elementalcraft:gems/fine_fire"
     }
   },
   "pattern": [
@@ -19,6 +19,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:strider\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:strider"
+      }
+    }
+  },
+  "show_notification": true
 }

@@ -17,7 +17,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:fireite_ingot"
+    "item": "elementalcraft:fireite_ingot"
   }
 }

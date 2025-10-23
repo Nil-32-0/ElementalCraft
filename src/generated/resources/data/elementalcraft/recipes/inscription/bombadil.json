@@ -4,12 +4,7 @@
   "element_type": "water",
   "ingredients": [
     {
-      "item": "elementalcraft:rune_slate"
-    },
-    {
-      "type": "neoforge:nbt",
-      "item": "elementalcraft:rune",
-      "tag": "{elementalcraft:{rune:\"elementalcraft:claptrap\"}}"
+      "tag": "elementalcraft:gems/fine_water"
     },
     {
       "tag": "forge:storage_blocks/lapis"
@@ -19,12 +14,14 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:rune",
-    "tag": {
+    "item": "elementalcraft:rune",
+    "nbt": {
       "elementalcraft": {
         "rune": "elementalcraft:bombadil"
       }
     }
+  },
+  "slate": {
+    "item": "elementalcraft:rune_slate"
   }
 }

@@ -14,11 +14,10 @@ public class WaterMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockE
 	private static final Config<AbstractMillGrindstoneBlockEntity, IGrindingRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.WATER_MILL_GRINDSTONE,
 			ECRecipeTypes.GRINDING,
-			ECConfig.SERVER.waterMillsTransferSpeed,
-			ECConfig.SERVER.waterMillsMaxRunes,
-			1,
-			false,
-			false
+			ECConfig.COMMON.waterMillsTransferSpeed,
+			ECConfig.COMMON.waterMillsMaxRunes,
+			0,
+			true
 	);
 
 	public WaterMillGrindstoneBlockEntity(BlockPos pos, BlockState state) {

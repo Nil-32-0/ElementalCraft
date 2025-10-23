@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_purecrystal"
+      "has_purecrystal",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:spell_book"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

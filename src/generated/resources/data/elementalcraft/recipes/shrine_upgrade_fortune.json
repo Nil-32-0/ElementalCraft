@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_fortune"
-  }
+  },
+  "show_notification": true
 }

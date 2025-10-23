@@ -1,9 +1,7 @@
 package sirttas.elementalcraft.block.instrument.binder;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -20,10 +18,9 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 	private static final Config<IBinder, AbstractBindingRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.BINDER,
 			ECRecipeTypes.BINDING,
-			ECConfig.SERVER.binderTransferSpeed,
-			ECConfig.SERVER.binderMaxRunes,
+			ECConfig.COMMON.binderTransferSpeed,
+			ECConfig.COMMON.binderMaxRunes,
 			0,
-			true,
 			true
 	);
 
@@ -36,6 +33,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 	protected BinderBlockEntity(Config<IBinder, AbstractBindingRecipe> config, BlockPos pos, BlockState state) {
 		super(config, pos, state);
 		inventory = new InstrumentContainer(this::setChanged, 20);
+		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);
 	}
 
@@ -63,18 +61,5 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 				}
 			}
 		}
-	}
-	@Override
-	protected void setRemainingItems(NonNullList<ItemStack> remainingItems) {
-		var targetIndex = 1;
-
-        for (var stack : remainingItems) {
-            if (targetIndex >= 20) {
-                return;
-            }
-            if (!stack.isEmpty()) {
-                inventory.setItem(targetIndex++, stack);
-            }
-        }
 	}
 }

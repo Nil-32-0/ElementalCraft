@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.source.breeder.pedestal;
 
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
@@ -11,7 +10,7 @@ public class SourceBreederPedestalElementStorage extends StaticElementStorage {
     private final SourceBreederPedestalBlockEntity blockEntity;
 
     public SourceBreederPedestalElementStorage(SourceBreederPedestalBlockEntity blockEntity) {
-        super(ElementType.NONE, ECConfig.SERVER.sourceBreederPedestalCapacity.get(), blockEntity::setChanged);
+        super(ElementType.NONE, ECConfig.COMMON.sourceBreederPedestalCapacity.get(), blockEntity::setChanged);
         this.blockEntity = blockEntity;
     }
 
@@ -43,7 +42,7 @@ public class SourceBreederPedestalElementStorage extends StaticElementStorage {
     }
 
     @Override
-    public boolean doesRenderGauge(Player player) {
+    public boolean doesRenderGauge() {
         return true;
     }
 }

@@ -4,12 +4,11 @@
     "item": "elementalcraft:watercrystal"
   },
   "gem": {
-    "item": "elementalcraft:fine_earth_gem"
+    "tag": "elementalcraft:gems/fine_earth"
   },
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:scroll",
-    "tag": {
+    "item": "elementalcraft:scroll",
+    "nbt": {
       "elementalcraft": {
         "spell": "elementalcraft:tree_fall"
       }

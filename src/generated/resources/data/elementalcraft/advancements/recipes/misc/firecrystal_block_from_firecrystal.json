@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_firecrystal"
+      "has_firecrystal",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:firecrystal_block_from_firecrystal"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

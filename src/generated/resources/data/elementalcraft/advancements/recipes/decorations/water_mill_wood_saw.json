@@ -34,14 +34,15 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_watercrystal",
-      "has_whiterock"
+      "has_whiterock",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:water_mill_wood_saw"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

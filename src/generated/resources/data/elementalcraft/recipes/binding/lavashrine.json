@@ -10,7 +10,7 @@
       "item": "elementalcraft:firecrystal"
     },
     {
-      "item": "elementalcraft:pristine_fire_gem"
+      "tag": "elementalcraft:gems/pristine_fire"
     },
     {
       "item": "minecraft:obsidian"
@@ -23,7 +23,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:lavashrine"
+    "item": "elementalcraft:lavashrine"
   }
 }

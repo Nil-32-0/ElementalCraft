@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -8,14 +7,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -25,7 +22,6 @@ import java.util.List;
 public class ProtectionShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_protection";
-	public static final MapCodec<ProtectionShrineUpgradeBlock> CODEC = simpleCodec(ProtectionShrineUpgradeBlock::new);
 
 
 	private static final VoxelShape PIPE_NORTH = Block.box(7D, 7D, 0D, 9D, 9D, 2D);
@@ -48,13 +44,8 @@ public class ProtectionShrineUpgradeBlock extends AbstractHorizontalShrineUpgrad
 	private static final VoxelShape SHIELD_2_EAST = Block.box(13D, 4D, 6D, 14D, 5D, 10D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(PIPE_EAST, SHIELD_1_EAST, SHIELD_2_EAST);
 
-	public ProtectionShrineUpgradeBlock(BlockBehaviour.Properties properties) {
-		super(ShrineUpgrades.PROTECTION, properties);
-	}
-
-	@Override
-	protected @NotNull MapCodec<ProtectionShrineUpgradeBlock> codec() {
-		return CODEC;
+	public ProtectionShrineUpgradeBlock() {
+		super(ShrineUpgrades.PROTECTION);
 	}
 	
 	@Nonnull

@@ -10,7 +10,7 @@
       "item": "elementalcraft:earthcrystal"
     },
     {
-      "item": "elementalcraft:crude_earth_gem"
+      "tag": "elementalcraft:gems/crude_earth"
     },
     {
       "item": "elementalcraft:drenched_saw_blade"
@@ -23,7 +23,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:lumbershrine"
+    "item": "elementalcraft:lumbershrine"
   }
 }

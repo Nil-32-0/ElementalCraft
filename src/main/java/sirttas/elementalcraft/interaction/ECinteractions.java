@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.interaction;
 
-import net.neoforged.fml.ModList;
+import net.minecraftforge.fml.ModList;
 
 public class ECinteractions {
 
@@ -25,7 +25,4 @@ public class ECinteractions {
 		return ModList.get().isLoaded("immersiveengineering");
 	}
 
-	public static boolean isPatchouliActive() {
-		return ModList.get().isLoaded("patchouli");
-	}
 }

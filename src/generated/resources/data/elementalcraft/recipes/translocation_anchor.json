@@ -9,7 +9,7 @@
       "tag": "forge:nuggets/fireite"
     },
     "g": {
-      "item": "elementalcraft:pristine_air_gem"
+      "tag": "elementalcraft:gems/pristine_air"
     },
     "w": {
       "item": "elementalcraft:whiterock"
@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:translocation_anchor"
-  }
+  },
+  "show_notification": true
 }

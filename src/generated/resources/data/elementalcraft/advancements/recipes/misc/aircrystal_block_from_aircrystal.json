@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_aircrystal"
+      "has_aircrystal",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:aircrystal_block_from_aircrystal"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

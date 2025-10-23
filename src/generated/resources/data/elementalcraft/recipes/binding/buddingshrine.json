@@ -10,7 +10,7 @@
       "item": "elementalcraft:earthcrystal"
     },
     {
-      "item": "elementalcraft:crude_water_gem"
+      "tag": "elementalcraft:gems/crude_water"
     },
     {
       "item": "minecraft:amethyst_block"
@@ -23,7 +23,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:buddingshrine"
+    "item": "elementalcraft:buddingshrine"
   }
 }

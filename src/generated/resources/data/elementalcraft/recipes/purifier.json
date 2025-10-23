@@ -6,7 +6,7 @@
       "item": "elementalcraft:purecrystal"
     },
     "e": {
-      "item": "elementalcraft:fine_earth_gem"
+      "tag": "elementalcraft:gems/fine_earth"
     },
     "g": {
       "tag": "forge:ingots/gold"
@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "elementalcraft:purifier"
-  }
+  },
+  "show_notification": true
 }

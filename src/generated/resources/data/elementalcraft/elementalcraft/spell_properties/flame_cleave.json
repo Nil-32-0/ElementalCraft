@@ -2,15 +2,9 @@
   "attributes": {
     "minecraft:generic.attack_damage": [
       {
-        "Amount": 0.5,
-        "Name": "Weapon modifier",
-        "Operation": "multiply_total",
-        "UUID": [
-          1924578585,
-          2000506621,
-          -1544142702,
-          -1975528936
-        ]
+        "amount": 0.5,
+        "name": "Weapon modifier",
+        "operation": "multiply_total"
       }
     ]
   },
@@ -20,6 +14,5 @@
   "element_type": "fire",
   "range": 3.0,
   "spell_type": "combat",
-  "strength": 3.0,
   "weight": 15
 }

@@ -13,11 +13,10 @@
       "item": "elementalcraft:purecrystal"
     },
     {
-      "item": "elementalcraft:pristine_fire_gem"
+      "tag": "elementalcraft:gems/pristine_fire"
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:reservoir_fire"
+    "item": "elementalcraft:reservoir_fire"
   }
 }

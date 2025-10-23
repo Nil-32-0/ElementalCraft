@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.shrine;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -29,8 +27,9 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
@@ -49,8 +48,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	private final ElementType elementType;
 	private BlockEntityType<T> entityType;
 
-	protected AbstractShrineBlock(ElementType elementType, BlockBehaviour.Properties properties) {
-		super(properties);
+	protected AbstractShrineBlock(ElementType elementType) {
 		this.elementType = elementType;
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(WATERLOGGED, false));
@@ -126,7 +124,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	@SuppressWarnings("unchecked")
 	private BlockEntityType<T> getEntityType() {
 		if (entityType == null) {
-			entityType = (BlockEntityType<T>) BuiltInRegistries.BLOCK_ENTITY_TYPE.get(BuiltInRegistries.BLOCK.getKey(this));
+			entityType = (BlockEntityType<T>) ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(ForgeRegistries.BLOCKS.getKey(this));
 		}
 		return entityType;
 	}

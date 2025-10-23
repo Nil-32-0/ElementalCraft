@@ -4,19 +4,24 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
+import sirttas.elementalcraft.block.ITooltipImageBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.gui.GuiHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
@@ -25,10 +30,14 @@ import sirttas.elementalcraft.tag.ECTags;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-public abstract class AbstractElementContainerBlock extends AbstractECEntityBlock {
+public abstract class AbstractElementContainerBlock extends AbstractECEntityBlock implements ITooltipImageBlock {
 
-	protected AbstractElementContainerBlock(BlockBehaviour.Properties properties) {
-		super(properties);
+	protected AbstractElementContainerBlock() {
+		super(BlockBehaviour.Properties.of()
+				.strength(2)
+				.sound(SoundType.METAL)
+				.requiresCorrectToolForDrops()
+				.noOcclusion());
 	}
 
 	@Override
@@ -68,6 +77,37 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 	private Optional<ISingleElementStorage> getElementStorage(Level level, BlockPos pos) {
 		return BlockEntityHelper.getBlockEntityAs(level, pos, IElementContainer.class).map(IElementContainer::getElementStorage);
 	}
+
+	@Override
+	@Nonnull
+	public Optional<TooltipComponent> getTooltipImage(@Nonnull ItemStack stack) {
+		var elementStorageNbt = getElementStorageTag(stack);
+
+		if (elementStorageNbt != null) {
+			ElementType elementType = ElementType.byName(elementStorageNbt.getString(ECNames.ELEMENT_TYPE));
+			int amount = elementStorageNbt.getInt(ECNames.ELEMENT_AMOUNT);
+			int capacity = elementStorageNbt.getInt(ECNames.ELEMENT_CAPACITY);
+
+			if (amount > 0) {
+				return Optional.of(new Tooltip(elementType, amount, capacity));
+			}
+		}
+		return Optional.empty();
+	}
+
+	public CompoundTag getElementStorageTag(@Nonnull ItemStack stack) {
+		CompoundTag tag = stack.getTag();
+
+		if (tag != null && tag.contains(ECNames.BLOCK_ENTITY_TAG)) {
+			CompoundTag blockNbt = tag.getCompound(ECNames.BLOCK_ENTITY_TAG);
+
+			if (blockNbt.contains(ECNames.ELEMENT_STORAGE)) {
+				return blockNbt.getCompound(ECNames.ELEMENT_STORAGE);
+			}
+		}
+		return null;
+	}
+
 
 	@Override
 	@Deprecated

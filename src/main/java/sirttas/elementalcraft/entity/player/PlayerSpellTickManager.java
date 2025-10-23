@@ -1,49 +1,56 @@
 package sirttas.elementalcraft.entity.player;
 
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.network.payload.PayloadHelper;
+import sirttas.elementalcraft.network.message.MessageHelper;
 import sirttas.elementalcraft.spell.Spell;
-import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.tick.ISpellTickManager;
-import sirttas.elementalcraft.spell.tick.SpellTickCooldownPayload;
+import sirttas.elementalcraft.spell.tick.SpellTickCooldownMessage;
+import sirttas.elementalcraft.spell.tick.SpellTickManager;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
-public class PlayerSpellTickManager implements ISpellTickManager {
+public class PlayerSpellTickManager extends SpellTickManager {
 
     private final ServerPlayer player;
-    private final ISpellTickManager delegate;
 
-    public PlayerSpellTickManager(ServerPlayer player, ISpellTickManager delegate) {
+    public PlayerSpellTickManager(ServerPlayer player) {
         this.player = player;
-        this.delegate = delegate;
     }
 
-    @NotNull
-    @Override
-    public List<AbstractSpellInstance> getSpellInstances() {
-        return delegate.getSpellInstances();
-    }
-
-    @Override
-    public void addSpellInstance(AbstractSpellInstance instance) {
-        delegate.addSpellInstance(instance);
+    @Nullable
+    public static ICapabilityProvider createProvider(Player player) {
+        return new CapabilityProvider<>(player instanceof ServerPlayer serverPlayer ? new PlayerSpellTickManager(serverPlayer) : new SpellTickManager());
     }
 
     @Override
     public void startCooldown(Spell spell) {
-        delegate.startCooldown(spell);
-        PayloadHelper.sendToPlayer(player, new SpellTickCooldownPayload(spell));
+        super.startCooldown(spell);
+        MessageHelper.sendToPlayer(player, new SpellTickCooldownMessage(spell));
     }
 
-    @Override
-    public float getCooldown(Spell spell, float partialTick) {
-        return delegate.getCooldown(spell, partialTick);
-    }
+    private record CapabilityProvider<T extends SpellTickManager>(T spellTickManager) implements ICapabilitySerializable<CompoundTag> {
 
-    @Override
-    public void tick() {
-        delegate.tick();
+        @Override
+        public <U> @NotNull LazyOptional<U> getCapability(@NotNull Capability<U> cap, @Nullable Direction side) {
+            return ISpellTickManager.CAPABILITY.orEmpty(cap, LazyOptional.of(() -> spellTickManager));
+        }
+
+        @Override
+        public CompoundTag serializeNBT() {
+            return spellTickManager.serializeNBT();
+        }
+
+        @Override
+        public void deserializeNBT(CompoundTag nbt) {
+            spellTickManager.deserializeNBT(nbt);
+        }
     }
 }

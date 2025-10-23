@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_shrine_upgrade_core"
+      "has_shrine_upgrade_core",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:shrine_upgrade_nectar"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

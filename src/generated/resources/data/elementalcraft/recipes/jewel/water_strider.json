@@ -9,7 +9,7 @@
       "item": "minecraft:water_bucket"
     },
     "w": {
-      "item": "elementalcraft:fine_water_gem"
+      "tag": "elementalcraft:gems/fine_water"
     }
   },
   "pattern": [
@@ -19,6 +19,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:water_strider\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:water_strider"
+      }
+    }
+  },
+  "show_notification": true
 }

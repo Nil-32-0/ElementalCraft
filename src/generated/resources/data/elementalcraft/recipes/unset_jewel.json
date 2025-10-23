@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:unset_jewel"
-  }
+  },
+  "show_notification": true
 }

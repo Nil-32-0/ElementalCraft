@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_aircrystal"
+      "has_aircrystal",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:element_holder_air"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

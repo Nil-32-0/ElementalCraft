@@ -1,15 +1,18 @@
 package sirttas.elementalcraft.jewel.handler;
 
-import net.neoforged.neoforge.capabilities.EntityCapability;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.minecraftforge.common.capabilities.AutoRegisterCapability;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import sirttas.elementalcraft.jewel.Jewel;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
+@AutoRegisterCapability
 public interface IJewelHandler {
 
-    EntityCapability<IJewelHandler, Void> CAPABILITY = EntityCapability.createVoid(ElementalCraftApi.createRL("jewel_handler"), IJewelHandler.class);
+    Capability<IJewelHandler> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     @Nonnull
     List<Jewel> getActiveJewels();

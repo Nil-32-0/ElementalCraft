@@ -1,29 +1,17 @@
 {
   "attributes": {
-    "minecraft:generic.attack_damage": [
+    "forge:entity_reach": [
       {
-        "Amount": 1.0,
-        "Name": "Weapon modifier",
-        "Operation": "multiply_total",
-        "UUID": [
-          1924578585,
-          2000506621,
-          -1544142702,
-          -1975528936
-        ]
+        "amount": 5.0,
+        "name": "Reach distance modifier",
+        "operation": "addition"
       }
     ],
-    "neoforge:entity_reach": [
+    "minecraft:generic.attack_damage": [
       {
-        "Amount": 5.0,
-        "Name": "Reach distance modifier",
-        "Operation": "addition",
-        "UUID": [
-          -1087992464,
-          489308246,
-          -1123130095,
-          -740073806
-        ]
+        "amount": 1.0,
+        "name": "Weapon modifier",
+        "operation": "multiply_total"
       }
     ]
   },
@@ -33,6 +21,5 @@
   "element_type": "air",
   "range": 20.0,
   "spell_type": "combat",
-  "strength": 20.0,
   "weight": 15
 }

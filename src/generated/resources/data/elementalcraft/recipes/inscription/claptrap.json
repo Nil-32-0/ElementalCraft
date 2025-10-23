@@ -4,10 +4,7 @@
   "element_type": "water",
   "ingredients": [
     {
-      "item": "elementalcraft:minor_rune_slate"
-    },
-    {
-      "item": "elementalcraft:crude_water_gem"
+      "tag": "elementalcraft:gems/crude_water"
     },
     {
       "tag": "forge:gems/lapis"
@@ -17,12 +14,14 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:rune",
-    "tag": {
+    "item": "elementalcraft:rune",
+    "nbt": {
       "elementalcraft": {
         "rune": "elementalcraft:claptrap"
       }
     }
+  },
+  "slate": {
+    "item": "elementalcraft:minor_rune_slate"
   }
 }

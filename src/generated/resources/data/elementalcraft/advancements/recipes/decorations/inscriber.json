@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_contained_crystal": {
+    "has_strongly_contained_crystal": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:contained_crystal"
+              "elementalcraft:strongly_contained_crystal"
             ]
           }
         ]
@@ -34,14 +34,15 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_contained_crystal",
-      "has_whiterock"
+      "has_strongly_contained_crystal",
+      "has_whiterock",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:inscriber"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

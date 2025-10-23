@@ -4,10 +4,7 @@
   "element_type": "fire",
   "ingredients": [
     {
-      "item": "elementalcraft:minor_rune_slate"
-    },
-    {
-      "item": "elementalcraft:crude_fire_gem"
+      "tag": "elementalcraft:gems/crude_fire"
     },
     {
       "tag": "minecraft:coals"
@@ -17,12 +14,14 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:rune",
-    "tag": {
+    "item": "elementalcraft:rune",
+    "nbt": {
       "elementalcraft": {
         "rune": "elementalcraft:manx"
       }
     }
+  },
+  "slate": {
+    "item": "elementalcraft:minor_rune_slate"
   }
 }

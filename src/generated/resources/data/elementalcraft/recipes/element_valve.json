@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "elementalcraft:element_valve"
-  }
+  },
+  "show_notification": true
 }

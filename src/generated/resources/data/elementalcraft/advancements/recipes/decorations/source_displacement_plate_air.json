@@ -34,14 +34,15 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_purecrystal",
-      "has_whiterock"
+      "has_whiterock",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:source_displacement_plate_air"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

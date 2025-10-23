@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.mixin;
 
+import net.minecraft.commands.CommandSource;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -13,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sirttas.elementalcraft.world.feature.ECFeatures;
 
 @Mixin(MinecraftServer.class)
-public abstract class MixinMinecraftServer extends ReentrantBlockableEventLoop<TickTask> {
+public abstract class MixinMinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements CommandSource, AutoCloseable {
 
 	@Shadow
 	public abstract ServerLevel overworld();

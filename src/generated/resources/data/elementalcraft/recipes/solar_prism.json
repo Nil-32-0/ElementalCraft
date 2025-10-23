@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:solar_prism"
-  }
+  },
+  "show_notification": true
 }

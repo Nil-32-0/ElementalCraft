@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "elementalcraft:small_container"
-  }
+  },
+  "show_notification": true
 }

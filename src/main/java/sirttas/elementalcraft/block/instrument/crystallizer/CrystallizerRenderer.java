@@ -5,8 +5,8 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
@@ -26,6 +26,7 @@ public class CrystallizerRenderer implements BlockEntityRenderer<CrystallizerBlo
 		matrixStack.scale(0.5F, 0.5F, 0.5F);
 		renderGem(matrixStack, buffer, light, overlay, tick, inv.getItem(0));
 		renderCrystal(matrixStack, buffer, light, overlay, tick, inv.getItem(1));
+		renderShards(matrixStack, buffer, light, overlay, tick, inv);
 	}
 
 	private void renderGem(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, ItemStack stack) {
@@ -47,4 +48,20 @@ public class CrystallizerRenderer implements BlockEntityRenderer<CrystallizerBlo
 			matrixStack.popPose();
 		}
 	}
+
+	private void renderShards(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, InstrumentContainer inv) {
+		matrixStack.mulPose(Axis.YP.rotationDegrees(tick * 2));
+		for (int i = 2; i < inv.getItemCount(); i++) {
+			ItemStack stack = inv.getItem(i);
+
+			if (!stack.isEmpty()) {
+				matrixStack.mulPose(Axis.YP.rotationDegrees(360F / (inv.getItemCount() - 2)));
+				matrixStack.pushPose();
+				matrixStack.translate(1F, 0F, 0F);
+				ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
+				matrixStack.popPose();
+			}
+		}
+	}
+
 }

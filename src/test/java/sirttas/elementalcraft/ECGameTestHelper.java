@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.function.Consumer;
 
@@ -50,7 +49,6 @@ public class ECGameTestHelper {
             try {
                 function.accept(helper);
             } catch (AssertionError e) {
-                logAssertionError(e);
                 helper.fail(e.getMessage());
             }
         };
@@ -61,31 +59,18 @@ public class ECGameTestHelper {
             try {
                 function.run();
             } catch (AssertionError e) {
-                logAssertionError(e);
                 throw new GameTestAssertException(e.getMessage());
             }
         };
     }
 
-    private static void logAssertionError(AssertionError e) {
-        ElementalCraftApi.LOGGER.error("Assertion failed: ", e);
-    }
-
-    public static void useItemOn(GameTestHelper helper, Player player, BlockPos pos) {
-        useItemOn(helper, player, pos, Direction.NORTH);
-    }
-
-    public static void useItemOn(GameTestHelper helper, Player player, BlockPos pos, Direction direction) {
+    public static void useItemOn(GameTestHelper helper, Player player, InteractionHand hand, BlockPos pos) {
         var absolutePos = helper.absolutePos(pos);
-        var result = new BlockHitResult(Vec3.atCenterOf(absolutePos), direction, absolutePos, true);
-        var stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+        var result = new BlockHitResult(Vec3.atCenterOf(absolutePos), Direction.NORTH, absolutePos, true);
+        var stack = player.getItemInHand(hand);
+        var useOnContext = new UseOnContext(player, hand, result);
 
-        if (player.isShiftKeyDown() && !stack.isEmpty()) {
-            UseOnContext useoncontext = new UseOnContext(player, InteractionHand.MAIN_HAND, result);
-            stack.useOn(useoncontext);
-            return;
-        }
-        helper.useBlock(pos, player, result);
+        stack.useOn(useOnContext);
     }
 
     public static void discardItems(GameTestHelper helper, BlockPos pos, int expansionAmount) {

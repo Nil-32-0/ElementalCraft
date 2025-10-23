@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:source_breeder_pedestal"
-  }
+  },
+  "show_notification": true
 }

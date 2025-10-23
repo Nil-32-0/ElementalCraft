@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "e": {
-      "item": "elementalcraft:fine_earth_gem"
+      "tag": "elementalcraft:gems/fine_earth"
     },
     "s": {
       "item": "minecraft:spider_eye"
     },
     "w": {
-      "item": "elementalcraft:fine_water_gem"
+      "tag": "elementalcraft:gems/fine_water"
     }
   },
   "pattern": [
@@ -22,6 +22,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:viper\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:viper"
+      }
+    }
+  },
+  "show_notification": true
 }

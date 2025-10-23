@@ -6,18 +6,17 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.ModelEvent.RegisterGeometryLoaders;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ContainerRenderer;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.binder.BinderRenderer;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerRenderer;
-import sirttas.elementalcraft.block.instrument.enchantment.liquefier.EnchantmentLiquefierRenderer;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberRenderer;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceRenderer;
 import sirttas.elementalcraft.block.instrument.io.mill.MillRenderer;
@@ -27,7 +26,6 @@ import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;
 import sirttas.elementalcraft.block.shrine.ShrineRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeRenderer;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.greater.GreaterFortuneShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.sorter.SorterRenderer;
@@ -62,7 +60,6 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.AIR_MILL_GRINDSTONE, d -> new MillRenderer<>(MillRenderer.AIR_MILL_GRINDSTONE_SHAFT_LOCATION));
 		register(ECBlockEntityTypes.WATER_MILL_WOOD_SAW, d -> new MillRenderer<>(MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION));
 		register(ECBlockEntityTypes.AIR_MILL_WOOD_SAW, d -> new MillRenderer<>(MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION));
-		register(ECBlockEntityTypes.ENCHANTMENT_LIQUEFIER, EnchantmentLiquefierRenderer::new);
 		register(ECBlockEntityTypes.PEDESTAL, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.9, 0.5)));
 		register(ECBlockEntityTypes.PURE_INFUSER, PureInfuserRenderer::new);
 		register(ECBlockEntityTypes.FIRE_FURNACE, FireFurnaceRenderer::new);
@@ -72,7 +69,6 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.VORTEX_SHRINE_UPGRADE, VortexShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.TRANSLOCATION_SHRINE_UPGRADE, TranslocationShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE, OverclockedAccelerationShrineUpgradeRenderer::new);
-		register(ECBlockEntityTypes.GREATER_FORTUNE_SHRINE_UPGRADE, GreaterFortuneShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.SORTER, SorterRenderer::new);
 		register(ECBlockEntityTypes.SOURCE, SourceRenderer::new);
 
@@ -101,11 +97,11 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.SOURCE_BREEDER_PEDESTAL, SourceBreederPedestalRenderer::new);
 	}
 
-	public static <T extends BlockEntity> void register(DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> type, Supplier<BlockEntityRenderer<? super T>> renderProvider) {
+	public static <T extends BlockEntity> void register(RegistryObject<BlockEntityType<T>> type, Supplier<BlockEntityRenderer<? super T>> renderProvider) {
 		register(type.get(), renderProvider);
 	}
 
-	public static <T extends BlockEntity> void register(DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> type, BlockEntityRendererProvider<T> renderProvider) {
+	public static <T extends BlockEntity> void register(RegistryObject<BlockEntityType<T>> type, BlockEntityRendererProvider<T> renderProvider) {
 		BlockEntityRenderers.register(type.get(), renderProvider);
 	}
 

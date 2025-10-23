@@ -5,10 +5,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -28,12 +28,14 @@ import sirttas.elementalcraft.spell.Spells;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.StreamSupport;
 
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECCreativeModeTabs {
 
     private static final DeferredRegister<CreativeModeTab> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ElementalCraftApi.MODID);
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ELEMENTAL_CRAFT_CREATIVE_TAB = DEFERRED_REGISTER.register("elemental_craft", () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> ELEMENTAL_CRAFT_CREATIVE_TAB = DEFERRED_REGISTER.register("elemental_craft", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.elementalcraft"))
             .icon(() -> new ItemStack(ECItems.FOCUS.get()))
             .displayItems((p, o) -> {
@@ -54,7 +56,6 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.AIR_MILL_GRINDSTONE.get());
                 o.accept(ECBlocks.WATER_MILL_WOOD_SAW.get());
                 o.accept(ECBlocks.AIR_MILL_WOOD_SAW.get());
-                o.accept(ECBlocks.ENCHANTMENT_LIQUEFIER.get());
                 o.accept(ECBlocks.FIRE_PEDESTAL.get());
                 o.accept(ECBlocks.WATER_PEDESTAL.get());
                 o.accept(ECBlocks.EARTH_PEDESTAL.get());
@@ -103,10 +104,8 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.CAPACITY_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.EFFICIENCY_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.STRENGTH_SHRINE_UPGRADE.get());
-                o.accept(ECBlocks.OVERWHELMING_STRENGTH_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.OPTIMIZATION_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.FORTUNE_SHRINE_UPGRADE.get());
-                o.accept(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.SILK_TOUCH_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.PLANTING_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.BONELESS_GROWTH_SHRINE_UPGRADE.get());
@@ -180,9 +179,7 @@ public class ECCreativeModeTabs {
                 generateElementHolder(o, ECItems.AIR_HOLDER);
                 o.accept(ECItems.PURE_HOLDER_CORE.get());
                 generatePureElementHolder(o);
-                o.accept(ECItems.DRENCHED_IRON_CHISEL.get());
-                o.accept(ECItems.SWIFT_ALLOY_CHISEL.get());
-                o.accept(ECItems.FIREITE_CHISEL.get());
+                o.accept(ECItems.CHISEL.get());
                 o.accept(ECItems.ELEMENTAL_FIREFUEL.get());
                 generatePureOres(o);
                 o.accept(ECItems.INERT_CRYSTAL.get());
@@ -218,7 +215,6 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.PRISTINE_WATER_GEM.get());
                 o.accept(ECItems.PRISTINE_EARTH_GEM.get());
                 o.accept(ECItems.PRISTINE_AIR_GEM.get());
-                o.accept(ECItems.PRISTINE_SHARD.get());
                 o.accept(ECItems.DRENCHED_IRON_NUGGET.get());
                 o.accept(ECItems.DRENCHED_IRON_INGOT.get());
                 o.accept(ECBlocks.DRENCHED_IRON_BLOCK.get());
@@ -248,7 +244,6 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.SCROLL_PAPER.get());
                 o.accept(ECItems.SHRINE_BASE.get());
                 o.accept(ECItems.SHRINE_UPGRADE_CORE.get());
-                o.accept(ECItems.ADVANCED_SHRINE_UPGRADE_CORE.get());
                 o.accept(ECItems.MINOR_RUNE_SLATE.get());
                 o.accept(ECItems.RUNE_SLATE.get());
                 o.accept(ECItems.MAJOR_RUNE_SLATE.get());
@@ -258,17 +253,10 @@ public class ECCreativeModeTabs {
             }).build());
 
     private static void generateElementopedia(@Nonnull CreativeModeTab.Output output) {
-        if (ECinteractions.isPatchouliActive()) {
-            output.accept(createElementopedia());
-        }
-    }
-
-    @NotNull
-    public static ItemStack createElementopedia() {
         var book = new ItemStack(ECItems.ELEMENTOPEDIA.get());
 
         book.getOrCreateTag().putString("patchouli:book", "elementalcraft:element_book");
-        return book;
+        output.accept(book);
     }
 
     private static void generateElementContainer(@Nonnull CreativeModeTab.Output output, @Nonnull Supplier<? extends AbstractElementContainerBlock> supplier) {
@@ -306,7 +294,7 @@ public class ECCreativeModeTabs {
     }
 
     private static void generateSpells(@Nonnull CreativeModeTab.Output output) {
-        Spells.REGISTRY.stream()
+        StreamSupport.stream(Spells.REGISTRY.get().spliterator(), false)
                 .filter(Spell::isVisible)
                 .map(s -> {
                     var stack = new ItemStack(ECItems.SCROLL.get());
@@ -334,11 +322,7 @@ public class ECCreativeModeTabs {
     private static void generateJewels(@Nonnull CreativeModeTab.Output output) {
         var item = ECItems.JEWEL.get();
 
-        Jewels.REGISTRY.forEach(j -> {
-            if (j != Jewels.NONE.get()) {
-                output.accept(item.getJewelStack(j));
-            }
-        });
+        Jewels.REGISTRY.get().forEach(j -> output.accept(item.getJewelStack(j)));
     }
 
     private ECCreativeModeTabs() { }

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_advanced_shrine_upgrade_core": {
+    "has_shrine_upgrade_core": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:advanced_shrine_upgrade_core"
+              "elementalcraft:shrine_upgrade_core"
             ]
           }
         ]
@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_advanced_shrine_upgrade_core"
+      "has_shrine_upgrade_core",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:shrine_upgrade_translocation"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

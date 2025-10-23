@@ -6,7 +6,7 @@
       "tag": "forge:nuggets/fireite"
     },
     "g": {
-      "item": "elementalcraft:pristine_water_gem"
+      "tag": "elementalcraft:gems/pristine_water"
     },
     "s": {
       "item": "elementalcraft:springaline_shard"
@@ -20,5 +20,6 @@
   "result": {
     "count": 8,
     "item": "elementalcraft:artificial_water_source_seed"
-  }
+  },
+  "show_notification": true
 }

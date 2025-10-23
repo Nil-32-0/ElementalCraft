@@ -1,20 +1,17 @@
 package sirttas.elementalcraft.block.shrine.vacuum;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
@@ -26,17 +23,11 @@ import javax.annotation.Nonnull;
 public class VacuumShrineBlock extends AbstractShrineBlock<VacuumShrineBlockEntity> {
 
 	public static final String NAME = "vacuumshrine";
-	public static final MapCodec<VacuumShrineBlock> CODEC = simpleCodec(VacuumShrineBlock::new);
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, Block.box(6D, 12D, 6D, 10D, 15D, 10D));
 
-	public VacuumShrineBlock(BlockBehaviour.Properties properties) {
-		super(ElementType.AIR, properties);
-	}
-
-	@Override
-	protected @NotNull MapCodec<VacuumShrineBlock> codec() {
-		return CODEC;
+	public VacuumShrineBlock() {
+		super(ElementType.AIR);
 	}
 
 	@Nonnull

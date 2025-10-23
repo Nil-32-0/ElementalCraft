@@ -10,7 +10,7 @@
       "item": "elementalcraft:watercrystal"
     },
     {
-      "item": "elementalcraft:crude_earth_gem"
+      "tag": "elementalcraft:gems/crude_earth"
     },
     {
       "tag": "minecraft:flowers"
@@ -23,7 +23,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:groveshrine"
+    "item": "elementalcraft:groveshrine"
   }
 }

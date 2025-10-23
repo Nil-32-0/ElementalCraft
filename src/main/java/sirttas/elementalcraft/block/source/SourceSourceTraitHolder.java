@@ -15,8 +15,8 @@ public class SourceSourceTraitHolder extends SourceTraitHolder {
     }
 
     @Override
-    public float getRecoverRate() {
-        return super.getRecoverRate() + (source.isStabilized() ? 20F : 0F);
+    public int getRecoverRate() {
+        return super.getRecoverRate() + (source.isStabilized() ? 20 : 0);
     }
 
     @Override

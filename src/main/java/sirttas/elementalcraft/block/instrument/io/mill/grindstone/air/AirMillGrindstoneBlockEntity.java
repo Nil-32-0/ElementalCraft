@@ -14,10 +14,9 @@ public class AirMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockEnt
 	private static final Config<AbstractMillGrindstoneBlockEntity, IGrindingRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.AIR_MILL_GRINDSTONE,
 			ECRecipeTypes.GRINDING,
-			ECConfig.SERVER.airMillsTransferSpeed,
-			ECConfig.SERVER.airMillsMaxRunes,
+			ECConfig.COMMON.airMillsTransferSpeed,
+			ECConfig.COMMON.airMillsMaxRunes,
 			1,
-			false,
 			false
 	);
 

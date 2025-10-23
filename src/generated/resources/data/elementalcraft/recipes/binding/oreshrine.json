@@ -10,14 +10,13 @@
       "item": "elementalcraft:earthcrystal"
     },
     {
-      "item": "elementalcraft:pristine_earth_gem"
+      "tag": "elementalcraft:gems/pristine_earth"
     },
     {
       "item": "minecraft:diamond_pickaxe"
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:oreshrine"
+    "item": "elementalcraft:oreshrine"
   }
 }

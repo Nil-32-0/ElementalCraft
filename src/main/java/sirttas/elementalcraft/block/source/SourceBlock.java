@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.source;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,13 +14,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -35,17 +34,17 @@ public class SourceBlock extends AbstractECEntityBlock {
 	private static final VoxelShape SHAPE = Block.box(4D, 0D, 4D, 12D, 8D, 12D);
 
 	public static final String NAME = "source";
-	public static final MapCodec<SourceBlock> CODEC = simpleCodec(SourceBlock::new);
 
-	public SourceBlock(BlockBehaviour.Properties properties) {
-		super(properties);
+	public SourceBlock() {
+		super(BlockBehaviour.Properties.of()
+				.replaceable()
+				.pushReaction(PushReaction.DESTROY)
+				.strength(-1.0F, 3600000.0F)
+				.lightLevel(s -> 7)
+				.noOcclusion()
+				.noLootTable());
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(ElementType.STATE_PROPERTY, ElementType.NONE));
-	}
-
-	@Override
-	protected @NotNull MapCodec<SourceBlock> codec() {
-		return CODEC;
 	}
 
 	@Override
@@ -80,18 +79,14 @@ public class SourceBlock extends AbstractECEntityBlock {
 	@Nonnull
 	@Override
 	@Deprecated
-	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return Shapes.empty();
 	}
 
 	private boolean showShape(BlockState state, CollisionContext context) {
 		if (context instanceof EntityCollisionContext entityContext && entityContext.getEntity() instanceof LivingEntity e) {
 			return Stream.of(e.getItemInHand(InteractionHand.MAIN_HAND), e.getItemInHand(InteractionHand.MAIN_HAND))
-					.anyMatch(s -> {
-						var sourceInteractable = s.getCapability(ElementalCraftCapabilities.SourceInteractable.ITEM);
-
-						return sourceInteractable != null && sourceInteractable.canInteractWithSource(state);
-					});
+					.anyMatch(s -> s.getItem() instanceof ISourceInteractable sourceInteractable && sourceInteractable.canInteractWithSource(s, state));
 		}
 		return false;
 	}

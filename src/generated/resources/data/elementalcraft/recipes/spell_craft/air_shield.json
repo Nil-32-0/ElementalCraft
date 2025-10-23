@@ -4,12 +4,11 @@
     "item": "elementalcraft:aircrystal"
   },
   "gem": {
-    "item": "elementalcraft:fine_air_gem"
+    "tag": "elementalcraft:gems/fine_air"
   },
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:scroll",
-    "tag": {
+    "item": "elementalcraft:scroll",
+    "nbt": {
       "elementalcraft": {
         "spell": "elementalcraft:air_shield"
       }

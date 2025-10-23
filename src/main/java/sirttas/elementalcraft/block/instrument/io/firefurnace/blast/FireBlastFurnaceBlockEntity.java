@@ -14,10 +14,9 @@ public class FireBlastFurnaceBlockEntity extends AbstractFireFurnaceBlockEntity<
 	private static final Config<AbstractFireFurnaceBlockEntity<BlastingRecipe>, FurnaceRecipeWrapper<BlastingRecipe>> CONFIG = new Config<>(
 			ECBlockEntityTypes.FIRE_BLAST_FURNACE,
 			null,
-			ECConfig.SERVER.fireBlastFurnaceTransferSpeed,
-			ECConfig.SERVER.fireBlastFurnaceMaxRunes,
+			ECConfig.COMMON.fireBlastFurnaceTransferSpeed,
+			ECConfig.COMMON.fireBlastFurnaceMaxRunes,
 			1,
-			false,
 			false
 	);
 

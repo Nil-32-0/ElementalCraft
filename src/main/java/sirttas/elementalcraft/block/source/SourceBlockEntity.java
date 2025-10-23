@@ -1,12 +1,17 @@
 package sirttas.elementalcraft.block.source;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
@@ -14,12 +19,11 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.container.IElementStorageBlocKEntity;
-import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public class SourceBlockEntity extends AbstractECBlockEntity implements IElementTypeProvider, IElementStorageBlocKEntity {
+public class SourceBlockEntity extends AbstractECBlockEntity implements IElementTypeProvider {
 
 	private boolean analyzed = false;
 	private boolean stabilized = false;
@@ -33,7 +37,6 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		traitHolder = new SourceSourceTraitHolder(this);
 	}
 
-	@Override
 	@NotNull
 	public ISingleElementStorage getElementStorage() {
 		return elementStorage;
@@ -45,20 +48,14 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
-		if (!(level instanceof ServerLevel serverLevel)) {
-			return;
-		}
-		if (source.traitHolder.isEmpty()) {
+		if (source.traitHolder.isEmpty() && level instanceof ServerLevel serverLevel) {
 			source.initTraits(serverLevel, 0);
 		}
         if (source.elementStorage.isExhausted()) {
 			if (source.traitHolder.isArtificial()) {
-				serverLevel.destroyBlock(pos, false);
+				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 			} else {
-				var sourceFlux = serverLevel.getChunkAt(pos).getData(ECDataAttachments.SOURCE_FLUX);
-
-				source.elementStorage.insertElement(Math.round(source.traitHolder.getRecoverRate() * sourceFlux.getRatio()), false);
-				sourceFlux.consume();
+				source.elementStorage.insertElement(source.traitHolder.getRecoverRate(), false);
 			}
         }
     }
@@ -154,5 +151,18 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		compound.put(ECNames.TRAITS_HOLDER, traitHolder.serializeNBT());
 		compound.putBoolean(ECNames.ANALYZED, analyzed);
 		compound.putBoolean(ECNames.STABILIZED, stabilized);
+	}
+
+	@Override
+	@Nonnull
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
+		if (!this.remove) {
+			if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
+				return LazyOptional.of(this::getElementStorage).cast();
+			} else if (cap == ElementalCraftCapabilities.SOURCE_TRAIT_HOLDER) {
+				return LazyOptional.of(this::getTraitHolder).cast();
+			}
+		}
+		return super.getCapability(cap, side);
 	}
 }

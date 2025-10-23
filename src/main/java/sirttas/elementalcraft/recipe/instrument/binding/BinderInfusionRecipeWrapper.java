@@ -16,7 +16,7 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 	private final IInfusionRecipe recipe;
 	
 	public BinderInfusionRecipeWrapper(IInfusionRecipe infusionRecipe) {
-		super(infusionRecipe.getElementType());
+		super(infusionRecipe.getId(), infusionRecipe.getElementType());
 		this.recipe = infusionRecipe;
 	}
 

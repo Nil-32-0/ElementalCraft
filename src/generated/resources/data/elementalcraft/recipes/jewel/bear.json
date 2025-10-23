@@ -9,10 +9,10 @@
       "item": "elementalcraft:earthcrystal"
     },
     "e": {
-      "item": "elementalcraft:pristine_earth_gem"
+      "tag": "elementalcraft:gems/pristine_earth"
     },
     "f": {
-      "item": "elementalcraft:fine_earth_gem"
+      "tag": "elementalcraft:gems/fine_earth"
     },
     "h": {
       "item": "minecraft:honey_bottle"
@@ -25,6 +25,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:bear\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:bear"
+      }
+    }
+  },
+  "show_notification": true
 }

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_inert_crystal": {
+    "has_inertcrystal": {
       "conditions": {
         "items": [
           {
@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_inert_crystal"
+      "has_inertcrystal",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:contained_crystal"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

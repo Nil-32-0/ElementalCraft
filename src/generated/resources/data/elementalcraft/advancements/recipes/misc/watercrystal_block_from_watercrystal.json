@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_watercrystal"
+      "has_watercrystal",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:watercrystal_block_from_watercrystal"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -10,7 +10,7 @@
       "item": "elementalcraft:earthcrystal"
     },
     {
-      "item": "elementalcraft:crude_water_gem"
+      "tag": "elementalcraft:gems/crude_water"
     },
     {
       "tag": "forge:crops"
@@ -26,7 +26,6 @@
     }
   ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:breedingshrine"
+    "item": "elementalcraft:breedingshrine"
   }
 }

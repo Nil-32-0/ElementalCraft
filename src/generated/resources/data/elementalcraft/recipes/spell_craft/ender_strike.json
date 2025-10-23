@@ -4,12 +4,11 @@
     "item": "elementalcraft:aircrystal"
   },
   "gem": {
-    "item": "elementalcraft:crude_air_gem"
+    "tag": "elementalcraft:gems/crude_air"
   },
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:scroll",
-    "tag": {
+    "item": "elementalcraft:scroll",
+    "nbt": {
       "elementalcraft": {
         "spell": "elementalcraft:ender_strike"
       }

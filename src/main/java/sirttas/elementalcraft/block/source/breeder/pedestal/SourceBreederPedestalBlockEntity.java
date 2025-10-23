@@ -1,19 +1,24 @@
 package sirttas.elementalcraft.block.source.breeder.pedestal;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
+import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
 import sirttas.elementalcraft.block.entity.AbstractIERBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.source.trait.holder.SourceTraitHolder;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
@@ -31,7 +36,7 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
         super(ECBlockEntityTypes.SOURCE_BREEDER_PEDESTAL, pos, state);
         elementStorage = new SourceBreederPedestalElementStorage(this);
         inventory = new SourceBreederPedestalItemContainer(this::setChanged);
-        runeHandler = new RuneHandler(ECConfig.SERVER.sourceBreederPedestalMaxRunes.get(), this::setChanged);
+        runeHandler = new RuneHandler(ECConfig.COMMON.sourceBreederPedestalMaxRunes.get(), this::setChanged);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SourceBreederPedestalBlockEntity pedestal) {
@@ -57,12 +62,7 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
 
     @Nullable
     public ISourceTraitHolder getTraitHolder() {
-        var receptacle = getReceptacle();
-
-        if (receptacle.isEmpty()) {
-            return null;
-        }
-        return receptacle.getCapability(ElementalCraftCapabilities.SourceTrait.ITEM, null);
+        return SourceTraitHolderHelper.get(getReceptacle()).orElseGet(SourceTraitHolder::new);
     }
 
     @Override
@@ -77,4 +77,14 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
     public boolean hasSource() {
         return !getReceptacle().isEmpty();
     }
+
+    @Override
+    @Nonnull
+    public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
+        if (!this.remove && cap == ElementalCraftCapabilities.SOURCE_TRAIT_HOLDER) {
+            return SourceTraitHolderHelper.get(getReceptacle()).cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
 }

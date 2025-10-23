@@ -19,23 +19,20 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.client.model.data.ModelData;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.joml.Quaternionf;
-import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.renderer.ECRenderTypes;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
-import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapabilities;
+import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.event.TickHandler;
 
 public class ECRendererHelper {
@@ -45,7 +42,7 @@ public class ECRendererHelper {
     private ECRendererHelper() {}
 
     public static Material getBlockMaterial(String name)  {
-        return getBlockMaterial(ElementalCraftApi.createRL(name));
+        return getBlockMaterial(ElementalCraft.createRL(name));
     }
 
     public static Material getBlockMaterial(ResourceLocation loc)  {
@@ -108,7 +105,7 @@ public class ECRendererHelper {
 
     public static void renderBatched(BlockState state, PoseStack poseStack, VertexConsumer consumer, Level level, BlockPos pos) {
         poseStack.pushPose();
-        Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, level, poseStack, consumer, false, RandomSource.create(), getModelData(level, pos), null);
+        Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, level, poseStack, consumer, false, level.random, getModelData(level, pos), null);
         poseStack.popPose();
     }
 
@@ -119,7 +116,7 @@ public class ECRendererHelper {
     public static void renderBatched(BlockState state, PoseStack poseStack, MultiBufferSource buffer, Level level, BlockPos pos, ModelData data) {
         poseStack.pushPose();
         var blockRenderer = Minecraft.getInstance().getBlockRenderer();
-        var rand = RandomSource.create();
+        var rand = level.random;
 
         if (state.getRenderShape() != RenderShape.INVISIBLE) {
             var model = blockRenderer.getBlockModel(state);
@@ -159,11 +156,11 @@ public class ECRendererHelper {
         float f25;
 
         TextureAtlasSprite sprite1 = sprites[0];
-        f18 = sprite1.getU(0.0F);
-        f22 = sprite1.getV(0.0F);
+        f18 = sprite1.getU(0.0D);
+        f22 = sprite1.getV(0.0D);
         f19 = f18;
-        f23 = sprite1.getV(16.0F);
-        f20 = sprite1.getU(16.0F);
+        f23 = sprite1.getV(16.0D);
+        f20 = sprite1.getU(16.0D);
         f24 = f23;
         f21 = f20;
         f25 = f22;
@@ -241,11 +238,11 @@ public class ECRendererHelper {
 
             var sprite2 =  sprites[2] != null ?  sprites[2] :sprites[1];
 
-            float f54 = sprite2.getU(0.0F);
-            float f55 = sprite2.getU(8.0F);
+            float f54 = sprite2.getU(0.0D);
+            float f55 = sprite2.getU(8.0D);
             float f33 = sprite2.getV(((1.0F - f44) * 16.0F * 0.5F));
             float f34 = sprite2.getV(((1.0F - f45) * 16.0F * 0.5F));
-            float f35 = sprite2.getV(8.0F);
+            float f35 = sprite2.getV(8.0D);
 
             fluidVertex(poseStack, consumer, d3, f44, d4, r, g, b, alpha, f54, f33);
             fluidVertex(poseStack, consumer, d5, f45, d6, r, g, b, alpha, f55, f34);
@@ -266,20 +263,8 @@ public class ECRendererHelper {
         consumer.vertex(last.pose(), x, y, z).color(r, g, b, alpha).uv(u, v).uv2(15728880).normal(last.normal(), 0.0F, 1.0F, 0.0F).endVertex();
     }
 
-    public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, PipeUpgrade pu, float tick, int light, int overlay) {
-        var handler = pu.getCapability(PipeUpgradeCapabilities.RUNE_HANDLER, null);
-
-        if (handler != null && !handler.isEmpty()) {
-            ECRendererHelper.renderRunes(poseStack, buffer, handler, getClientTicks(tick), light, overlay);
-        }
-    }
-
-    public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, BlockEntity be, float tick, int light, int overlay) {
-        var handler = BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, be, null);
-
-        if (handler != null && !handler.isEmpty()) {
-            ECRendererHelper.renderRunes(poseStack, buffer, handler, getClientTicks(tick), light, overlay);
-        }
+    public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, ICapabilityProvider cap, float tick, int light, int overlay) {
+        ECRendererHelper.renderRunes(poseStack, buffer, RuneHandlerHelper.get(cap), ECRendererHelper.getClientTicks(tick), light, overlay);
     }
 
     public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, IRuneHandler handler, float tick, int light, int overlay) {

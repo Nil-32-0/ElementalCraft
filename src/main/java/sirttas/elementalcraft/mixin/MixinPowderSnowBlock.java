@@ -2,6 +2,7 @@ package sirttas.elementalcraft.mixin;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.PowderSnowBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,7 +12,7 @@ import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 
 @Mixin(PowderSnowBlock.class)
-public abstract class MixinPowderSnowBlock extends Block {
+public abstract class MixinPowderSnowBlock extends Block implements BucketPickup  {
 
     protected MixinPowderSnowBlock(Properties properties) {
         super(properties);

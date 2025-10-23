@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:diffuser"
-  }
+  },
+  "show_notification": true
 }

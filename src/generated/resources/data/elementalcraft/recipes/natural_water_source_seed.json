@@ -7,7 +7,7 @@
     },
     {
       "type": "elementalcraft:natural_source",
-      "value": "water"
+      "element_type": "water"
     }
   ],
   "result": {

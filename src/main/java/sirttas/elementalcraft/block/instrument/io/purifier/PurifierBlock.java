@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.instrument.io.purifier;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -31,8 +29,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.IItemHandler;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
@@ -47,7 +44,6 @@ import javax.annotation.Nullable;
 public class PurifierBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
 	public static final String NAME = "purifier";
-	public static final MapCodec<PurifierBlock> CODEC = simpleCodec(PurifierBlock::new);
 
 	private static final VoxelShape OVEN_SLAB = Block.box(0D, 2D, 0D, 16D, 4D, 16D);
 	private static final VoxelShape OVEN_SLAB_2 = Block.box(0D, 10D, 0D, 16D, 12D, 16D);
@@ -85,16 +81,10 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public PurifierBlock(BlockBehaviour.Properties properties) {
-		super(properties);
+	public PurifierBlock() {
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(WATERLOGGED, false));
-	}
-
-	@Override
-	protected @NotNull MapCodec<PurifierBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

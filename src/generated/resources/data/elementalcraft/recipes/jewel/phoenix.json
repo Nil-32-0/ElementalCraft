@@ -12,7 +12,7 @@
       "tag": "forge:feathers"
     },
     "g": {
-      "item": "elementalcraft:pristine_fire_gem"
+      "tag": "elementalcraft:gems/pristine_fire"
     },
     "p": {
       "item": "elementalcraft:purecrystal"
@@ -25,6 +25,11 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:phoenix\"}"
-  }
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:phoenix"
+      }
+    }
+  },
+  "show_notification": true
 }

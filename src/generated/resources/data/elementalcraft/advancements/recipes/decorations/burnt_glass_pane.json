@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_burnt_glass"
+      "has_burnt_glass",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:burnt_glass_pane"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -8,16 +8,16 @@
     "_?ore$"
   ],
   "source": {
-    "type": "neoforge:and",
+    "type": "forge:and",
     "values": [
       {
-        "type": "neoforge:or",
+        "type": "forge:or",
         "values": [
           "#elementalcraft:pure_ores/sources/ores"
         ]
       },
       {
-        "type": "neoforge:not",
+        "type": "forge:not",
         "value": "#elementalcraft:pure_ores/specifics"
       }
     ]

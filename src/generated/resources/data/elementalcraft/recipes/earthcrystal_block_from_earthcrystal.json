@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "elementalcraft:earthcrystal_block"
-  }
+  },
+  "show_notification": true
 }

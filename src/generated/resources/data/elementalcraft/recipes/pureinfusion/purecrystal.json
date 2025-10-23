@@ -1,25 +1,24 @@
 {
   "type": "elementalcraft:pureinfusion",
   "element_amount": 60000,
-  "ingredients": {
-    "AIR": {
-      "item": "elementalcraft:aircrystal"
+  "ingredients": [
+    {
+      "tag": "forge:gems/diamond"
     },
-    "EARTH": {
-      "item": "elementalcraft:earthcrystal"
-    },
-    "FIRE": {
-      "item": "elementalcraft:firecrystal"
-    },
-    "WATER": {
+    {
       "item": "elementalcraft:watercrystal"
     },
-    "pureinfuser": {
-      "tag": "forge:gems/diamond"
+    {
+      "item": "elementalcraft:firecrystal"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    },
+    {
+      "item": "elementalcraft:aircrystal"
     }
-  },
+  ],
   "output": {
-    "Count": 1,
-    "id": "elementalcraft:purecrystal"
+    "item": "elementalcraft:purecrystal"
   }
 }

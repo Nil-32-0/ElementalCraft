@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.shrine.breeding;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
@@ -14,10 +13,8 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -26,7 +23,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
@@ -36,7 +32,6 @@ import javax.annotation.Nonnull;
 public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlockEntity> {
 
 	public static final String NAME = "breedingshrine";
-	public static final MapCodec<BreedingShrineBlock> CODEC = simpleCodec(BreedingShrineBlock::new);
 
 	private static final VoxelShape BASE_CORE = Shapes.or(ECShapes.SHRINE_SHAPE, Block.box(5D, 12D, 5D, 11D, 14D, 11D));
 
@@ -83,17 +78,12 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 	public static final EnumProperty<Part> PART = EnumProperty.create("part", Part.class);
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public BreedingShrineBlock(BlockBehaviour.Properties properties) {
-		super(ElementType.EARTH, properties);
+	public BreedingShrineBlock() {
+		super(ElementType.EARTH);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(PART, Part.CORE)
 				.setValue(WATERLOGGED, false));
-	}
-
-	@Override
-	protected @NotNull MapCodec<BreedingShrineBlock> codec() {
-		return CODEC;
 	}
 
 	/**
@@ -108,11 +98,9 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 	/**
 	 * Called before the Block is set to air in the world. Called regardless of if
 	 * the player's tool can actually collect this block
-	 *
-	 * @return
 	 */
 	@Override
-	public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
 		if (!level.isClientSide && player.isCreative()) {
 			Part part = state.getValue(PART);
 			BlockPos blockpos = pos.relative(getNeighbourDirection(part, state.getValue(FACING)));
@@ -120,10 +108,10 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 			if (blockstate.getBlock() == this && blockstate.getValue(PART) != part) {
 				level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
-				level.levelEvent(player, LevelEvent.PARTICLES_DESTROY_BLOCK, blockpos, Block.getId(blockstate));
+				level.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
 			}
 		}
-		return super.playerWillDestroy(level, pos, state, player);
+		super.playerWillDestroy(level, pos, state, player);
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.container.reservoir;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -15,7 +13,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -24,12 +21,10 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.container.AbstractConnectedElementContainerBlock;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.config.ECConfig;
@@ -44,11 +39,6 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	public static final String NAME_WATER = NAME + "_water";
 	public static final String NAME_EARTH = NAME + "_earth";
 	public static final String NAME_AIR = NAME + "_air";
-
-	public static final MapCodec<ReservoirBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-			ElementType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(ReservoirBlock::getElementType),
-			propertiesCodec()
-	).apply(instance, ReservoirBlock::new));
 
 	private static final VoxelShape UPPER_GLASS = Block.box(2D, 0D, 2D, 14D, 15D, 14D);
 
@@ -104,8 +94,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 
 	private final ElementType elementType;
 	
-	public ReservoirBlock(ElementType elementType, BlockBehaviour.Properties properties) {
-		super(properties);
+	public ReservoirBlock(ElementType elementType) {
 		this.elementType = elementType;
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(HALF, DoubleBlockHalf.LOWER)
@@ -117,7 +106,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	
 	@Override
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-		return state.getValue(HALF) == DoubleBlockHalf.LOWER ? new ReservoirBlockEntity(pos, state) : null;
+		return new ReservoirBlockEntity(pos, state);
 	}
 
 	@Override
@@ -137,13 +126,11 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	/**
 	 * Called before the Block is set to air in the world. Called regardless of if
 	 * the player's tool can actually collect this block
-	 *
-	 * @return
 	 */
 	@Override
-	public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
 		AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
-		return super.playerWillDestroy(level, pos, state, player);
+		super.playerWillDestroy(level, pos, state, player);
 	}
 
 	@Nullable
@@ -208,7 +195,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 
 	@Override
 	public int getDefaultCapacity() {
-		return ECConfig.SERVER.reservoirCapacity.get();
+		return ECConfig.COMMON.reservoirCapacity.get();
 	}
 	
 	@Override
@@ -219,8 +206,4 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 		}
 	}
 
-	@Override
-	protected @NotNull MapCodec<ReservoirBlock> codec() {
-		return CODEC;
-	}
 }

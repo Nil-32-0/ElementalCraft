@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_springaline_shard"
+      "has_springaline_shard",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:springaline_glass"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
