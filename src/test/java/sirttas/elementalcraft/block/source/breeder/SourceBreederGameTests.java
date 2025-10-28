@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
@@ -32,7 +33,7 @@ public class SourceBreederGameTests {
     // elementalcraft:sourcebreedergametests.source_breeder
     @GameTest(template = "source_breeder")
     public static void should_breedArtificialSource(GameTestHelper helper) {
-        setupBreedingTest(helper, ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get(), h -> {
+        setupBreedingTest(helper, ECItems.ARTIFICIAL_SOURCE_SEEDS.get(ElementType.AIR).get(), h -> {
             assertThat(h.isArtificial()).isTrue();
             assertThat(h.getTraits())
                     .isNotNull()
@@ -45,7 +46,7 @@ public class SourceBreederGameTests {
     // elementalcraft:sourcebreedergametests.source_breeder
     @GameTest(template = "source_breeder")
     public static void should_breedNaturalSource(GameTestHelper helper) {
-        setupBreedingTest(helper, ECItems.NATURAL_AIR_SOURCE_SEED.get(), h -> {
+        setupBreedingTest(helper, ECItems.NATURAL_SOURCE_SEEDS.get(ElementType.AIR).get(), h -> {
             assertThat(h.isArtificial()).isFalse();
             assertThat(h.getTraits())
                     .hasSizeGreaterThanOrEqualTo(2)

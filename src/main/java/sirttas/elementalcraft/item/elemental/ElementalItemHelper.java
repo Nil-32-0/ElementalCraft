@@ -12,42 +12,22 @@ public class ElementalItemHelper {
     private ElementalItemHelper() {}
 
     public static Item getCrystalForType(ElementType type) {
-        return switch (type) {
-            case AIR -> ECItems.AIR_CRYSTAL.get();
-            case EARTH -> ECItems.EARTH_CRYSTAL.get();
-            case FIRE -> ECItems.FIRE_CRYSTAL.get();
-            case WATER -> ECItems.WATER_CRYSTAL.get();
-            default -> ECItems.INERT_CRYSTAL.get();
-        };
+        if (!ECItems.CRYSTALS.containsKey(type)) return ECItems.INERT_CRYSTAL.get();
+        return ECItems.CRYSTALS.get(type).get();
     }
 
     public static Item getShardForType(ElementType type) {
-        return switch (type) {
-            case AIR -> ECItems.AIR_SHARD.get();
-            case EARTH -> ECItems.EARTH_SHARD.get();
-            case FIRE -> ECItems.FIRE_SHARD.get();
-            case WATER -> ECItems.WATER_SHARD.get();
-            default -> throw new IllegalArgumentException(ERROR_MESSAGE);
-        };
+        if (!ECItems.SHARDS.containsKey(type)) throw new IllegalArgumentException(ERROR_MESSAGE);
+        return ECItems.SHARDS.get(type).get();
     }
 
     public static Item getPowerfulShardForType(ElementType type) {
-        return switch (type) {
-            case AIR -> ECItems.POWERFUL_AIR_SHARD.get();
-            case EARTH -> ECItems.POWERFUL_EARTH_SHARD.get();
-            case FIRE -> ECItems.POWERFUL_FIRE_SHARD.get();
-            case WATER -> ECItems.POWERFUL_WATER_SHARD.get();
-            default -> throw new IllegalArgumentException(ERROR_MESSAGE);
-        };
+        if (!ECItems.POWERFUL_SHARDS.containsKey(type)) throw new IllegalArgumentException(ERROR_MESSAGE);
+        return ECItems.POWERFUL_SHARDS.get(type).get();
     }
 
     public static Item getDisplacementPlate(ElementType type) {
-        return switch (type) {
-            case AIR -> ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE.get().asItem();
-            case EARTH -> ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE.get().asItem();
-            case FIRE -> ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE.get().asItem();
-            case WATER -> ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE.get().asItem();
-            default -> throw new IllegalArgumentException(ERROR_MESSAGE);
-        };
+        if (!ECBlocks.SOURCE_DISPLACEMENT_PLATES.containsKey(type)) throw new IllegalArgumentException(ERROR_MESSAGE);
+        return ECBlocks.SOURCE_DISPLACEMENT_PLATES.get(type).get().asItem();
     }
 }

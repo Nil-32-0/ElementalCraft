@@ -6,6 +6,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.BlockEntityGameTestHelper;
 import sirttas.elementalcraft.container.ContainerGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -32,7 +33,7 @@ public class OrderedSorterGameTests {
         sorter.transfer();
         assertThat(targetChest)
                 .isNotEmpty()
-                .satisfies(0, s -> assertThat(s).is(ECItems.PRISTINE_FIRE_GEM).hasCount(2))
+                .satisfies(0, s -> assertThat(s).is(ECItems.PRISTINE_GEMS.get(ElementType.FIRE)).hasCount(2))
                 .satisfies(1, s -> assertThat(s).is(Items.COAL_BLOCK).hasCount(1));
         helper.succeed();
     }

@@ -45,21 +45,23 @@ public class ECChestLoot implements LootTableSubProvider {
 	}
 
 	private static LootTable.Builder createInject() {
-		return LootTable.lootTable().withPool(createBase(UniformGenerator.between(0, 2))
-				.add(LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 5))).setWeight(20))
-				.add(LootItem.lootTableItem(ECItems.FIRE_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.EARTH_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.WATER_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.AIR_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.FIRE_SHARD.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.WATER_SHARD.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.EARTH_SHARD.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.AIR_SHARD.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.POWERFUL_FIRE_SHARD.get()).setWeight(2))
-				.add(LootItem.lootTableItem(ECItems.POWERFUL_WATER_SHARD.get()).setWeight(2))
-				.add(LootItem.lootTableItem(ECItems.POWERFUL_EARTH_SHARD.get()).setWeight(2))
-				.add(LootItem.lootTableItem(ECItems.POWERFUL_AIR_SHARD.get()).setWeight(2))
-				.add(LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder()).setWeight(15)));
+        LootPool.Builder createdPool = createBase(UniformGenerator.between(0, 2));
+        createdPool.add(LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 5))).setWeight(20))
+                .add(LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder()).setWeight(15));
+
+        ECItems.CRYSTALS.values().forEach(crystal ->
+                createdPool.add(LootItem.lootTableItem(crystal.get()).apply(SetItemCountFunction
+                        .setCount(UniformGenerator.between(1, 3))).setWeight(10))
+        );
+        ECItems.SHARDS.values().forEach(shard ->
+                createdPool.add(LootItem.lootTableItem(shard.get()).apply(SetItemCountFunction
+                        .setCount(UniformGenerator.between(3, 8))).setWeight(5))
+        );
+        ECItems.POWERFUL_SHARDS.values().forEach(shard ->
+                createdPool.add(LootItem.lootTableItem(shard.get()).setWeight(2))
+        );
+
+		return LootTable.lootTable().withPool(createdPool);
 	}
 
 	private static LootTable.Builder createSmallAltar(ElementType type) {

@@ -19,6 +19,14 @@ import javax.annotation.Nonnull;
 
 public class CrystalItem extends ElementalItem {
 
+    public static String generateName(ElementType type) {
+        return type.getSerializedName() + "crystal";
+    }
+
+    public static String generateNameBlock(ElementType type) {
+        return generateName(type) + "_block";
+    }
+
     public CrystalItem(ElementType elementType) {
         super(elementType);
         DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {

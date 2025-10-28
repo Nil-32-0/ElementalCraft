@@ -22,10 +22,9 @@ public class LensItem extends ElementalItem {
 	
 	private static final String NAME = "lens";
 
-	public static final String NAME_FIRE = "fire_" + NAME;
-	public static final String NAME_WATER = "water_" + NAME;
-	public static final String NAME_EARTH = "earth_" + NAME;
-	public static final String NAME_AIR = "air_" + NAME;
+    public static String generateName(ElementType type) {
+        return type.getSerializedName() + "_" + NAME;
+    }
 
 	public LensItem(ElementType elementType) {
 		super(new Item.Properties()

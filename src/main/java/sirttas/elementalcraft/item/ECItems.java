@@ -60,6 +60,7 @@ import sirttas.elementalcraft.spell.SpellHelper;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECItems {
@@ -72,10 +73,13 @@ public class ECItems {
 	public static final RegistryObject<ReceptacleItem> RECEPTACLE = register(ReceptacleItem::new, ReceptacleItem.NAME);
 	public static final RegistryObject<SourceStabilizerItem> SOURCE_STABILIZER = register(SourceStabilizerItem::new, SourceStabilizerItem.NAME);
 	public static final RegistryObject<SourceAnalysisGlassItem> SOURCE_ANALYSIS_GLASS = register(SourceAnalysisGlassItem::new, SourceAnalysisGlassItem.NAME);
-	public static final RegistryObject<ElementHolderItem> FIRE_HOLDER = register(() -> new ElementHolderItem(ElementType.FIRE), ElementHolderItem.NAME_FIRE);
-	public static final RegistryObject<ElementHolderItem> WATER_HOLDER = register(() -> new ElementHolderItem(ElementType.WATER), ElementHolderItem.NAME_WATER);
-	public static final RegistryObject<ElementHolderItem> EARTH_HOLDER = register(() -> new ElementHolderItem(ElementType.EARTH), ElementHolderItem.NAME_EARTH);
-	public static final RegistryObject<ElementHolderItem> AIR_HOLDER = register(() -> new ElementHolderItem(ElementType.AIR), ElementHolderItem.NAME_AIR);
+
+    public static final Map<ElementType, RegistryObject<ElementHolderItem>> ELEMENT_HOLDERS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new ElementHolderItem(type), ElementHolderItem.generateName(type))
+            ));
+
 	public static final RegistryObject<ECItem> PURE_HOLDER_CORE = register(ECItem::new, PureElementHolderItem.NAME + "_core");
 	public static final RegistryObject<PureElementHolderItem> PURE_HOLDER = register(PureElementHolderItem::new, PureElementHolderItem.NAME);
 	public static final RegistryObject<PureOreItem> PURE_ORE = register(PureOreItem::new, PureOreItem.NAME);
@@ -108,47 +112,60 @@ public class ECItems {
 	public static final RegistryObject<ECItem> SCROLL_PAPER = register(ECItem::new, "scroll_paper");
 	public static final RegistryObject<ECItem> SPRINGALINE_SHARD = register(ECItem::new, "springaline_shard");
 	public static final RegistryObject<ECItem> SOLAR_PRISM = register(ECItem::new, "solar_prism");
-	public static final RegistryObject<CrystalItem> FIRE_CRYSTAL = register(() -> new CrystalItem(ElementType.FIRE), "firecrystal");
-	public static final RegistryObject<CrystalItem> WATER_CRYSTAL = register(() -> new CrystalItem(ElementType.WATER), "watercrystal");
-	public static final RegistryObject<CrystalItem> EARTH_CRYSTAL = register(() -> new CrystalItem(ElementType.EARTH), "earthcrystal");
-	public static final RegistryObject<CrystalItem> AIR_CRYSTAL = register(() -> new CrystalItem(ElementType.AIR), "aircrystal");
-	public static final RegistryObject<ShardItem> FIRE_SHARD = register(() -> new ShardItem(ElementType.FIRE), ShardItem.NAME_FIRE);
-	public static final RegistryObject<ShardItem> WATER_SHARD = register(() -> new ShardItem(ElementType.WATER), ShardItem.NAME_WATER);
-	public static final RegistryObject<ShardItem> EARTH_SHARD = register(() -> new ShardItem(ElementType.EARTH), ShardItem.NAME_EARTH);
-	public static final RegistryObject<ShardItem> AIR_SHARD = register(() -> new ShardItem(ElementType.AIR), ShardItem.NAME_AIR);
-	public static final RegistryObject<ShardItem> POWERFUL_FIRE_SHARD = register(() -> new ShardItem(ElementType.FIRE, 9), ShardItem.NAME_FIRE_POWERFUL);
-	public static final RegistryObject<ShardItem> POWERFUL_WATER_SHARD = register(() -> new ShardItem(ElementType.WATER, 9), ShardItem.NAME_WATER_POWERFUL);
-	public static final RegistryObject<ShardItem> POWERFUL_EARTH_SHARD = register(() -> new ShardItem(ElementType.EARTH, 9), ShardItem.NAME_EARTH_POWERFUL);
-	public static final RegistryObject<ShardItem> POWERFUL_AIR_SHARD = register(() -> new ShardItem(ElementType.AIR, 9), ShardItem.NAME_AIR_POWERFUL);
-	public static final RegistryObject<ElementalItem> CRUDE_FIRE_GEM = register(() -> new ElementalItem(ElementType.FIRE), "crude_fire_gem");
-	public static final RegistryObject<ElementalItem> CRUDE_WATER_GEM = register(() -> new ElementalItem(ElementType.WATER), "crude_water_gem");
-	public static final RegistryObject<ElementalItem> CRUDE_EARTH_GEM = register(() -> new ElementalItem(ElementType.EARTH), "crude_earth_gem");
-	public static final RegistryObject<ElementalItem> CRUDE_AIR_GEM = register(() -> new ElementalItem(ElementType.AIR), "crude_air_gem");
-	public static final RegistryObject<ElementalItem> FINE_FIRE_GEM = register(() -> new ElementalItem(ElementType.FIRE), "fine_fire_gem");
-	public static final RegistryObject<ElementalItem> FINE_WATER_GEM = register(() -> new ElementalItem(ElementType.WATER), "fine_water_gem");
-	public static final RegistryObject<ElementalItem> FINE_EARTH_GEM = register(() -> new ElementalItem(ElementType.EARTH), "fine_earth_gem");
-	public static final RegistryObject<ElementalItem> FINE_AIR_GEM = register(() -> new ElementalItem(ElementType.AIR), "fine_air_gem");
-	public static final RegistryObject<ElementalItem> PRISTINE_FIRE_GEM = register(() -> new ElementalItem(ElementType.FIRE), "pristine_fire_gem");
-	public static final RegistryObject<ElementalItem> PRISTINE_WATER_GEM = register(() -> new ElementalItem(ElementType.WATER), "pristine_water_gem");
-	public static final RegistryObject<ElementalItem> PRISTINE_EARTH_GEM = register(() -> new ElementalItem(ElementType.EARTH), "pristine_earth_gem");
-	public static final RegistryObject<ElementalItem> PRISTINE_AIR_GEM = register(() -> new ElementalItem(ElementType.AIR), "pristine_air_gem");
-	public static final RegistryObject<LensItem> FIRE_LENS = register(() -> new LensItem(ElementType.FIRE), LensItem.NAME_FIRE);
-	public static final RegistryObject<LensItem> WATER_LENS = register(() -> new LensItem(ElementType.WATER), LensItem.NAME_WATER);
-	public static final RegistryObject<LensItem> EARTH_LENS = register(() -> new LensItem(ElementType.EARTH), LensItem.NAME_EARTH);
-	public static final RegistryObject<LensItem> AIR_LENS = register(() -> new LensItem(ElementType.AIR), LensItem.NAME_AIR);
+
+    public static final Map<ElementType, RegistryObject<CrystalItem>> CRYSTALS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new CrystalItem(type), CrystalItem.generateName(type))
+            ));
+    public static final Map<ElementType, RegistryObject<ShardItem>> SHARDS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new ShardItem(type), ShardItem.generateName(type))
+            ));
+    public static final Map<ElementType, RegistryObject<ShardItem>> POWERFUL_SHARDS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new ShardItem(type, 9), ShardItem.generateNamePowerful(type))
+            ));
+    public static final Map<ElementType, RegistryObject<ElementalItem>> CRUDE_GEMS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new ElementalItem(type), "crude_" + type.getSerializedName() + "_gem")
+            ));
+    public static final Map<ElementType, RegistryObject<ElementalItem>> FINE_GEMS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new ElementalItem(type), "fine_" + type.getSerializedName() + "_gem")
+            ));
+    public static final Map<ElementType, RegistryObject<ElementalItem>> PRISTINE_GEMS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new ElementalItem(type), "pristine_" + type.getSerializedName() + "_gem")
+            ));
+    public static final Map<ElementType, RegistryObject<LensItem>> LENSES = ElementType.getElementsTier(1).stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new LensItem(type), LensItem.generateName(type))
+            ));
+
 	public static final RegistryObject<ECItem> MINOR_RUNE_SLATE = register(ECItem::new, "minor_rune_slate");
 	public static final RegistryObject<ECItem> RUNE_SLATE = register(ECItem::new, "rune_slate");
 	public static final RegistryObject<ECItem> MAJOR_RUNE_SLATE = register(ECItem::new, "major_rune_slate");
 	public static final RegistryObject<ECItem> UNSET_JEWEL = register(ECItem::new, "unset_jewel");
 	public static final RegistryObject<JewelItem> JEWEL = register(JewelItem::new, JewelItem.NAME);
-	public static final RegistryObject<ElementalItem> ARTIFICIAL_FIRE_SOURCE_SEED = register(() -> new ElementalItem(ElementType.FIRE), "artificial_fire_source_seed");
-	public static final RegistryObject<ElementalItem> ARTIFICIAL_WATER_SOURCE_SEED = register(() -> new ElementalItem(ElementType.WATER), "artificial_water_source_seed");
-	public static final RegistryObject<ElementalItem> ARTIFICIAL_EARTH_SOURCE_SEED = register(() -> new ElementalItem(ElementType.EARTH), "artificial_earth_source_seed");
-	public static final RegistryObject<ElementalItem> ARTIFICIAL_AIR_SOURCE_SEED = register(() -> new ElementalItem(ElementType.AIR), "artificial_air_source_seed");
-	public static final RegistryObject<ElementalItem> NATURAL_FIRE_SOURCE_SEED = register(() -> new ElementalItem(ElementType.FIRE), "natural_fire_source_seed");
-	public static final RegistryObject<ElementalItem> NATURAL_WATER_SOURCE_SEED = register(() -> new ElementalItem(ElementType.WATER), "natural_water_source_seed");
-	public static final RegistryObject<ElementalItem> NATURAL_EARTH_SOURCE_SEED = register(() -> new ElementalItem(ElementType.EARTH), "natural_earth_source_seed");
-	public static final RegistryObject<ElementalItem> NATURAL_AIR_SOURCE_SEED = register(() -> new ElementalItem(ElementType.AIR), "natural_air_source_seed");
+
+    public static final Map<ElementType, RegistryObject<ElementalItem>> ARTIFICIAL_SOURCE_SEEDS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new ElementalItem(type), "artificial_" + type.getSerializedName() + "_source_seed")
+            ));
+    public static final Map<ElementType, RegistryObject<ElementalItem>> NATURAL_SOURCE_SEEDS = ElementType.getElementsTier(1).stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(() -> new ElementalItem(type), "natural_" + type.getSerializedName() + "_source_seed")
+            ));
+
 	public static final RegistryObject<SpellEffectItem> REPAIR_HAMMER = register(SpellEffectItem::new, "repair_hammer");
 
 
@@ -210,7 +227,9 @@ public class ECItems {
 			return colors != null && l < colors.length ? colors[l] : -1;
 		}, PURE_ORE.get());
 		event.register((s, l) -> l == 0 ? -1 : SpellHelper.getSpell(s).getColor(), SCROLL.get());
-		event.register((s, l) -> l == 0 ? -1 : ((ElementHolderItem) s.getItem()).getElementType().getColor(), FIRE_HOLDER.get(), WATER_HOLDER.get(), EARTH_HOLDER.get(), AIR_HOLDER.get());
+        ELEMENT_HOLDERS.values().forEach(holder ->
+                event.register((s, l) -> l == 0 ? -1 : ((ElementHolderItem) s.getItem()).getElementType().getColor(), holder.get())
+        );
 	}
 
 	private static <T extends PipeUpgrade> RegistryObject<PipeUpgradeItem> register(RegistryObject<PipeUpgradeType<T>> pipeUpgrade) {

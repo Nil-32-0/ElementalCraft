@@ -72,7 +72,15 @@ public class ECBlockEntityTypes {
 
     public static final RegistryObject<BlockEntityType<SourceBlockEntity>> SOURCE = register(SourceBlockEntity::new, ECBlocks.SOURCE);
     public static final RegistryObject<BlockEntityType<ElementContainerBlockEntity>> CONTAINER = register(() -> builder(ElementContainerBlockEntity::new, ECBlocks.CONTAINER, ECBlocks.SMALL_CONTAINER), ElementContainerBlock.NAME);
-    public static final RegistryObject<BlockEntityType<ReservoirBlockEntity>> RESERVOIR = register(() -> builder(ReservoirBlockEntity::new, ECBlocks.FIRE_RESERVOIR,ECBlocks. WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR), ReservoirBlock.NAME);
+
+    public static final RegistryObject<BlockEntityType<ReservoirBlockEntity>> RESERVOIR = register(() ->
+            BlockEntityType.Builder.of(
+                ReservoirBlockEntity::new,
+                ECBlocks.RESERVOIRS.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+            ),
+            ReservoirBlock.NAME
+    );
+
     public static final RegistryObject<BlockEntityType<CreativeElementContainerBlockEntity>> CREATIVE_CONTAINER = register(CreativeElementContainerBlockEntity::new, ECBlocks.CREATIVE_CONTAINER);
     public static final RegistryObject<BlockEntityType<ExtractorBlockEntity>> EXTRACTOR = register(() -> builder(ExtractorBlockEntity::new, ECBlocks.EXTRACTOR, ECBlocks.EXTRACTOR_IMPROVED), ExtractorBlock.NAME);
     public static final RegistryObject<BlockEntityType<EvaporatorBlockEntity>> EVAPORATOR = register(EvaporatorBlockEntity::new, ECBlocks.EVAPORATOR);
@@ -114,7 +122,14 @@ public class ECBlockEntityTypes {
     public static final RegistryObject<BlockEntityType<TranslocationShrineUpgradeBlockEntity>> TRANSLOCATION_SHRINE_UPGRADE = register(TranslocationShrineUpgradeBlockEntity::new, ECBlocks.TRANSLOCATION_SHRINE_UPGRADE);
     public static final RegistryObject<BlockEntityType<VortexShrineUpgradeBlockEntity>> VORTEX_SHRINE_UPGRADE = register(VortexShrineUpgradeBlockEntity::new, ECBlocks.VORTEX_SHRINE_UPGRADE);
     public static final RegistryObject<BlockEntityType<SorterBlockEntity>> SORTER = register(SorterBlockEntity::new, ECBlocks.SORTER);
-    public static final RegistryObject<BlockEntityType<SourceDisplacementPlateBlockEntity>> SOURCE_DISPLACEMENT_PLATE = register(() -> builder(SourceDisplacementPlateBlockEntity::new, ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE, ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE, ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE, ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE), SourceDisplacementPlateBlock.NAME);
+
+    public static final RegistryObject<BlockEntityType<SourceDisplacementPlateBlockEntity>> SOURCE_DISPLACEMENT_PLATE = register(() ->
+            BlockEntityType.Builder.of(
+                SourceDisplacementPlateBlockEntity::new,
+                ECBlocks.SOURCE_DISPLACEMENT_PLATES.values().stream().map(RegistryObject::get).toArray(Block[]::new)
+            ),
+            SourceDisplacementPlateBlock.NAME
+    );
 
     public static final RegistryObject<BlockEntityType<SourceBreederBlockEntity>> SOURCE_BREEDER = register(SourceBreederBlockEntity::new, ECBlocks.SOURCE_BREEDER);
     public static final RegistryObject<BlockEntityType<SourceBreederPedestalBlockEntity>> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlockEntity::new, ECBlocks.SOURCE_BREEDER_PEDESTAL);

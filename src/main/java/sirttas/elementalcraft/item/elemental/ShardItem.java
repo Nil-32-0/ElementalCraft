@@ -7,15 +7,13 @@ public class ShardItem extends ElementalItem {
 	private static final String NAME = "shard";
 	private static final String POWERFUL = "powerful_";
 
-	public static final String NAME_FIRE = "fire_" + NAME;
-	public static final String NAME_WATER = "water_" + NAME;
-	public static final String NAME_EARTH = "earth_" + NAME;
-	public static final String NAME_AIR = "air_" + NAME;
+    public static String generateName(ElementType type) {
+        return type.getSerializedName() + "_" + NAME;
+    }
 
-	public static final String NAME_FIRE_POWERFUL = POWERFUL + NAME_FIRE;
-	public static final String NAME_WATER_POWERFUL = POWERFUL + NAME_WATER;
-	public static final String NAME_EARTH_POWERFUL = POWERFUL + NAME_EARTH;
-	public static final String NAME_AIR_POWERFUL = POWERFUL + NAME_AIR;
+    public static String generateNamePowerful(ElementType type) {
+        return POWERFUL + generateName(type);
+    }
 
 	private final int elementAmount;
 

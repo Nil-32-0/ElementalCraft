@@ -50,7 +50,9 @@ public class SolarSynthesisRecipeCategory extends AbstractElementFromItemRecipeC
 	}
 
 	public static List<Ingredient> getLenses() {
-		return Lists.newArrayList(Ingredient.of(ECItems.FIRE_LENS.get()), Ingredient.of(ECItems.WATER_LENS.get()), Ingredient.of(ECItems.EARTH_LENS.get()), Ingredient.of(ECItems.AIR_LENS.get()));
+        return Lists.newArrayList(ECItems.LENSES.values().stream().map(
+                lens -> Ingredient.of(lens.get())
+        ).toList());
 	}
 
 }

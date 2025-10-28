@@ -102,8 +102,10 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		useNbtForSubtypes(registry, ECItems.RUNE);
 		useNbtForSubtypes(registry, ECItems.JEWEL);
 		useNbtForSubtypes(registry, ECBlocks.CONTAINER, ECBlocks.SMALL_CONTAINER, ECBlocks.CREATIVE_CONTAINER);
-		useNbtForSubtypes(registry, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR);
-		useNbtForSubtypes(registry, ECItems.FIRE_HOLDER, ECItems.WATER_HOLDER, ECItems.EARTH_HOLDER, ECItems.AIR_HOLDER, ECItems.PURE_HOLDER);
+
+        ECBlocks.RESERVOIRS.values().forEach(reservoir -> useNbtForSubtypes(registry, reservoir));
+        ECItems.ELEMENT_HOLDERS.values().forEach(holder -> useNbtForSubtypes(registry, holder));
+        useNbtForSubtypes(registry, ECItems.PURE_HOLDER);
 
 		if (!ECinteractions.isBotaniaActive()) {
 			excludeSubtypes(registry, ECBlocks.MANA_SYNTHESIZER, ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE);
@@ -173,11 +175,12 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.WATER_MILL_WOOD_SAW.get()), ECJEIRecipeTypes.SAWING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL_WOOD_SAW.get()), ECJEIRecipeTypes.SAWING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPELL_DESK.get()), ECJEIRecipeTypes.SPELL_CRAFTING);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BUDDING_SHRINE.get()), ECJEIRecipeTypes.BUDDING_SHRINE);
+
+        ECBlocks.SOURCE_DISPLACEMENT_PLATES.values().forEach(plate ->
+                registry.addRecipeCatalyst(new ItemStack(plate.get()), ECJEIRecipeTypes.DISPLACEMENT)
+        );
+
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.BUDDING_SHRINE.get()), ECJEIRecipeTypes.BUDDING_SHRINE);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.LAVA_SHRINE.get()), ECJEIRecipeTypes.LAVA_SHRINE);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPRING_SHRINE.get()), ECJEIRecipeTypes.SPRING_SHRINE);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
@@ -222,16 +225,9 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.LAVA_SHRINE, List.of(ECBlocks.LAVA_SHRINE.get()));
 		registry.addRecipes(ECJEIRecipeTypes.SPRING_SHRINE, List.of(ECBlocks.SPRING_SHRINE.get()));
 		registry.addRecipes(ECJEIRecipeTypes.CRYSTAL_THROWING, ElementType.ALL_VALID);
-		registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, List.of(
-				ECItems.ARTIFICIAL_FIRE_SOURCE_SEED.get(),
-				ECItems.ARTIFICIAL_WATER_SOURCE_SEED.get(),
-				ECItems.ARTIFICIAL_EARTH_SOURCE_SEED.get(),
-				ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get(),
-				ECItems.NATURAL_FIRE_SOURCE_SEED.get(),
-				ECItems.NATURAL_WATER_SOURCE_SEED.get(),
-				ECItems.NATURAL_EARTH_SOURCE_SEED.get(),
-				ECItems.NATURAL_AIR_SOURCE_SEED.get())
-		);
+
+        registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, ECItems.ARTIFICIAL_SOURCE_SEEDS.values().stream().map(RegistryObject::get).toList());
+        registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, ECItems.NATURAL_SOURCE_SEEDS.values().stream().map(RegistryObject::get).toList());
 	}
 
 	private List<IJeiAnvilRecipe> createCastToolsAnvilRecipes(IVanillaRecipeFactory factory) {

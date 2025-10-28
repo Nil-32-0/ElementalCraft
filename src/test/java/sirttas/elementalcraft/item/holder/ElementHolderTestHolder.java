@@ -14,22 +14,17 @@ import sirttas.elementalcraft.item.ECItems;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 public record ElementHolderTestHolder(
         ElementType type,
         RegistryObject< ? extends AbstractElementHolderItem> item
 ) {
 
-    public static final List<ElementHolderTestHolder> HOLDERS = List.of(
-            of(ElementType.FIRE, ECItems.FIRE_HOLDER),
-            of(ElementType.WATER, ECItems.WATER_HOLDER),
-            of(ElementType.EARTH, ECItems.EARTH_HOLDER),
-            of(ElementType.AIR, ECItems.AIR_HOLDER),
-            of(ElementType.FIRE, ECItems.PURE_HOLDER),
-            of(ElementType.WATER, ECItems.PURE_HOLDER),
-            of(ElementType.EARTH, ECItems.PURE_HOLDER),
-            of(ElementType.AIR, ECItems.PURE_HOLDER)
-    );
+    public static final List<ElementHolderTestHolder> HOLDERS = Stream.concat(
+            ElementType.ALL_VALID.stream().map(type -> of(type, ECItems.ELEMENT_HOLDERS.get(type))),
+             ElementType.ALL_VALID.stream().map(type -> of(type, ECItems.PURE_HOLDER))
+    ).toList();
 
     public static final String BATCH_NAME = "element_holder";
 

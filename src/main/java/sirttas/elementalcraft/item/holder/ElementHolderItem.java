@@ -20,10 +20,10 @@ import javax.annotation.Nullable;
 public class ElementHolderItem extends AbstractElementHolderItem implements ISourceInteractable, IElementTypeProvider {
 
 	public static final String NAME = "element_holder";
-	public static final String NAME_FIRE = NAME + "_fire";
-	public static final String NAME_WATER = NAME + "_water";
-	public static final String NAME_EARTH = NAME + "_earth";
-	public static final String NAME_AIR = NAME + "_air";
+
+    public static String generateName(ElementType type) {
+        return NAME + "_" + type.getSerializedName();
+    }
 
 	private final ElementType elementType;
 

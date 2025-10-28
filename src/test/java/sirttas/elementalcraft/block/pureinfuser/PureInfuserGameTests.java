@@ -66,10 +66,10 @@ public class PureInfuserGameTests {
 
         helper.startSequence().thenExecute(() -> {
             pureInfuserItemHandler.insertItem(0, new ItemStack(Items.DIAMOND), false);
-            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.FIRE_CRYSTAL.get()), false);
-            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_CRYSTAL.get()), false);
-            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL.get()), false);
-            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL.get()), false);
+            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.CRYSTALS.get(ElementType.FIRE).get()), false);
+            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.CRYSTALS.get(ElementType.WATER).get()), false);
+            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.CRYSTALS.get(ElementType.EARTH).get()), false);
+            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.CRYSTALS.get(ElementType.AIR).get()), false);
 
             firePedestalElementStorage.fill();
             waterPedestalElementStorage.fill();
@@ -136,10 +136,10 @@ public class PureInfuserGameTests {
 
         helper.startSequence().thenExecute(() -> {
             pureInfuserItemHandler.insertItem(0, new ItemStack(Items.DIAMOND), false);
-            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.FIRE_CRYSTAL.get()), false);
-            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_CRYSTAL.get()), false);
-            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL.get()), false);
-            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL.get()), false);
+            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.CRYSTALS.get(ElementType.FIRE).get()), false);
+            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.CRYSTALS.get(ElementType.WATER).get()), false);
+            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.CRYSTALS.get(ElementType.EARTH).get()), false);
+            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.CRYSTALS.get(ElementType.AIR).get()), false);
 
             firePedestalElementStorage.fill();
             waterPedestalElementStorage.fill();

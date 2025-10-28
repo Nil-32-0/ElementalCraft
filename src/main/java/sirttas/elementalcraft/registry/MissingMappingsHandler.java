@@ -8,6 +8,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.MissingMappingsEvent;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
@@ -28,10 +29,10 @@ public class MissingMappingsHandler {
 			Map.entry("inertcrystal", "inert_crystal"),
 			Map.entry("crystalore", "inert_crystal_ore"),
 			Map.entry("containedcrystal", "contained_crystal"),
-			Map.entry("fire_lense", LensItem.NAME_FIRE),
-			Map.entry("water_lense", LensItem.NAME_WATER),
-			Map.entry("earth_lense", LensItem.NAME_EARTH),
-			Map.entry("air_lense", LensItem.NAME_AIR),
+			Map.entry("fire_lense", LensItem.generateName(ElementType.FIRE)),
+			Map.entry("water_lense", LensItem.generateName(ElementType.WATER)),
+			Map.entry("earth_lense", LensItem.generateName(ElementType.EARTH)),
+			Map.entry("air_lense", LensItem.generateName(ElementType.AIR)),
 			Map.entry("elementpipe_priority", PipePriorityRingsPipeUpgrade.NAME));
 
 	private MissingMappingsHandler() {}

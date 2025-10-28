@@ -32,11 +32,11 @@ import javax.annotation.Nullable;
 public class SourceDisplacementPlateBlock extends AbstractECEntityBlock implements IElementTypeProvider {
 
     public static final String NAME = "source_displacement_plate";
-    public static final String NAME_FIRE = NAME + "_fire";
-    public static final String NAME_WATER = NAME + "_water";
-    public static final String NAME_EARTH = NAME + "_earth";
-    public static final String NAME_AIR = NAME + "_air";
     private static final VoxelShape SHAPE = Shapes.or(ECShapes.SOURCE_DISPLACEMENT_PLATE_SHAPE, Block.box(5D, 3D, 5D, 11D, 4D, 11D));
+
+    public static String generateName(ElementType type) {
+        return NAME + "_" + type.getSerializedName();
+    }
 
     private final ElementType elementType;
 

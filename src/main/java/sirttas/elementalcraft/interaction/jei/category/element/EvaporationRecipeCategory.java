@@ -49,8 +49,7 @@ public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCate
 	}
 
 	public static List<Ingredient> getShards() {
-		return Lists.newArrayList(Ingredient.of(ECTags.Items.FIRE_SHARDS), Ingredient.of(ECTags.Items.WATER_SHARDS), Ingredient.of(ECTags.Items.EARTH_SHARDS),
-				Ingredient.of(ECTags.Items.AIR_SHARDS));
+        return Lists.newArrayList(ECTags.Items.ELEMENTAL_SHARDS.values().stream().map(Ingredient::of).toList());
 	}
 
 }

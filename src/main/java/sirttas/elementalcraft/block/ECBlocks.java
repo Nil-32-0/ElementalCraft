@@ -91,9 +91,12 @@ import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacement
 import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
 import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlock;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlock;
+import sirttas.elementalcraft.item.elemental.CrystalItem;
 import sirttas.elementalcraft.property.ECProperties;
 
+import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ECBlocks {
 
@@ -103,10 +106,13 @@ public class ECBlocks {
 
 	public static final RegistryObject<SmallElementContainerBlock> SMALL_CONTAINER = register(SmallElementContainerBlock.NAME, SmallElementContainerBlock::new);
 	public static final RegistryObject<ElementContainerBlock> CONTAINER = register(ElementContainerBlock.NAME, ElementContainerBlock::new);
-	public static final RegistryObject<ReservoirBlock> FIRE_RESERVOIR = register(ReservoirBlock.NAME_FIRE, () -> new ReservoirBlock(ElementType.FIRE));
-	public static final RegistryObject<ReservoirBlock> WATER_RESERVOIR = register(ReservoirBlock.NAME_WATER, () -> new ReservoirBlock(ElementType.WATER));
-	public static final RegistryObject<ReservoirBlock> EARTH_RESERVOIR = register(ReservoirBlock.NAME_EARTH, () -> new ReservoirBlock(ElementType.EARTH));
-	public static final RegistryObject<ReservoirBlock> AIR_RESERVOIR = register(ReservoirBlock.NAME_AIR, () -> new ReservoirBlock(ElementType.AIR));
+
+    public static final Map<ElementType, RegistryObject<ReservoirBlock>> RESERVOIRS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(ReservoirBlock.generateName(type), () -> new ReservoirBlock(type))
+            ));
+
 	public static final RegistryObject<CreativeElementContainerBlock> CREATIVE_CONTAINER = register(CreativeElementContainerBlock.NAME, CreativeElementContainerBlock::new);
 	public static final RegistryObject<ExtractorBlock> EXTRACTOR = register(ExtractorBlock.NAME, ExtractorBlock::new);
 	public static final RegistryObject<ImprovedExtractorBlock> EXTRACTOR_IMPROVED = register(ImprovedExtractorBlock.NAME, ImprovedExtractorBlock::new);
@@ -176,10 +182,13 @@ public class ECBlocks {
 	public static final RegistryObject<CrystalGrowthShrineUpgradeBlock> CRYSTAL_GROWTH_SHRINE_UPGRADE = register(CrystalGrowthShrineUpgradeBlock.NAME, CrystalGrowthShrineUpgradeBlock::new);
 	public static final RegistryObject<TranslocationShrineUpgradeBlock> TRANSLOCATION_SHRINE_UPGRADE = register(TranslocationShrineUpgradeBlock.NAME, TranslocationShrineUpgradeBlock::new);
 	public static final RegistryObject<SourceBlock> SOURCE = register(SourceBlock.NAME, SourceBlock::new);
-	public static final RegistryObject<SourceDisplacementPlateBlock> FIRE_SOURCE_DISPLACEMENT_PLATE = register(SourceDisplacementPlateBlock.NAME_FIRE, () -> new SourceDisplacementPlateBlock(ElementType.FIRE));
-	public static final RegistryObject<SourceDisplacementPlateBlock> WATER_SOURCE_DISPLACEMENT_PLATE = register(SourceDisplacementPlateBlock.NAME_WATER, () -> new SourceDisplacementPlateBlock(ElementType.WATER));
-	public static final RegistryObject<SourceDisplacementPlateBlock> EARTH_SOURCE_DISPLACEMENT_PLATE = register(SourceDisplacementPlateBlock.NAME_EARTH, () -> new SourceDisplacementPlateBlock(ElementType.EARTH));
-	public static final RegistryObject<SourceDisplacementPlateBlock> AIR_SOURCE_DISPLACEMENT_PLATE = register(SourceDisplacementPlateBlock.NAME_AIR, () -> new SourceDisplacementPlateBlock(ElementType.AIR));
+
+    public static final Map<ElementType, RegistryObject<SourceDisplacementPlateBlock>> SOURCE_DISPLACEMENT_PLATES = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> register(SourceDisplacementPlateBlock.generateName(type), () -> new SourceDisplacementPlateBlock(type))
+            ));
+
 	public static final RegistryObject<BrokenSourceDisplacementPlateBlock> BROKEN_SOURCE_DISPLACEMENT_PLATE = register(BrokenSourceDisplacementPlateBlock.NAME, BrokenSourceDisplacementPlateBlock::new);
 	public static final RegistryObject<SourceBreederBlock> SOURCE_BREEDER = register(SourceBreederBlock.NAME, SourceBreederBlock::new);
 	public static final RegistryObject<SourceBreederPedestalBlock> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlock.NAME, SourceBreederPedestalBlock::new);
@@ -216,10 +225,13 @@ public class ECBlocks {
 	public static final RegistryObject<Block> SWIFT_ALLOY_BLOCK = registerSimple("swift_alloy_block", BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK));
 	public static final RegistryObject<Block> FIREITE_BLOCK = registerSimple("fireite_block", BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK));
 	public static final RegistryObject<Block> INERT_CRYSTAL_BLOCK = registerSimple("inertcrystal_block");
-	public static final RegistryObject<Block>FIRE_CRYSTAL_BLOCK = registerSimple("firecrystal_block");
-	public static final RegistryObject<Block> WATER_CRYSTAL_BLOCK = registerSimple("watercrystal_block");
-	public static final RegistryObject<Block> EARTH_CRYSTAL_BLOCK = registerSimple("earthcrystal_block");
-	public static final RegistryObject<Block> AIR_CRYSTAL_BLOCK = registerSimple("aircrystal_block");
+
+    public static final Map<ElementType, RegistryObject<Block>> CRYSTAL_BLOCKS = ElementType.ALL_VALID.stream()
+            .collect(Collectors.toMap(
+                    type -> type,
+                    type -> registerSimple(CrystalItem.generateNameBlock(type))
+            ));
+
 	public static final RegistryObject<AmethystBlock> SPRINGALINE_BLOCK = register("springaline_block", () -> new AmethystBlock(BlockBehaviour.Properties.copy(Blocks.AMETHYST_BLOCK)));
 	public static final RegistryObject<AmethystClusterBlock> SPRINGALINE_CLUSTER = register("springaline_cluster", () -> new AmethystClusterBlock(7, 3, BlockBehaviour.Properties.copy(Blocks.AMETHYST_CLUSTER)));
 	public static final RegistryObject<AmethystClusterBlock> LARGE_SPRINGALINE_BUD = register("large_springaline_bud", () -> new AmethystClusterBlock(5, 3, BlockBehaviour.Properties.copy(Blocks.LARGE_AMETHYST_BUD)));

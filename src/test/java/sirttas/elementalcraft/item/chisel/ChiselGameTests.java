@@ -17,6 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
@@ -44,7 +45,7 @@ public class ChiselGameTests {
         itemHandler.insertItem(0, new ItemStack(ECItems.MAJOR_RUNE_SLATE.get()), false);
         itemHandler.insertItem(1, new ItemStack(Items.COAL_BLOCK), false);
         itemHandler.insertItem(2, new ItemStack(Items.COAL_BLOCK), false);
-        itemHandler.insertItem(3, new ItemStack(ECItems.PRISTINE_FIRE_GEM.get()), false);
+        itemHandler.insertItem(3, new ItemStack(ECItems.PRISTINE_GEMS.get(ElementType.FIRE).get()), false);
 
         for (int i = 0; i < 9; i++) {
             state.use(helper.getLevel(), player, InteractionHand.MAIN_HAND, new BlockHitResult(Vec3.atCenterOf(pos), Direction.NORTH, pos, true));

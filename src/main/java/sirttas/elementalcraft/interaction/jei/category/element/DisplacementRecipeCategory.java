@@ -24,7 +24,7 @@ public class DisplacementRecipeCategory extends AbstractECRecipeCategory<Element
 
 
 	public DisplacementRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.displacement", createDrawableStack(guiHelper, new ItemStack(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE.get())), guiHelper.createBlankDrawable(64, 32));
+		super("elementalcraft.jei.displacement", createDrawableStack(guiHelper, new ItemStack(ECBlocks.SOURCE_DISPLACEMENT_PLATES.get(ElementType.FIRE).get())), guiHelper.createBlankDrawable(64, 32));
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 21, 19);
 	}
 

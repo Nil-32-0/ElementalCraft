@@ -12,10 +12,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.interaction.curios.CuriosConstants;
 
+import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ECTags {
 	
@@ -50,27 +53,33 @@ public class ECTags {
 		public static final TagKey<Item> SHARDS = createTag("shards");
 		public static final TagKey<Item> DEFAULT_SHARDS = createTag("shards/default");
 		public static final TagKey<Item> POWERFUL_SHARDS = createTag("shards/powerful");
-		public static final TagKey<Item> FIRE_SHARDS = createTag("shards/fire");
-		public static final TagKey<Item> WATER_SHARDS = createTag("shards/water");
-		public static final TagKey<Item> EARTH_SHARDS = createTag("shards/earth");
-		public static final TagKey<Item> AIR_SHARDS = createTag("shards/air");
 
-		public static final TagKey<Item> CRUDE_FIRE_GEMS = createTag("gems/crude_fire");
-		public static final TagKey<Item> CRUDE_WATER_GEMS = createTag("gems/crude_water");
-		public static final TagKey<Item> CRUDE_EARTH_GEMS = createTag("gems/crude_earth");
-		public static final TagKey<Item> CRUDE_AIR_GEMS = createTag("gems/crude_air");
-		public static final TagKey<Item> FINE_FIRE_GEMS = createTag("gems/fine_fire");
-		public static final TagKey<Item> FINE_WATER_GEMS = createTag("gems/fine_water");
-		public static final TagKey<Item> FINE_EARTH_GEMS = createTag("gems/fine_earth");
-		public static final TagKey<Item> FINE_AIR_GEMS = createTag("gems/fine_air");
-		public static final TagKey<Item> PRISTINE_FIRE_GEMS = createTag("gems/pristine_fire");
-		public static final TagKey<Item> PRISTINE_WATER_GEMS = createTag("gems/pristine_water");
-		public static final TagKey<Item> PRISTINE_EARTH_GEMS = createTag("gems/pristine_earth");
-		public static final TagKey<Item> PRISTINE_AIR_GEMS = createTag("gems/pristine_air");
-		public static final TagKey<Item> INPUT_FIRE_GEMS = createTag("gems/input_fire");
-		public static final TagKey<Item> INPUT_WATER_GEMS = createTag("gems/input_water");
-		public static final TagKey<Item> INPUT_EARTH_GEMS = createTag("gems/input_earth");
-		public static final TagKey<Item> INPUT_AIR_GEMS = createTag("gems/input_air");
+        public static final Map<ElementType, TagKey<Item>> ELEMENTAL_SHARDS = ElementType.ALL_VALID.stream()
+                .collect(Collectors.toMap(
+                        type -> type,
+                        type -> createTag("shards/"+type.getSerializedName())
+                ));
+        public static final Map<ElementType, TagKey<Item>> CRUDE_GEMS = ElementType.ALL_VALID.stream()
+                .collect(Collectors.toMap(
+                        type -> type,
+                        type -> createTag("gems/crude_"+type.getSerializedName())
+                ));
+        public static final Map<ElementType, TagKey<Item>> FINE_GEMS = ElementType.ALL_VALID.stream()
+                .collect(Collectors.toMap(
+                        type -> type,
+                        type -> createTag("gems/fine_"+type.getSerializedName())
+                ));
+        public static final Map<ElementType, TagKey<Item>> PRISTINE_GEMS = ElementType.ALL_VALID.stream()
+                .collect(Collectors.toMap(
+                        type -> type,
+                        type -> createTag("gems/pristine_"+type.getSerializedName())
+                ));
+        public static final Map<ElementType, TagKey<Item>> INPUT_ELEMENTAL_GEMS = ElementType.ALL_VALID.stream()
+                .collect(Collectors.toMap(
+                        type -> type,
+                        type -> createTag("gems/input_"+type.getSerializedName())
+                ));
+
 		public static final TagKey<Item> INPUT_GEMS = createTag("gems/input");
 
 		public static final TagKey<Item> RUNE_SLATES = createTag("rune_slates");

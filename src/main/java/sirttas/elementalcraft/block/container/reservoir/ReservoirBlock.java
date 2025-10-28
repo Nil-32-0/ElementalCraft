@@ -35,10 +35,10 @@ import javax.annotation.Nullable;
 public class ReservoirBlock extends AbstractConnectedElementContainerBlock implements IElementTypeProvider {
 
 	public static final String NAME = "reservoir";
-	public static final String NAME_FIRE = NAME + "_fire";
-	public static final String NAME_WATER = NAME + "_water";
-	public static final String NAME_EARTH = NAME + "_earth";
-	public static final String NAME_AIR = NAME + "_air";
+
+    public static String generateName(ElementType type) {
+        return NAME + "_" + type.getSerializedName();
+    }
 
 	private static final VoxelShape UPPER_GLASS = Block.box(2D, 0D, 2D, 14D, 15D, 14D);
 
