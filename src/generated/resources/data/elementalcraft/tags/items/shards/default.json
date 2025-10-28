@@ -1,8 +1,10 @@
 {
   "values": [
+    "elementalcraft:air_shard",
+    "elementalcraft:entropy_shard",
     "elementalcraft:fire_shard",
-    "elementalcraft:water_shard",
     "elementalcraft:earth_shard",
-    "elementalcraft:air_shard"
+    "elementalcraft:purity_shard",
+    "elementalcraft:water_shard"
   ]
 }

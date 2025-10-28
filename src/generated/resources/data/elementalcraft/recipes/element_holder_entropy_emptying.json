@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:element_holder_entropy"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:element_holder_entropy"
+  }
+}

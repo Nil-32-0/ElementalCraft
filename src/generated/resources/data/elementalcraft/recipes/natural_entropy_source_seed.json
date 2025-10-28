@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:artificial_entropy_source_seed"
+    },
+    {
+      "type": "elementalcraft:natural_source",
+      "element_type": "entropy"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:natural_entropy_source_seed"
+  }
+}

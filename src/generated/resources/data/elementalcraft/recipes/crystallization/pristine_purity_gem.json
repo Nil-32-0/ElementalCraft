@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:crystallization",
+  "element_amount": 5000,
+  "element_type": "purity",
+  "ingredients": {
+    "crystal": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "gem": {
+      "tag": "elementalcraft:gems/input_purity"
+    },
+    "shard": []
+  },
+  "outputs": [
+    {
+      "result": {
+        "Count": 1,
+        "id": "elementalcraft:pristine_purity_gem"
+      },
+      "weight": 1.0
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_entropycrystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:entropycrystal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_entropycrystal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

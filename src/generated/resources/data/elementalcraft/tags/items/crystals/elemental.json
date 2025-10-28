@@ -1,8 +1,10 @@
 {
   "values": [
+    "elementalcraft:aircrystal",
+    "elementalcraft:entropycrystal",
     "elementalcraft:firecrystal",
-    "elementalcraft:watercrystal",
     "elementalcraft:earthcrystal",
-    "elementalcraft:aircrystal"
+    "elementalcraft:puritycrystal",
+    "elementalcraft:watercrystal"
   ]
 }

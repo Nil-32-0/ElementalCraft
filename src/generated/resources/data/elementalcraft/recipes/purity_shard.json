@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:powerful_purity_shard"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "elementalcraft:purity_shard"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:broken_source_displacement_plate"
+    },
+    {
+      "tag": "elementalcraft:gems/pristine_entropy"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:source_displacement_plate_entropy"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "elementalcraft:item/natural_purity_source_seed"
+  }
+}

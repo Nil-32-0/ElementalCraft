@@ -1,0 +1,22 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 10000,
+  "element_type": "entropy",
+  "ingredients": [
+    {
+      "item": "elementalcraft:container"
+    },
+    {
+      "item": "elementalcraft:springaline_glass"
+    },
+    {
+      "item": "elementalcraft:purecrystal"
+    },
+    {
+      "tag": "elementalcraft:gems/pristine_entropy"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:reservoir_entropy"
+  }
+}

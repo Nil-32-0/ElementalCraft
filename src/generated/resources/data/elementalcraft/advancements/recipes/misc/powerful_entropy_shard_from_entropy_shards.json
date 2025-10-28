@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_entropy_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:entropy_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementalcraft:powerful_entropy_shard_from_entropy_shards"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_entropy_shard",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementalcraft:powerful_entropy_shard_from_entropy_shards"
+    ]
+  },
+  "sends_telemetry_event": false
+}

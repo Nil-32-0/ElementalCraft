@@ -1,0 +1,22 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 2500,
+  "element_type": "entropy",
+  "ingredients": [
+    {
+      "item": "elementalcraft:springaline_shard"
+    },
+    {
+      "item": "elementalcraft:springaline_glass_pane"
+    },
+    {
+      "tag": "forge:ingots/copper"
+    },
+    {
+      "item": "elementalcraft:entropycrystal"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:entropy_lens"
+  }
+}

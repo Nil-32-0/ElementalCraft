@@ -104,6 +104,48 @@
           "type": "minecraft:item",
           "functions": [
             {
+              "function": "elementalcraft:random_spell"
+            }
+          ],
+          "name": "elementalcraft:scroll",
+          "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "elementalcraft:aircrystal",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "elementalcraft:entropycrystal",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
@@ -145,7 +187,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:watercrystal",
+          "name": "elementalcraft:puritycrystal",
           "weight": 10
         },
         {
@@ -161,7 +203,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:aircrystal",
+          "name": "elementalcraft:watercrystal",
           "weight": 10
         },
         {
@@ -177,7 +219,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:fire_shard",
+          "name": "elementalcraft:air_shard",
           "weight": 5
         },
         {
@@ -193,7 +235,23 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:water_shard",
+          "name": "elementalcraft:entropy_shard",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 3.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "elementalcraft:fire_shard",
           "weight": 5
         },
         {
@@ -225,17 +283,38 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:air_shard",
+          "name": "elementalcraft:purity_shard",
           "weight": 5
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:powerful_fire_shard",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 3.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "elementalcraft:water_shard",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:powerful_air_shard",
           "weight": 2
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:powerful_water_shard",
+          "name": "elementalcraft:powerful_entropy_shard",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:powerful_fire_shard",
           "weight": 2
         },
         {
@@ -245,18 +324,13 @@
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:powerful_air_shard",
+          "name": "elementalcraft:powerful_purity_shard",
           "weight": 2
         },
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "elementalcraft:random_spell"
-            }
-          ],
-          "name": "elementalcraft:scroll",
-          "weight": 15
+          "name": "elementalcraft:powerful_water_shard",
+          "weight": 2
         }
       ],
       "name": "main",

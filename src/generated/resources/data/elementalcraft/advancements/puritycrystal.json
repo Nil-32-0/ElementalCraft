@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_puritycrystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:puritycrystal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_puritycrystal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
