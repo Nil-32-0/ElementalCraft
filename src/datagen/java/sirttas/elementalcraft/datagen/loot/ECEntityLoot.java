@@ -16,7 +16,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
@@ -25,13 +25,15 @@ import sirttas.elementalcraft.loot.LootHandler;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ECEntityLoot extends EntityLootSubProvider {
 
-	private static final LootPool.Builder FIRE = createShardPool(ElementType.FIRE);
-	private static final LootPool.Builder EARTH = createShardPool(ElementType.EARTH);
-	private static final LootPool.Builder WATER = createShardPool(ElementType.WATER);
-	private static final LootPool.Builder AIR = createShardPool(ElementType.AIR);
+    private static final Map<ElementType, LootPool.Builder> ELEMENT_POOLS = ElementType.getElementsTier(1).stream().collect(Collectors.toMap(
+            type -> type,
+            ECEntityLoot::createShardPool
+    ));
 
 	private static final List<EntityType<?>> ENTITIES = Util.make(() -> {
 		var list = new ArrayList<EntityType<?>>(LootHandler.INJECT_LIST.size() + 1);
@@ -47,66 +49,63 @@ public class ECEntityLoot extends EntityLootSubProvider {
 
 	@Override
 	public void generate() {
-		addThrownElementCrystal(ElementType.FIRE);
-		addThrownElementCrystal(ElementType.WATER);
-		addThrownElementCrystal(ElementType.EARTH);
-		addThrownElementCrystal(ElementType.AIR);
+        ElementType.ALL_VALID.forEach(this::addThrownElementCrystal);
 
-		addInject(EARTH, EntityType.ZOMBIE);
-		addInject(EARTH, EntityType.ZOMBIE_VILLAGER);
-		addInject(EARTH, EntityType.SKELETON);
-		addInject(EARTH, EntityType.WITHER_SKELETON);
-		addInject(EARTH, EntityType.SILVERFISH);
-		addInject(EARTH, EntityType.IRON_GOLEM);
-		addInject(EARTH, EntityType.SKELETON_HORSE);
-		addInject(EARTH, EntityType.GOAT);
-		addInject(FIRE, EntityType.CREEPER);
-		addInject(FIRE, EntityType.GHAST);
-		addInject(FIRE, EntityType.BLAZE);
-		addInject(FIRE, EntityType.HUSK);
-		addInject(FIRE, EntityType.MAGMA_CUBE);
-		addInject(FIRE, EntityType.ZOMBIFIED_PIGLIN);
-		addInject(FIRE, EntityType.ZOGLIN);
-		addInject(WATER, EntityType.DROWNED);
-		addInject(WATER, EntityType.GUARDIAN);
-		addInject(WATER, EntityType.ELDER_GUARDIAN);
-		addInject(WATER, EntityType.SLIME);
-		addInject(WATER, EntityType.STRAY);
-		addInject(WATER, EntityType.SQUID);
-		addInject(WATER, EntityType.GLOW_SQUID);
-		addInject(WATER, EntityType.AXOLOTL);
-		addInject(WATER, EntityType.POLAR_BEAR);
-		addInject(WATER, EntityType.DOLPHIN);
-		addInject(WATER, EntityType.COD);
-		addInject(WATER, EntityType.SALMON);
-		addInject(WATER, EntityType.TROPICAL_FISH);
-		addInject(WATER, EntityType.PUFFERFISH);
-		addInject(AIR, EntityType.ENDERMAN);
-		addInject(AIR, EntityType.SPIDER);
-		addInject(AIR, EntityType.CAVE_SPIDER);
-		addInject(AIR, EntityType.PHANTOM);
-		addInject(AIR, EntityType.SHULKER);
+		addInject(ELEMENT_POOLS.get(ElementType.EARTH), EntityType.ZOMBIE);
+		addInject(ELEMENT_POOLS.get(ElementType.EARTH), EntityType.ZOMBIE_VILLAGER);
+		addInject(ELEMENT_POOLS.get(ElementType.EARTH), EntityType.SKELETON);
+		addInject(ELEMENT_POOLS.get(ElementType.EARTH), EntityType.WITHER_SKELETON);
+		addInject(ELEMENT_POOLS.get(ElementType.EARTH), EntityType.SILVERFISH);
+		addInject(ELEMENT_POOLS.get(ElementType.EARTH), EntityType.IRON_GOLEM);
+		addInject(ELEMENT_POOLS.get(ElementType.EARTH), EntityType.SKELETON_HORSE);
+		addInject(ELEMENT_POOLS.get(ElementType.EARTH), EntityType.GOAT);
+		addInject(ELEMENT_POOLS.get(ElementType.FIRE), EntityType.CREEPER);
+		addInject(ELEMENT_POOLS.get(ElementType.FIRE), EntityType.GHAST);
+		addInject(ELEMENT_POOLS.get(ElementType.FIRE), EntityType.BLAZE);
+		addInject(ELEMENT_POOLS.get(ElementType.FIRE), EntityType.HUSK);
+		addInject(ELEMENT_POOLS.get(ElementType.FIRE), EntityType.MAGMA_CUBE);
+		addInject(ELEMENT_POOLS.get(ElementType.FIRE), EntityType.ZOMBIFIED_PIGLIN);
+		addInject(ELEMENT_POOLS.get(ElementType.FIRE), EntityType.ZOGLIN);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.DROWNED);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.GUARDIAN);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.ELDER_GUARDIAN);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.SLIME);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.STRAY);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.SQUID);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.GLOW_SQUID);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.AXOLOTL);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.POLAR_BEAR);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.DOLPHIN);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.COD);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.SALMON);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.TROPICAL_FISH);
+		addInject(ELEMENT_POOLS.get(ElementType.WATER), EntityType.PUFFERFISH);
+		addInject(ELEMENT_POOLS.get(ElementType.AIR), EntityType.ENDERMAN);
+		addInject(ELEMENT_POOLS.get(ElementType.AIR), EntityType.SPIDER);
+		addInject(ELEMENT_POOLS.get(ElementType.AIR), EntityType.CAVE_SPIDER);
+		addInject(ELEMENT_POOLS.get(ElementType.AIR), EntityType.PHANTOM);
+		addInject(ELEMENT_POOLS.get(ElementType.AIR), EntityType.SHULKER);
 	}
 
 	private void addThrownElementCrystal(ElementType type) {
-		var crystalLocation = ForgeRegistries.ITEMS.getKey(ElementalItemHelper.getCrystalForType(type));
+		var crystalLocation = ForgeRegistries.ITEMS.getKey(ElementalItemHelper.getCrystalForElement(type));
 
 		add(ECEntities.THROWN_ELEMENT_CRYSTAL.get(), new ResourceLocation(crystalLocation.getNamespace(), "entities/thrown_element_crystal/" + crystalLocation.getPath()), LootTable.lootTable().withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1))
-						.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(5, 7))).setWeight(10))
-						.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type))))
+						.add(LootItem.lootTableItem(ElementalItemHelper.getShardForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(5, 7))).setWeight(10))
+						.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForElement(type))))
 				.setParamSet(LootContextParamSets.SELECTOR));
 	}
 
 	private static LootPool.Builder createShardPool(ElementType type) {
 		return LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type)).when(LootItemKilledByPlayerCondition.killedByPlayer()))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForElement(type)).when(LootItemKilledByPlayerCondition.killedByPlayer()))
 				.when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.25F, 0.03F));
 	}
 
 	private void addInject(LootPool.Builder pool, EntityType<?> entityType) {
-		addInject(entityType, LootTable.lootTable().withPool(pool).setParamSet(LootContextParamSets.ENTITY), ElementalCraft.createRL(entityType.getDefaultLootTable().getPath()));
+		addInject(entityType, LootTable.lootTable().withPool(pool).setParamSet(LootContextParamSets.ENTITY), ElementalCraftApi.createRL(entityType.getDefaultLootTable().getPath()));
 	}
 
 	private void addInject(EntityType<?> entityType, LootTable.Builder builder, ResourceLocation location) {

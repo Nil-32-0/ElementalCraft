@@ -4,26 +4,50 @@
     "strength": 2.0
   },
   "predicate": {
-    "type": "dpanvil:cache",
+    "type": "dpanvil_m:cache",
     "value": {
-      "type": "dpanvil:or",
+      "type": "dpanvil_m:and",
       "values": [
         {
-          "type": "dpanvil:and",
-          "values": [
-            {
-              "type": "elementalcraft:has_shrine_upgrade",
-              "shrine_upgrade": "elementalcraft:shrine_upgrade_filling"
-            },
-            {
-              "type": "dpanvil:block",
-              "block": "elementalcraft:springshrine"
-            }
-          ]
+          "type": "dpanvil_m:not",
+          "value": {
+            "type": "dpanvil_m:or",
+            "values": [
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
+              }
+            ]
+          }
         },
         {
-          "type": "dpanvil:tag",
-          "tag": "elementalcraft:shrines/upgradables/strength"
+          "type": "dpanvil_m:or",
+          "values": [
+            {
+              "type": "dpanvil_m:and",
+              "values": [
+                {
+                  "type": "elementalcraft:has_shrine_upgrade",
+                  "shrine_upgrade": "elementalcraft:shrine_upgrade_filling"
+                },
+                {
+                  "type": "dpanvil_m:blocks",
+                  "blocks": [
+                    "elementalcraft:springshrine",
+                    "elementalcraft:lavashrine"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "dpanvil_m:tag",
+              "tag": "elementalcraft:shrines/upgradables/strength"
+            }
+          ]
         }
       ]
     }

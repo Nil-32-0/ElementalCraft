@@ -24,6 +24,7 @@ import sirttas.elementalcraft.jewel.attack.AbstractAttackJewel;
 import sirttas.elementalcraft.jewel.defence.DefenceJewel;
 import sirttas.elementalcraft.jewel.effect.EffectJewel;
 import sirttas.elementalcraft.network.message.MessageHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -118,34 +119,44 @@ public class JewelHandler implements IJewelHandler {
         }
     }
 
+//    @SubscribeEvent
+//    public static void onServerTick(TickEvent.ServerTickEvent event) {
+//        if (event.phase == TickEvent.Phase.START) {
+//            synchronized (FUTURE_HANDLERS) {
+//                HANDLERS.addAll(FUTURE_HANDLERS);
+//                FUTURE_HANDLERS.clear();
+//            }
+//            var it = HANDLERS.iterator();
+//
+//            while (it.hasNext()) {
+//                var handler = it.next();
+//
+//                if (handler.entity.isRemoved()) {
+//                    it.remove();
+//                } else {
+//                    handler.tick();
+//                }
+//            }
+//        }
+//    }
+
     @SubscribeEvent
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
-            synchronized (FUTURE_HANDLERS) {
-                HANDLERS.addAll(FUTURE_HANDLERS);
-                FUTURE_HANDLERS.clear();
-            }
-            var it = HANDLERS.iterator();
+    public static void onLivingDamage(@Nonnull LivingDamageEvent event) {
+        var source = event.getSource();
 
-            while (it.hasNext()) {
-                var handler = it.next();
+        if (source.is(ECTags.DamageTypes.BYPASSES_JEWELS)) return;
 
-                if (handler.entity.isRemoved()) {
-                    it.remove();
-                } else {
-                    handler.tick();
+        var target = event.getEntity();
+
+        for (var jewel : JewelHelper.getActiveJewels(target)) {
+            if (jewel instanceof DefenceJewel defenceJewel) {
+                defenceJewel.onHurt(target, event.getSource(), event.getAmount());
+                if (!jewel.isTicking()) {
+                    jewel.consume(target);
                 }
             }
         }
-    }
 
-    @SubscribeEvent
-    public static void onLivingAttack(@Nonnull LivingAttackEvent event) {
-        var source = event.getSource();
-
-        if (source.getMsgId().startsWith("elementalcraft.jewel.")) {
-            return;
-        }
         var attacker = source.getEntity();
 
         if (attacker instanceof Projectile projectile) {
@@ -158,20 +169,6 @@ public class JewelHandler implements IJewelHandler {
                     if (!jewel.isTicking()) {
                         jewel.consume(attacker);
                     }
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onLivingDamage(@Nonnull LivingDamageEvent event) {
-        var target = event.getEntity();
-
-        for (var jewel : JewelHelper.getActiveJewels(target)) {
-            if (jewel instanceof DefenceJewel defenceJewel) {
-                defenceJewel.onHurt(target, event.getSource(), event.getAmount());
-                if (!jewel.isTicking()) {
-                    jewel.consume(target);
                 }
             }
         }

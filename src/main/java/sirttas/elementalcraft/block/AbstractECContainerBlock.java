@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
+import sirttas.elementalcraft.entity.EntityHelper;
 
 import javax.annotation.Nonnull;
 
@@ -31,14 +32,12 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
 	public InteractionResult onSlotActivated(IItemHandler inventory, Player player, ItemStack heldItem, int slot) {
 		ItemStack stack = inventory.getStackInSlot(slot);
-		Level world = player.level();
+		Level level = player.level();
 
 		if (heldItem.isEmpty() || player.isShiftKeyDown() || (!stack.isEmpty() && !canInsertStack(inventory, stack, heldItem, slot))) {
 			if (!stack.isEmpty()) {
-				if (!world.isClientSide()) {
-					ItemStack extracted = inventory.extractItem(slot, stack.getCount(), false);
-
-					world.addFreshEntity(new ItemEntity(world, player.getX(), player.getY() + 0.25, player.getZ(), extracted));
+				if (!level.isClientSide()) {
+                    EntityHelper.dropAtFeet(level, player, inventory.extractItem(slot, stack.getCount(), false));
 				}
 				return InteractionResult.SUCCESS;
 			}

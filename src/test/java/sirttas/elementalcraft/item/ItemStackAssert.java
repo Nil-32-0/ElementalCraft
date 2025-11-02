@@ -54,4 +54,11 @@ public class ItemStackAssert extends AbstractAssert<ItemStackAssert, ItemStack> 
     public ItemStackAssert is(RegistryObject<? extends ItemLike> item) {
         return is(item.get());
     }
+
+    public ItemStackAssert hasDamage(int damage) {
+        if (actual.getDamageValue() != damage) {
+            failWithMessage("Expected item stack to have damage %d but was %d", damage, actual.getDamageValue());
+        }
+        return this;
+    }
 }

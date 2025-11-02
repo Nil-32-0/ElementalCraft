@@ -14,7 +14,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.ItemHandlerHelper;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -57,7 +56,7 @@ public class EntityHandler {
 	public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		var player = event.getEntity();
 		
-		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntity().level().isClientSide) {
+		if (!player.level().isClientSide && Boolean.TRUE.equals(ECConfig.SERVER.playersSpawnWithBook.get())) {
 			CompoundTag tag = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
 
 			if (!tag.getBoolean(ECNames.HAS_BOOK)) {
@@ -78,12 +77,12 @@ public class EntityHandler {
 		if (entity instanceof Player player && !(entity instanceof FakePlayer)) {
 			var provider = PlayerElementStorage.createProvider(player);
 
-			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), provider);
-			event.addCapability(ElementalCraft.createRL(ECNames.SPELL_TICK_MANAGER), PlayerSpellTickManager.createProvider(player));
+			event.addCapability(ElementalCraftApi.createRL(ECNames.ELEMENT_STORAGE), provider);
+			event.addCapability(ElementalCraftApi.createRL(ECNames.SPELL_TICK_MANAGER), PlayerSpellTickManager.createProvider(player));
 			if (entity.level().isClientSide) {
-				event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), ClientJewelHandler.createProvider());
+				event.addCapability(ElementalCraftApi.createRL(ECNames.JEWEL), ClientJewelHandler.createProvider());
 			} else {
-				event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), JewelHandler.createProvider(entity, ElementStorageHelper.get(provider).orElse(null)));
+				event.addCapability(ElementalCraftApi.createRL(ECNames.JEWEL), JewelHandler.createProvider(entity, ElementStorageHelper.get(provider).orElse(null)));
 			}
 		}
 	}

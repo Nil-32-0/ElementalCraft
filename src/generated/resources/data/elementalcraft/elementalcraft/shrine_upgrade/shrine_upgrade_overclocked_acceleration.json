@@ -5,26 +5,51 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:cache",
+    "type": "dpanvil_m:cache",
     "value": {
-      "type": "dpanvil:or",
+      "type": "dpanvil_m:and",
       "values": [
         {
-          "type": "dpanvil:and",
-          "values": [
-            {
-              "type": "elementalcraft:has_shrine_upgrade",
-              "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
-            },
-            {
-              "type": "dpanvil:block",
-              "block": "elementalcraft:vacuumshrine"
-            }
-          ]
+          "type": "dpanvil_m:not",
+          "value": {
+            "type": "dpanvil_m:or",
+            "values": [
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_translocation"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_greater_fortune"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_overwhelming_strength"
+              }
+            ]
+          }
         },
         {
-          "type": "dpanvil:tag",
-          "tag": "elementalcraft:shrines/upgradables/acceleration"
+          "type": "dpanvil_m:or",
+          "values": [
+            {
+              "type": "dpanvil_m:and",
+              "values": [
+                {
+                  "type": "elementalcraft:has_shrine_upgrade",
+                  "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
+                },
+                {
+                  "type": "dpanvil_m:block",
+                  "block": "elementalcraft:vacuumshrine"
+                }
+              ]
+            },
+            {
+              "type": "dpanvil_m:tag",
+              "tag": "elementalcraft:shrines/upgradables/acceleration"
+            }
+          ]
         }
       ]
     }

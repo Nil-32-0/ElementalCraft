@@ -7,7 +7,7 @@ plugins {
 	id 'maven-publish'
     id 'jacoco'
 	id "org.sonarqube" version "${sonar_version}"
-    id 'net.darkhax.curseforgegradle' version '1.1.16'
+    id 'net.darkhax.curseforgegradle' version '1.1.+'
     id "com.modrinth.minotaur" version "2.+"
     id 'net.neoforged.gradle' version '6.0.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
@@ -126,18 +126,18 @@ def setupRunConfig(RunConfig runConfig, String directory, boolean supportsGameTe
         sources((SourceSet[]) [sourceSets.api, sourceSets.main])
     }
 
-    def dpAnvil = findProject(':DPAnvil')
+    def dpAnvil = findProject(':DPAnvil_m')
 
     if (dpAnvil != null) {
-        runConfig.mods.register('dpanvil').configure {
+        runConfig.mods.register('dpanvil_m').configure {
             sources((SourceSet[]) [dpAnvil.sourceSets.api, dpAnvil.sourceSets.main])
         }
     }
 }
 
 repositories {
+    flatDir { dirs 'libs', '../libs', '../DPAnvil_m/build/libs' }
     mavenCentral()
-    flatDir { dirs 'libs', '../libs', '../DPAnvil/build/libs' }
     maven { url "https://repo.elementalcraft.org/public" }
 }
 
@@ -147,7 +147,7 @@ dependencies {
   	annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
     // mod dependencies
-    def dpAnvil = findProject(':DPAnvil')
+    def dpAnvil = findProject(':dpanvil_m')
 
     if (dpAnvil != null) {
         apiCompileOnly dpAnvil.sourceSets.api.output
@@ -157,8 +157,11 @@ dependencies {
         datagenRuntimeOnly dpAnvil.sourceSets.main.output
     } else {
         logger.info("DPAnvil not found locally, looking in maven repo")
-        compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
-        runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
+//        compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
+//        runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
+        compileOnly fg.deobf("metafact.dpanvil_m:dpanvil_m:${dpanvil_version}:api")
+        runtimeOnly fg.deobf("metafact.dpanvil_m:dpanvil_m:${dpanvil_version}")
+
     }
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
@@ -397,7 +400,7 @@ if (modrinth_token != null) {
         loaders.addAll("neoforge", "forge")
         changelog = changeLog
         dependencies {
-            required.project "dpanvil"
+            required.project "dpanvil_m"
             required.project "patchouli"
         }
     }

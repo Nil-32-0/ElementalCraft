@@ -4,38 +4,13 @@
   "element_type": "air",
   "ingredients": {
     "crystal": {
-      "item": "elementalcraft:aircrystal"
+      "item": "elementalcraft:air_crystal"
     },
     "gem": {
-      "tag": "elementalcraft:gems/input_air"
-    },
-    "shard": {
-      "tag": "elementalcraft:shards/air"
+      "item": "elementalcraft:crude_air_gem"
     }
   },
-  "outputs": [
-    {
-      "quality": -0.5,
-      "result": {
-        "Count": 1,
-        "id": "elementalcraft:crude_air_gem"
-      },
-      "weight": 15.0
-    },
-    {
-      "result": {
-        "Count": 1,
-        "id": "elementalcraft:fine_air_gem"
-      },
-      "weight": 4.0
-    },
-    {
-      "quality": 2.0,
-      "result": {
-        "Count": 1,
-        "id": "elementalcraft:pristine_air_gem"
-      },
-      "weight": 1.0
-    }
-  ]
+  "output": {
+    "item": "elementalcraft:fine_air_gem"
+  }
 }

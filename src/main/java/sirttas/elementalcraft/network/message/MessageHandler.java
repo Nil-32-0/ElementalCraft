@@ -2,7 +2,7 @@ package sirttas.elementalcraft.network.message;
 
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.anchor.TranslocationAnchorListMessage;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexPullPlayerMessage;
 import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassMessage;
@@ -14,7 +14,7 @@ import sirttas.elementalcraft.spell.tick.SpellTickCooldownMessage;
 public class MessageHandler {
 
 	private static final String PROTOCOL_VERSION = "13";
-	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(ElementalCraft.createRL("main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals,
+	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(ElementalCraftApi.createRL("main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals,
 			PROTOCOL_VERSION::equals);
 
 	private MessageHandler() {}

@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.shrine.spring;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -29,8 +30,8 @@ public class SpringShrineBlock extends AbstractShrineBlock<SpringShrineBlockEnti
 	
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, PIPE_NORTH, PIPE_SOUTH, PIPE_WEST, PIPE_EAST, PIPE_NORTH_WEST, PIPE_NORTH_EAST, PIPE_SOUTH_WEST, PIPE_SOUTH_EAST);
 
-	public SpringShrineBlock() {
-		super(ElementType.WATER);
+	public SpringShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.WATER, properties);
 	}
 
 	@Nonnull

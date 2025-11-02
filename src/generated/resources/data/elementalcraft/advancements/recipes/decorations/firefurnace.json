@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_firecrystal": {
+    "has_fire_crystal": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:firecrystal"
+              "elementalcraft:fire_crystal"
             ]
           }
         ]
@@ -34,7 +34,7 @@
   },
   "requirements": [
     [
-      "has_firecrystal",
+      "has_fire_crystal",
       "has_whiterock",
       "has_the_recipe"
     ]

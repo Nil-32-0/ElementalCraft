@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "c": {
-      "item": "elementalcraft:purecrystal"
+      "item": "elementalcraft:pure_crystal"
     },
     "l": {
       "tag": "forge:leather"

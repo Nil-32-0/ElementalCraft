@@ -27,6 +27,7 @@ import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -61,8 +62,8 @@ public class ECBlockLoot extends BlockLootSubProvider {
 
 	@Override
 	protected void generate() {
-		add(ECBlocks.CRYSTAL_ORE.get(), b -> createOreDrop(b, ECItems.INERT_CRYSTAL.get()));
-		add(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), b -> createOreDrop(b, ECItems.INERT_CRYSTAL.get()));
+        add(ECBlocks.CRYSTAL_ORE.get(), this::createInertCrystalOreDrops);
+        add(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), this::createInertCrystalOreDrops);
 		add(ECBlocks.EVAPORATOR.get(), ECBlockLoot::createIER);
 		add(ECBlocks.CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.SMALL_CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
@@ -71,8 +72,10 @@ public class ECBlockLoot extends BlockLootSubProvider {
 		add(ECBlocks.DIFFUSER.get(), this::createRuneable);
 		add(ECBlocks.SORTER.get(), this::createRuneable);
 		add(ECBlocks.PURE_INFUSER.get(), this::createRuneable);
+        add(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get(), this::createRuneable);
 		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.AIR_MILL_WOOD_SAW.get(), this::createDoubleHalfRuneable);
+        add(ECBlocks.ENCHANTMENT_LIQUEFIER.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), this::createRuneable);
 		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
@@ -116,6 +119,19 @@ public class ECBlockLoot extends BlockLootSubProvider {
 			}
 		}
 	}
+
+    @Nonnull
+    private LootTable.Builder createInertCrystalOreDrops(Block block) {
+        return createSilkTouchDispatchTable(
+                block,
+                this.applyExplosionDecay(
+                        block,
+                        LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get())
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)))
+                                .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+                )
+        );
+    }
 
 	@Nonnull
 	private Builder createDoubleHalfRuneable(Block b) {

@@ -1,10 +1,10 @@
 {
   "type": "elementalcraft:spell_craft",
   "crystal": {
-    "item": "elementalcraft:firecrystal"
+    "item": "elementalcraft:fire_crystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/crude_fire"
+    "item": "elementalcraft:crude_fire_gem"
   },
   "output": {
     "item": "elementalcraft:scroll",

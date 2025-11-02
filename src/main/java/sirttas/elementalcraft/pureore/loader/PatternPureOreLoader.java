@@ -7,7 +7,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.dpanvil.api.codec.Codecs;
+import metafact.dpanvil_m.api.codec.Codecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.pureore.PureOre;

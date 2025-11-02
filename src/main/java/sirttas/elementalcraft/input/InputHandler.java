@@ -60,7 +60,7 @@ public class InputHandler {
 
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if(event.side == LogicalSide.CLIENT && event.player instanceof LocalPlayer localPlayer && event.player == Minecraft.getInstance().player && event.phase == TickEvent.Phase.END) {
+		if(event.player.level().isClientSide && event.player instanceof LocalPlayer localPlayer && event.player == Minecraft.getInstance().player && event.phase == TickEvent.Phase.END) {
 			getFirstSpellCastTool(EntityHelper.handStream(localPlayer)).ifPresent(stack -> {
 				var index = 0;
 

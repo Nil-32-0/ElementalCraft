@@ -4,7 +4,7 @@
   "icon": "elementalcraft:air_mill_wood_saw",
   "advancement": "elementalcraft:pickup/container",
   "turnin": "elementalcraft:pickup/air_mill_wood_saw",
-  "sortnum": 14,
+  "sortnum": 15,
   "pages": [
     {
       "type": "text",
@@ -18,11 +18,13 @@
       "type": "multiblock",
       "multiblock": {
         "mapping": {
-          "I": "elementalcraft:air_mill_wood_saw",
+          "T": "elementalcraft:air_mill_wood_saw[half=upper]",
+          "B": "elementalcraft:air_mill_wood_saw[half=lower]",
           "0": "elementalcraft:container"
         },
         "pattern": [
-          ["I"],
+          ["T"],
+          ["B"],
           ["0"]
         ]
       }

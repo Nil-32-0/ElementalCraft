@@ -8,28 +8,28 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class ECConfig {
 
-	public static final Common COMMON;
-	public static final ForgeConfigSpec COMMON_SPEC;
+	public static final Server SERVER;
+	public static final ForgeConfigSpec SERVER_SPEC;
 
 	public static final Client CLIENT;
 	public static final ForgeConfigSpec CLIENT_SPEC;
 
 	static {
-		Pair<Common, ForgeConfigSpec> serverPair = new ForgeConfigSpec.Builder().configure(Common::new);
+		Pair<Server, ForgeConfigSpec> serverPair = new ForgeConfigSpec.Builder().configure(Server::new);
 		Pair<Client, ForgeConfigSpec> clientPair = new ForgeConfigSpec.Builder().configure(Client::new);
 
-		COMMON_SPEC = serverPair.getRight();
-		COMMON = serverPair.getLeft();
+		SERVER_SPEC = serverPair.getRight();
+		SERVER = serverPair.getLeft();
 		CLIENT_SPEC = clientPair.getRight();
 		CLIENT = clientPair.getLeft();
 	}
 
 	private ECConfig() {}
 	
-	public static class Common {
+	public static class Server {
 
-		public final IntValue tankCapacity;
-		public final IntValue tankSmallCapacity;
+		public final IntValue containerCapacity;
+		public final IntValue smallContainerCapacity;
 		public final IntValue reservoirCapacity;
 		public final IntValue extractorExtractionAmount;
 		public final IntValue extractorMaxRunes;
@@ -64,6 +64,16 @@ public class ECConfig {
 		public final IntValue waterMillsMaxRunes;
 		public final IntValue airMillsTransferSpeed;
 		public final IntValue airMillsMaxRunes;
+        public final IntValue enchantmentLiquefierTransferSpeed;
+        public final IntValue enchantmentLiquefierMaxRunes;
+        public final IntValue enchantmentLiquefierElementAmountCommon;
+        public final IntValue enchantmentLiquefierElementAmountUncommon;
+        public final IntValue enchantmentLiquefierElementAmountRare;
+        public final IntValue enchantmentLiquefierElementAmountVeryRare;
+        public final IntValue enchantmentLiquefierBreakChanceCommon;
+        public final IntValue enchantmentLiquefierBreakChanceUncommon;
+        public final IntValue enchantmentLiquefierBreakChanceRare;
+        public final IntValue enchantmentLiquefierBreakChanceVeryRare;
 		public final IntValue purifierTransferSpeed;
 		public final IntValue purifierMaxRunes;
 		public final BooleanValue pureOreRecipeInjection;
@@ -88,6 +98,8 @@ public class ECConfig {
 		public final IntValue sourceBreedingBaseCost;
 		public final IntValue sourceBreederPedestalCapacity;
 		public final IntValue sourceBreederPedestalMaxRunes;
+        public final IntValue fortuneShrineUpgradeLevel;
+        public final IntValue greaterFortuneShrineUpgradeLevel;
 		public final IntValue elementHolderCapacity;
 		public final IntValue elementHolderTransferAmount;
 		public final IntValue pureElementHolderCapacity;
@@ -103,6 +115,10 @@ public class ECConfig {
 		public final BooleanValue spellConsumeOnFail;
 
 		public final BooleanValue disableSourceExhaustion;
+        public final DoubleValue sourceFluxCapacity;
+        public final DoubleValue sourceFluxRecovery;
+        public final DoubleValue sourceFluxConsumption;
+        public final DoubleValue sourceFluxTransfer;
 
 		public final IntValue manaSynthesizerMaxRunes;
 		public final IntValue manaSynthesizerManaCapacity;
@@ -112,24 +128,24 @@ public class ECConfig {
 		public final IntValue mekanismPureOreInputMultiplier;
 		public final IntValue mekanismPureOreOutputMultiplier;
 
-		public Common(ForgeConfigSpec.Builder builder) {
+		public Server(ForgeConfigSpec.Builder builder) {
 			builder.comment("ElementalCraft config").push("elementalcraft");
 
-			builder.comment("Instruments config").push("instruments").push("tank");
-			tankSmallCapacity = builder.comment("The element capacity of a small element container.").defineInRange("tankSmallCapacity", 1000, 0, 100000000);
-			tankCapacity = builder.comment("The element capacity of a element container.").defineInRange("tankCapacity", 100000, 0, 100000000);
-			reservoirCapacity = builder.comment("The element capacity of a element reservoir.").defineInRange("reservoirCapacity", 5000000, 0, 100000000);
+            builder.comment("Containers config").push("container");
+            smallContainerCapacity = builder.comment("The element capacity of a small element container.").defineInRange("smallContainerCapacity", 1000, 0, 100000000);
+            containerCapacity = builder.comment("The element capacity of a element container.").defineInRange("containerCapacity", 100000, 0, 100000000);
+            reservoirCapacity = builder.comment("The element capacity of a element reservoir.").defineInRange("reservoirCapacity", 5000000, 0, 100000000);
 			builder.pop().push("extractor");
 			extractorExtractionAmount = builder.comment("The amount of element extracted by an extractor.").defineInRange("extractorExtractionAmount", 5, 0, 100);
 			extractorMaxRunes = builder.comment("The max amount ofrunes on an extractor.").defineInRange("extractorMaxRunes", 1, 0, 10);
-			improvedExtractorExtractionAmount = builder.comment("The amount of element extracted by an improved extractor.").defineInRange("improvedExtractorExtractionAmount", 25, 0, 500);
+            improvedExtractorExtractionAmount = builder.comment("The amount of element extracted by an improved extractor.").defineInRange("improvedExtractorExtractionAmount", 50, 0, 500);
 			improvedExtractorMaxRunes = builder.comment("The max amount of runes on an improved extracto.").defineInRange("improvedExtractoMaxRunes", 3, 0, 10);
 			builder.pop().push("evaporator");
 			evaporatorExtractionAmount = builder.comment("The amount of element extracted by an evaporator.").defineInRange("evaporatorExtractionAmount", 1, 0, 100);
 			evaporatorMaxRunes = builder.comment("The max amount of runes on an evaporator.").defineInRange("evaporatorMaxRunes", 1, 0, 10);
 			builder.pop().push("solarSynthesizer");
 			solarSynthesizerMaxRunes = builder.comment("The max amount of runes on a Solar Synthesizer.").defineInRange("solarSynthesizerMaxRunes", 2, 0, 10);
-			solarSynthesizerLensElementMultiplier = builder.comment("the multiplier of lens in the Solar Synthesizer (based on 1500)").defineInRange("solarSynthesizerLensElementMultiplier", 10, 0, 100);
+            solarSynthesizerLensElementMultiplier = builder.comment("the multiplier of lens in the Solar Synthesizer (based on 1500)").defineInRange("solarSynthesizerLensElementMultiplier", 25, 0, 100);
 			builder.pop().push("diffuser");
 			diffuserDiffusionAmount = builder.comment("The amount of element transfered by a diffuser.").defineInRange("diffuserDiffusionAmount", 5, 0, 100);
 			diffuserMaxRunes = builder.comment("The max amount of runes on a diffuser.").defineInRange("diffuserMaxRunes", 3, 0, 10);
@@ -159,13 +175,26 @@ public class ECConfig {
 			builder.pop().push("inscriber");
 			inscriberTransferSpeed = builder.comment("The max amount of element consumed by the gem inscriber per tick.").defineInRange("inscriberTransferSpeed", 1000, 0, 10000);
 			inscriberMaxRunes = builder.comment("The max amount of runes on an inscriber.").defineInRange("inscriberMaxRunes", 3, 0, 10);
-			builder.pop().push("waterMills");
+            builder.pop().push("mills").push("water");
 			waterMillsTransferSpeed = builder.comment("The max amount of element consumed by the Water Mills per tick.").defineInRange("waterMillsTransferSpeed", 5, 0, 1000);
 			waterMillsMaxRunes = builder.comment("The max amount of runes on Water Mills.").defineInRange("waterMillMaxRunes", 2, 0, 10);
-			builder.pop().push("airMills");
+			builder.pop().push("air");
 			airMillsTransferSpeed = builder.comment("The max amount of element consumed by the Air Mills per tick.").defineInRange("airMillsTransferSpeed", 25, 0, 1000);
 			airMillsMaxRunes = builder.comment("The max amount of runes on Air Mills.").defineInRange("airMillMaxRunes", 3, 0, 10);
-			builder.pop().push("purifier");
+            builder.pop(2).push("enchantmentLiquefier");
+            enchantmentLiquefierTransferSpeed = builder.comment("The max amount of element consumed by the Enchantment Liquefier per tick.").defineInRange("enchantmentLiquefierTransferSpeed", 25, 0, 1000);
+            enchantmentLiquefierMaxRunes = builder.comment("The max amount of runes on an Enchantment Liquefier.").defineInRange("enchantmentLiquefierMaxRunes", 3, 0, 10);
+            builder.push("elementAmount");
+            enchantmentLiquefierElementAmountCommon = builder.comment("The cost of liquefying common echantments.").defineInRange("enchantmentLiquefierElementAmountCommon", 5000, 0, 100000000);
+            enchantmentLiquefierElementAmountUncommon = builder.comment("The cost of liquefying uncommon echantments.").defineInRange("enchantmentLiquefierElementAmountUncommon", 10000, 0, 100000000);
+            enchantmentLiquefierElementAmountRare = builder.comment("The cost of liquefying rare echantments.").defineInRange("enchantmentLiquefierElementAmountRare", 20000, 0, 100000000);
+            enchantmentLiquefierElementAmountVeryRare = builder.comment("The cost of liquefying very rare echantments.").defineInRange("enchantmentLiquefierElementAmountVeryRare", 50000, 0, 100000000);
+            builder.pop().push("breakChance");
+            enchantmentLiquefierBreakChanceCommon = builder.comment("The chance of breaking common echantments.").defineInRange("enchantmentLiquefierBreakChanceCommon", 5, 0, 100);
+            enchantmentLiquefierBreakChanceUncommon = builder.comment("The chance of breaking uncommon echantments.").defineInRange("enchantmentLiquefierBreakChanceUncommon", 10, 0, 100);
+            enchantmentLiquefierBreakChanceRare = builder.comment("The chance of breaking rare echantments.").defineInRange("enchantmentLiquefierBreakChanceRare", 20, 0, 100);
+            enchantmentLiquefierBreakChanceVeryRare = builder.comment("The chance of breaking very rare echantments.").defineInRange("enchantmentLiquefierBreakChanceVeryRare", 25, 0, 100);
+            builder.pop(2).push("purifier");
 			purifierTransferSpeed = builder.comment("The max amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierTransferSpeed", 25, 0, 1000);
 			purifierMaxRunes = builder.comment("The max amount of runes on an purifier.").defineInRange("purifierMaxRunes", 3, 0, 10);
 			builder.push("pureOre");
@@ -192,13 +221,11 @@ public class ECConfig {
 			builder.push("pedestals");
 			pedestalMaxRunes = builder.comment("The max amount of runes on a pedestal.").defineInRange("pedestalMaxRunes", 1, 0, 10);
 			pedestalCapacity = builder.comment("The element capacity of a pedestal.").defineInRange("pedestalCapacity", 10000, 0, 100000000);
-			builder.pop(2).comment("Source Breeder and pedestals config").push("sourceBreeder");
-			sourceBreederTransferSpeed = builder.comment("The max amount of element consumed by the source breeder per tick.").defineInRange("sourceBreederTransferSpeed", 500, 0, 1000);
-			sourceBreederMaxRunes = builder.comment("The max amount of runes on a source breeder.").defineInRange("sourceBreederMaxRunes", 3, 0, 10);
-			sourceBreedingBaseCost = builder.comment("The base cost of breeding sources.").defineInRange("sourceBreedingBaseCost", 500000, 0, 100000000);
-			builder.push("pedestals");
-			sourceBreederPedestalMaxRunes = builder.comment("The max amount of runes on a source breeder pedestal.").defineInRange("sourceBreederPedestalMaxRunes", 1, 0, 10);
-			sourceBreederPedestalCapacity = builder.comment("The element capacity of a source breeder pedestal.").defineInRange("sourceBreederPedestalCapacity", 100000, 0, 100000000);
+
+            builder.pop(2).comment("Shrines config").push("shrines");
+            builder.comment("Shrine upgrades config").push("upgrades");
+            fortuneShrineUpgradeLevel = builder.comment("The fortune level of the fortune shrine upgrade.").defineInRange("fortuneShrineUpgradeLevel", 1, 1, 10);
+            greaterFortuneShrineUpgradeLevel = builder.comment("The fortune level of the fortune shrine upgrade.").defineInRange("greaterFortuneShrineUpgradeLevel", 3, 1, 10);
 
 			builder.pop(2).comment("Items config").push("items");
 			builder.push("elementHolder");
@@ -219,11 +246,23 @@ public class ECConfig {
 
 			builder.pop().comment("Source config").push("source");
 			disableSourceExhaustion = builder.comment("set to true to make sources infinite.").define("disableSourceExhaustion", false);
-			builder.pop().comment("Config of sources around").push("spawn");
+			builder.comment("Config of sources around spawn").push("spawn");
 			disableSourceSpawn = builder.comment("Disable creation of sources.").define("disableSourceSpawn", false);
 			sourceSpawnCount = builder.comment("number of sources at spawn per element type.").defineInRange("sourceSpawnCount", 2, 1, 20);
+            builder.pop().push("flux");
+            sourceFluxCapacity = builder.comment("The max amount of source flux a chunk can contain.").defineInRange("sourceFluxCapacity", 1200.0, 0, 10000);
+            sourceFluxRecovery = builder.comment("The amount of source flux recovered per tick.").defineInRange("sourceFluxRecovery", 1.0, 0, 100);
+            sourceFluxConsumption = builder.comment("The amount of source flux consumed by a source per tick.").defineInRange("sourceFluxConsumption", 1.0, 0, 100);
+            sourceFluxTransfer = builder.comment("The amount of source flux transferred between chunks per tick.").defineInRange("sourceFluxTransfer", 1.0, 0, 100);
+            builder.pop().comment("Source Breeder and pedestals config").push("breeder");
+            sourceBreederTransferSpeed = builder.comment("The max amount of element consumed by the source breeder per tick.").defineInRange("sourceBreederTransferSpeed", 500, 0, 1000);
+            sourceBreederMaxRunes = builder.comment("The max amount of runes on a source breeder.").defineInRange("sourceBreederMaxRunes", 3, 0, 10);
+            sourceBreedingBaseCost = builder.comment("The base cost of breeding sources.").defineInRange("sourceBreedingBaseCost", 500000, 0, 100000000);
+            builder.push("pedestals");
+            sourceBreederPedestalMaxRunes = builder.comment("The max amount of runes on a source breeder pedestal.").defineInRange("sourceBreederPedestalMaxRunes", 1, 0, 10);
+            sourceBreederPedestalCapacity = builder.comment("The element capacity of a source breeder pedestal.").defineInRange("sourceBreederPedestalCapacity", 100000, 0, 100000000);
 
-			builder.pop(2).comment("mod interaction config").push("interaction");
+			builder.pop(3).comment("mod interaction config").push("interaction");
 			builder.push("botania").push("manaSynthesizer");
 			manaSynthesizerMaxRunes = builder.comment("The max amount of runes on a Mana Synthesizer.").defineInRange("manaSynthesizerMaxRunes", 2, 0, 10);
 			manaSynthesizerManaCapacity = builder.comment("The mana capacity of the Mana Synthesizer.").defineInRange("manaSynthesizerManaCapacity", 10000, 0, 1000000);

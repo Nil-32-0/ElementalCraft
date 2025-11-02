@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -44,8 +45,8 @@ public class ProtectionShrineUpgradeBlock extends AbstractHorizontalShrineUpgrad
 	private static final VoxelShape SHIELD_2_EAST = Block.box(13D, 4D, 6D, 14D, 5D, 10D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(PIPE_EAST, SHIELD_1_EAST, SHIELD_2_EAST);
 
-	public ProtectionShrineUpgradeBlock() {
-		super(ShrineUpgrades.PROTECTION);
+	public ProtectionShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.PROTECTION, properties);
 	}
 	
 	@Nonnull

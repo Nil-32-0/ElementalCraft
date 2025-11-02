@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.item.ECItems;
@@ -185,7 +185,7 @@ public class PureOre {
         public ResourceLocation getId() {
             var resourceLocation = PureOre.this.getId();
 
-            return ElementalCraft.createRL(resourceLocation.getNamespace() + '_' + resourceLocation.getPath() + "_to_pure_ore");
+            return ElementalCraftApi.createRL(resourceLocation.getNamespace() + '_' + resourceLocation.getPath() + "_to_pure_ore");
         }
 
         @Override

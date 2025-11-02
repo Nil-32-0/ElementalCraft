@@ -5,7 +5,7 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.client.model.AbstractECModelShaper;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 @OnlyIn(Dist.CLIENT)
 public class PipeUpgradeModelShaper extends AbstractECModelShaper<PipeUpgradeType<?>> {
 
-    public static final ResourceLocation NAME = ElementalCraft.createRL("pipe_upgrade");
+    public static final ResourceLocation NAME = ElementalCraftApi.createRL("pipe_upgrade");
 
     public PipeUpgradeModelShaper(ModelManager modelManager) {
         super(modelManager);

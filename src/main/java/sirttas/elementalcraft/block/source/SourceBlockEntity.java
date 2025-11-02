@@ -19,6 +19,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.source.flux.SourceFluxHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -48,14 +49,20 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
-		if (source.traitHolder.isEmpty() && level instanceof ServerLevel serverLevel) {
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        if (source.traitHolder.isEmpty()) {
 			source.initTraits(serverLevel, 0);
 		}
         if (source.elementStorage.isExhausted()) {
 			if (source.traitHolder.isArtificial()) {
-				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+				serverLevel.destroyBlock(pos, false);
 			} else {
-				source.elementStorage.insertElement(source.traitHolder.getRecoverRate(), false);
+                var sourceFlux = serverLevel.getChunkAt(pos).getCapability(ElementalCraftCapabilities.SOURCE_FLUX).resolve().orElseThrow();
+
+				source.elementStorage.insertElement(Math.round(source.traitHolder.getRecoverRate() * sourceFlux.getRatio()), false);
+                sourceFlux.consume();
 			}
         }
     }

@@ -14,7 +14,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.dpanvil.api.data.IDataManager;
+import metafact.dpanvil_m.api.data.IDataManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -58,16 +59,16 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	private int rangeRenderTimer = 0;
 	private BlockPos targetPos;
 
-	protected AbstractShrineBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, ResourceKey<ShrineProperties> upgradeKey) {
+	protected AbstractShrineBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, ResourceKey<ShrineProperties> propertiesKey) {
 		super(blockEntityType, pos, state);
 		elementStorage = new ShrineElementStorage(this);
-		properties = ElementalCraft.SHRINE_PROPERTIES_MANAGER.getOrCreateHolder(upgradeKey);
+		properties = ElementalCraft.SHRINE_PROPERTIES_MANAGER.getOrCreateHolder(propertiesKey);
 		targetPos = pos;
 	}
 
 	@Nonnull
 	protected static ResourceKey<ShrineProperties> createKey(@Nonnull String name) {
-		return IDataManager.createKey(ElementalCraft.SHRINE_PROPERTIES_MANAGER_KEY, ElementalCraft.createRL(name));
+		return IDataManager.createKey(ElementalCraft.SHRINE_PROPERTIES_MANAGER_KEY, ElementalCraftApi.createRL(name));
 	}
 
 	protected int consumeElement(int i) {
@@ -209,6 +210,25 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	public boolean hasUpgrade(ResourceKey<ShrineUpgrade> key) {
 		return getUpgradeCount(key) > 0;
 	}
+
+    @Nullable
+    public Direction getUpgradeDirection(ShrineUpgrade upgrade) {
+        return getUpgradeDirection(e -> e.getValue().equals(upgrade));
+    }
+
+    @Nullable
+    public Direction getUpgradeDirection(ResourceKey<ShrineUpgrade> key) {
+        return getUpgradeDirection(e -> e.getValue().is(key));
+    }
+
+    @Nullable
+    private Direction getUpgradeDirection(Predicate<Map.Entry<Direction, ShrineUpgrade>> predicate) {
+        return upgrades.entrySet().stream()
+                .filter(predicate)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+    }
 
 	private void setUpgrade(Direction direction, ShrineUpgrade upgrade) {
 		ShrineUpgrade old = upgrades.get(direction);

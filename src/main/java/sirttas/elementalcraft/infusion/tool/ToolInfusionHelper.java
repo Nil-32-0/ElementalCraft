@@ -36,7 +36,7 @@ public class ToolInfusionHelper {
 	
 	public static ToolInfusion getInfusion(ItemStack stack) {
 		if (stack.isEmpty()) {
-			return null;
+			return ToolInfusion.NONE;
 		}
 
 		CompoundTag nbt = NBTHelper.getECTag(stack);
@@ -44,7 +44,7 @@ public class ToolInfusionHelper {
 		if (nbt != null && nbt.contains(ECNames.INFUSION, 8)) {
 			return ElementalCraftApi.TOOL_INFUSION_MANAGER.get(new ResourceLocation(nbt.getString(ECNames.INFUSION)));
 		}
-		return null;
+		return ToolInfusion.NONE;
 	}
 	
 	public static void setInfusion(ItemStack stack, ToolInfusion infusion) {

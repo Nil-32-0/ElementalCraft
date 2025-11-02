@@ -4,7 +4,7 @@
   "element_type": "fire",
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/crude_fire"
+      "item": "elementalcraft:crude_fire_gem"
     },
     {
       "tag": "minecraft:coals"

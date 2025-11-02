@@ -9,6 +9,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -56,6 +57,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.AIR_MILL_GRINDSTONE.get());
                 o.accept(ECBlocks.WATER_MILL_WOOD_SAW.get());
                 o.accept(ECBlocks.AIR_MILL_WOOD_SAW.get());
+                o.accept(ECBlocks.ENCHANTMENT_LIQUEFIER.get());
                 o.accept(ECBlocks.FIRE_PEDESTAL.get());
                 o.accept(ECBlocks.WATER_PEDESTAL.get());
                 o.accept(ECBlocks.EARTH_PEDESTAL.get());
@@ -101,8 +103,10 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.CAPACITY_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.EFFICIENCY_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.STRENGTH_SHRINE_UPGRADE.get());
+                o.accept(ECBlocks.OVERWHELMING_STRENGTH_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.OPTIMIZATION_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.FORTUNE_SHRINE_UPGRADE.get());
+                o.accept(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.SILK_TOUCH_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.PLANTING_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.BONELESS_GROWTH_SHRINE_UPGRADE.get());
@@ -164,7 +168,9 @@ public class ECCreativeModeTabs {
                 ECItems.ELEMENT_HOLDERS.values().forEach(holder -> generateElementHolder(o, holder));
                 o.accept(ECItems.PURE_HOLDER_CORE.get());
                 generatePureElementHolder(o);
-                o.accept(ECItems.CHISEL.get());
+                o.accept(ECItems.DRENCHED_IRON_CHISEL.get());
+                o.accept(ECItems.SWIFT_ALLOY_CHISEL.get());
+                o.accept(ECItems.FIREITE_CHISEL.get());
                 o.accept(ECItems.ELEMENTAL_FIREFUEL.get());
                 generatePureOres(o);
                 o.accept(ECItems.INERT_CRYSTAL.get());
@@ -179,6 +185,7 @@ public class ECCreativeModeTabs {
                 ECItems.CRUDE_GEMS.values().forEach(gem -> o.accept(gem.get()));
                 ECItems.FINE_GEMS.values().forEach(gem -> o.accept(gem.get()));
                 ECItems.PRISTINE_GEMS.values().forEach(gem -> o.accept(gem.get()));
+                o.accept(ECItems.PRISTINE_SHARD.get());
                 o.accept(ECItems.DRENCHED_IRON_NUGGET.get());
                 o.accept(ECItems.DRENCHED_IRON_INGOT.get());
                 o.accept(ECBlocks.DRENCHED_IRON_BLOCK.get());
@@ -205,6 +212,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.SCROLL_PAPER.get());
                 o.accept(ECItems.SHRINE_BASE.get());
                 o.accept(ECItems.SHRINE_UPGRADE_CORE.get());
+                o.accept(ECItems.ADVANCED_SHRINE_UPGRADE_CORE.get());
                 o.accept(ECItems.MINOR_RUNE_SLATE.get());
                 o.accept(ECItems.RUNE_SLATE.get());
                 o.accept(ECItems.MAJOR_RUNE_SLATE.get());
@@ -214,10 +222,17 @@ public class ECCreativeModeTabs {
             }).build());
 
     private static void generateElementopedia(@Nonnull CreativeModeTab.Output output) {
+        if (ECinteractions.isPatchouliActive()) {
+            output.accept(createElementopedia());
+        }
+    }
+
+    @NotNull
+    public static ItemStack createElementopedia() {
         var book = new ItemStack(ECItems.ELEMENTOPEDIA.get());
 
         book.getOrCreateTag().putString("patchouli:book", "elementalcraft:element_book");
-        output.accept(book);
+        return book;
     }
 
     private static void generateElementContainer(@Nonnull CreativeModeTab.Output output, @Nonnull Supplier<? extends AbstractElementContainerBlock> supplier) {

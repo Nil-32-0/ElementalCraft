@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -28,8 +29,8 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, BASE_1, BASE_2, PLATE);
 
-	public BuddingShrineBlock() {
-		super(ElementType.EARTH);
+	public BuddingShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.EARTH, properties);
 		this.registerDefaultState(this.defaultBlockState()
 				.setValue(CRYSTAL_TYPE, CrystalType.AMETHYST)
 				.setValue(WATERLOGGED, false));

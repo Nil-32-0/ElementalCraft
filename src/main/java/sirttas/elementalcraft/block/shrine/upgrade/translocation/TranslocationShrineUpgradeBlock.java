@@ -6,6 +6,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -27,8 +28,8 @@ public class TranslocationShrineUpgradeBlock extends AbstractDirectionalShrineUp
     private static final VoxelShape CONNECTOR = Block.box(7D, 6D, 7D, 9D, 8D, 9D);
     private static final Map<Direction, VoxelShape> SHAPES = ShapeHelper.directionShapes(Shapes.or(BASE, PIPE, CONNECTOR));
 
-    public TranslocationShrineUpgradeBlock() {
-        super(ShrineUpgrades.TRANSLOCATION);
+    public TranslocationShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+        super(ShrineUpgrades.TRANSLOCATION, properties);
     }
 
     @Nullable

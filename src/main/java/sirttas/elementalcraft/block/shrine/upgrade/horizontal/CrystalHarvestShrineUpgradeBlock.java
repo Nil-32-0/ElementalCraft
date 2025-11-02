@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -47,8 +48,8 @@ public class CrystalHarvestShrineUpgradeBlock extends AbstractHorizontalShrineUp
 	private static final VoxelShape PIPE_2_EAST = Block.box(12D, 13D, 7D, 18D, 15D, 9D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(CORE_1_EAST, CORE_2_EAST, PIPE_1_EAST, PIPE_2_EAST);
 
-	public CrystalHarvestShrineUpgradeBlock() {
-		super(ShrineUpgrades.CRYSTAL_HARVEST);
+	public CrystalHarvestShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.CRYSTAL_HARVEST, properties);
 	}
 	
 	@Nonnull

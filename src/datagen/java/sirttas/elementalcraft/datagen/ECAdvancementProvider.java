@@ -13,6 +13,7 @@ import net.minecraftforge.common.data.ForgeAdvancementProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.function.Consumer;
 
@@ -36,7 +37,7 @@ public class ECAdvancementProvider implements ForgeAdvancementProvider.Advanceme
 
 	private Advancement itemPickup(ItemLike item, ResourceLocation name, @NotNull Consumer<Advancement> saver) {
 		return Advancement.Builder.advancement()
-				.parent(ElementalCraft.createRL("main/root"))
+				.parent(ElementalCraftApi.createRL("main/root"))
 				.addCriterion("has_" + name.getPath(), hasItem(item))
 				.save(saver, name, existingFileHelper);
 	}

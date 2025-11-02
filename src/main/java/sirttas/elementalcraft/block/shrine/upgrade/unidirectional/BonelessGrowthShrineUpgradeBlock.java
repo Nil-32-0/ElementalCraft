@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -25,8 +26,8 @@ public class BonelessGrowthShrineUpgradeBlock extends AbstractShrineUpgradeBlock
 	public static final String NAME = "shrine_upgrade_boneless_growth";
 
 
-	public BonelessGrowthShrineUpgradeBlock() {
-		super(ShrineUpgrades.BONELESS_GROWTH);
+	public BonelessGrowthShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.BONELESS_GROWTH, properties);
 	}
 	
 	@Nonnull

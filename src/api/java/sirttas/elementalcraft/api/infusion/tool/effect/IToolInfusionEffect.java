@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.dpanvil.api.codec.CodecHelper;
+import metafact.dpanvil_m.api.codec.CodecHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public interface IToolInfusionEffect {

@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.block.source.trait.value;
 
-import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
+import metafact.dpanvil_m.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 
 @FunctionalInterface

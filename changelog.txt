@@ -1,3 +1,8 @@
+1.20.1-m6.1.0:
+- Backported up to 6.2.2 from ElementalCraft on future versions
+- Check changelog of those versions for true changelog
+- Added 'ec_flux check' command to determine the current chunk's source flux ratio
+
 1.20.1-m6.0.2:
 - Refactored code to allow new elements to more easily be added
 - Added Entropy and Purity elements with all relevant items

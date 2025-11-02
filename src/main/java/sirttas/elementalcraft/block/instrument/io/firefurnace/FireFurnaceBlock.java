@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -30,6 +31,10 @@ public class FireFurnaceBlock extends AbstractFireFurnaceBlock {
 	private static final VoxelShape BOTTOM = Block.box(5D, 1D, 5D, 11D, 2D, 11D);
 	private static final VoxelShape CONNECTION = Block.box(6D, 0D, 6D, 10D, 1D, 10D);
 	private static final VoxelShape SHAPE = Shapes.or(OVEN, BOTTOM, CONNECTION);
+
+    public FireFurnaceBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
 
 	@Override
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {

@@ -8,6 +8,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
+import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
@@ -20,7 +21,7 @@ public class SourceBreederPedestalGameTests {
     public static void should_changeElementType(GameTestHelper helper) {
         var pedestal = (SourceBreederPedestalBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 0));
         var itemHandler = ECContainerHelper.getItemHandler(pedestal, null);
-        var elementStorage = (SourceBreederPedestalElementStorage) ElementStorageHelper.get(pedestal).resolve().orElseThrow();
+        var elementStorage = (SourceBreederPedestalElementStorage) ElementStorageGameTestHelper.get(pedestal);
 
         helper.startSequence().thenExecute(() -> {
             itemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(ElementType.FIRE), false);

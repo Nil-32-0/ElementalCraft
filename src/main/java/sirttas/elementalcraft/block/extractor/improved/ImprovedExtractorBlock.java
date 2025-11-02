@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.extractor.improved;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -27,6 +28,10 @@ public class ImprovedExtractorBlock extends ExtractorBlock {
 	private static final VoxelShape SIDE_PILLAR_4 = SIDE_PILLAR_1.move(12D / 16, 0D, 12D / 16);
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PILLAR, TOP, SIDE_PILLAR_1, SIDE_PILLAR_2, SIDE_PILLAR_3, SIDE_PILLAR_4);
+
+    public ImprovedExtractorBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
 
 	@Override
 	public ExtractorBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {

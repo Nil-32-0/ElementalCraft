@@ -41,21 +41,16 @@ import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 
 	private final ElementPipeTransferer transferer;
 	private BlockState coverState;
-	private final Map<Direction, IElementTransferPath> pathMap;
 
 	public ElementPipeBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.PIPE, pos, state);
 		transferer = new ElementPipeTransferer(this);
-		pathMap = new EnumMap<>(Direction.class);
 		coverState = Blocks.AIR.defaultBlockState();
 	}
 
@@ -67,6 +62,11 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	public ConnectionType getConnection(Direction face) {
 		return transferer.getConnection(face);
 	}
+
+    public void copyTo(ElementPipeBlockEntity newBlockEntity) {
+        newBlockEntity.transferer.load(transferer.save(new CompoundTag())); // there has to be a better way
+        newBlockEntity.coverState = coverState;
+    }
 
 	public VoxelShape getShape(@Nullable Direction face) {
 		if (face == null) {
@@ -92,8 +92,6 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	}
 
 	public VoxelShape getShape() {
-		// TODO cache
-
 		var shape = ElementPipeShapes.BASE_SHAPE;
 
 		for (Direction face : Direction.values()) {
@@ -114,9 +112,23 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	}
 
 	private void refresh(Direction face) {
+        if (level == null) return;
+
+        var connection = lookupConnection(face);
+
+		setConnection(face, connection);
+
+		var upgrade = transferer.getUpgrade(face);
+
+		if (upgrade != null && !upgrade.canPlace(connection)) {
+			this.removeUpgrade(face);
+		}
+	}
+
+    private ConnectionType lookupConnection(Direction face) {
 		var opposite = face.getOpposite();
 
-		var connection = getAdjacentTile(face).map(be -> {
+		return getAdjacentTile(face).map(be -> {
 			ConnectionType c = this.getConnection(face);
 
 			if (c != ConnectionType.NONE) {
@@ -134,24 +146,12 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				return ConnectionType.NONE;
 			}).orElse(ConnectionType.NONE);
 		}).orElse(ConnectionType.NONE);
-		setConnection(face, connection);
-
-		var upgrade = transferer.getUpgrade(face);
-
-		if (upgrade != null && !upgrade.canPlace(connection)) {
-			this.removeUpgrade(face);
-		}
-	}
+    }
 
 	void refresh() {
 		for (Direction face : Direction.values()) {
 			refresh(face);
 		}
-		// TODO remove caches
-	}
-
-	Map<Direction, IElementTransferPath> getPathMap() {
-		return pathMap;
 	}
 
 	private void transferElement(IElementStorage sender, Direction side, ElementType type) {
@@ -165,15 +165,18 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 			}
 
 			var pathfinder = new SimpleElementTransferPathfinder(level);
-			var path = pathfinder.findPath(type, new ElementPipeTransferer.Node(pos.relative(side), null, sender), new ElementPipeTransferer.Node(pos, transferer, null));
+			var paths = pathfinder.findPaths(type, new ElementPipeTransferer.Node(pos.relative(side), null, sender), new ElementPipeTransferer.Node(pos, transferer, null));
 
-			pathMap.put(side, path);
-
-
-			if (upgrade != null) {
-				path = upgrade.alterPath(path);
-			}
-			path.transfer();
+            for (var path : paths) {
+                if (!transferer.isValid()) {
+                    return;
+                } else if (!path.isValid()) {
+                    continue;
+                } else if (upgrade != null) {
+                    path = upgrade.alterPath(path);
+                }
+                path.transfer();
+            }
 		}
 	}
 
@@ -184,15 +187,27 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ElementPipeBlockEntity pipe) {
 		pipe.transferer.init();
 		commonTick(level, pos, state, pipe);
+        if (!pipe.transferer.isValid()) {
+            return;
+        }
+
+        var profiler = level.getProfiler();
+
+        profiler.push("elementalcraft:element_pipe_element_transfer");
 		pipe.transferer.getConnections().entrySet().stream()
 				.filter(entry -> entry.getValue() == ConnectionType.EXTRACT)
-				.sorted(pipe.transferer.comparator)
+                .sorted(Comparator.comparing(entry -> pipe.transferer.getUpgradeWeight(entry.getKey())))
 				.map(Map.Entry::getKey)
-				.forEach(side -> pipe.getAdjacentTile(side).flatMap(tile -> ElementStorageHelper.get(tile, side.getOpposite()).resolve()).ifPresent(sender -> {
-					if (sender instanceof IElementTypeProvider provider) {
-						pipe.transferElement(sender, side, provider.getElementType());
-					}
-				}));
+				.forEach(side -> {
+                    if (!pipe.transferer.isValid()) return;
+
+                    pipe.getAdjacentTile(side).flatMap(tile -> ElementStorageHelper.get(tile, side.getOpposite()).resolve()).ifPresent(sender -> {
+                        if (sender instanceof IElementTypeProvider provider) {
+                            pipe.transferElement(sender, side, provider.getElementType());
+                        }
+                    });
+                });
+        profiler.pop();
 	}
 
 	public IElementTransferer getTransferer() {
@@ -306,29 +321,37 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	}
 
 	public InteractionResult setCover(Player player, InteractionHand hand) {
-		ItemStack stack = player.getItemInHand(hand);
-		Item item = stack.getItem();
+        if (level == null) {
+            return InteractionResult.PASS;
+        }
 
-		if (item instanceof BlockItem blockItem && !stack.isEmpty()) {
-			BlockState state = blockItem.getBlock().defaultBlockState();
+        var stack = player.getItemInHand(hand);
+        if (stack.isEmpty()) {
+            return InteractionResult.PASS;
+        }
 
-			if (state != coverState) {
-				if (!coverState.isAir()) {
-					Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), new ItemStack(coverState.getBlock()));
-				}
-				coverState = state;
-				this.getLevel().setBlockAndUpdate(getBlockPos(), this.getLevel().getBlockState(worldPosition).setValue(ElementPipeBlock.COVER, CoverType.COVERED));
+        var item = stack.getItem();
+        if (!(item instanceof BlockItem blockItem)) {
+            return InteractionResult.PASS;
+        }
+        var state = blockItem.getBlock().defaultBlockState();
+        if (state == coverState) {
+            return InteractionResult.PASS;
+        }
 
-				if (!player.getAbilities().instabuild) {
-					stack.shrink(1);
-					if (stack.isEmpty()) {
-						player.setItemInHand(hand, ItemStack.EMPTY);
-					}
-				}
-				return InteractionResult.SUCCESS;
+        if (!coverState.isAir()) {
+            Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), new ItemStack(coverState.getBlock()));
+        }
+        coverState = state;
+        level.setBlockAndUpdate(getBlockPos(), level.getBlockState(worldPosition).setValue(ElementPipeBlock.COVER, CoverType.COVERED));
+
+        if (!player.getAbilities().instabuild) {
+            stack.shrink(1);
+            if (stack.isEmpty()) {
+                player.setItemInHand(hand, ItemStack.EMPTY);
 			}
 		}
-		return InteractionResult.PASS;
+		return InteractionResult.SUCCESS;
 	}
 	
 	@Override

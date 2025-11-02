@@ -9,7 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.LevelReader;
-import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
+import metafact.dpanvil_m.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 
 import javax.annotation.Nonnull;

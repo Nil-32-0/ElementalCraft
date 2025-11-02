@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
@@ -71,7 +71,7 @@ public class GrindingRecipeBuilder {
 	public void save(Consumer<FinishedRecipe> consumer) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
-		this.save(consumer, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + id.getPath()));
+		this.save(consumer, ElementalCraftApi.createRL(IGrindingRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void save(Consumer<FinishedRecipe> consumer, String save) {
@@ -79,7 +79,7 @@ public class GrindingRecipeBuilder {
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Grinding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(consumer, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + save));
+			this.save(consumer, ElementalCraftApi.createRL(IGrindingRecipe.NAME + '/' + save));
 		}
 	}
 

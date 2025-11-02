@@ -3,7 +3,7 @@
   "value": {
     "type": "elementalcraft:predicate",
     "predicate": {
-      "type": "dpanvil:none"
+      "type": "dpanvil_m:none"
     },
     "provider": {
       "type": "elementalcraft:chance",

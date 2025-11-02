@@ -1,12 +1,16 @@
 package sirttas.elementalcraft.jewel.attack;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.damagesource.ECDamageTypes;
 
 import java.util.List;
 
@@ -19,7 +23,8 @@ public class KirinJewel extends AbstractAttackJewel {
     }
 
     public static DamageSource holyFire(Entity source) {
-        return null; // TODO new DamageSource("elementalcraft.jewel.kirin", source).bypassArmor();
+        Holder<DamageType> damageSourceHolder = source.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ECDamageTypes.HOLY_FIRE);
+        return new DamageSource(damageSourceHolder, source);
     }
 
     @Override

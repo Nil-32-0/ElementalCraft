@@ -1,10 +1,10 @@
 {
   "type": "elementalcraft:spell_craft",
   "crystal": {
-    "item": "elementalcraft:purecrystal"
+    "item": "elementalcraft:pure_crystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/pristine_earth"
+    "item": "elementalcraft:pristine_earth_gem"
   },
   "output": {
     "item": "elementalcraft:scroll",

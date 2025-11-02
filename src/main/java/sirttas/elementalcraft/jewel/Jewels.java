@@ -9,7 +9,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -31,10 +30,11 @@ import java.util.function.Supplier;
 
 public class Jewels {
 
-    private static final DeferredRegister<Jewel> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraft.createRL(ECNames.JEWEL), ElementalCraftApi.MODID);
+    private static final DeferredRegister<Jewel> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.JEWEL), ElementalCraftApi.MODID);
 
     public static final Supplier<IForgeRegistry<Jewel>> REGISTRY = DEFERRED_REGISTER.makeRegistry(RegistryBuilder::new);
 
+    public static final RegistryObject<Jewel> NONE = register(ECNames.NONE, () -> new Jewel(ElementType.NONE, 0));
     public static final RegistryObject<SalmonJewel> SALMON = register(SalmonJewel.NAME, SalmonJewel::new);
     public static final RegistryObject<PhoenixJewel> PHOENIX = register(PhoenixJewel.NAME, PhoenixJewel::new);
     public static final RegistryObject<BasiliskJewel> BASILISK = register(BasiliskJewel.NAME, BasiliskJewel::new);

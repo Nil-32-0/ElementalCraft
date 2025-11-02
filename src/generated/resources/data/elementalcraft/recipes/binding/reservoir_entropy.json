@@ -10,10 +10,10 @@
       "item": "elementalcraft:springaline_glass"
     },
     {
-      "item": "elementalcraft:purecrystal"
+      "item": "elementalcraft:pure_crystal"
     },
     {
-      "tag": "elementalcraft:gems/pristine_entropy"
+      "item": "elementalcraft:pristine_entropy_gem"
     }
   ],
   "output": {

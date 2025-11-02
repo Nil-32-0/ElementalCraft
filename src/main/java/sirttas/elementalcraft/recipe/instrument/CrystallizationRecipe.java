@@ -17,7 +17,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
-import sirttas.dpanvil.api.codec.CodecHelper;
+import metafact.dpanvil_m.api.codec.CodecHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
@@ -34,13 +34,13 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	public static final String NAME = "crystallization";
 	
 	private final NonNullList<Ingredient> ingredients;
-	private final List<ResultEntry> outputs;
+	private final ItemStack result;
 	private final int elementAmount;
 
-	public CrystallizationRecipe(ResourceLocation id, ElementType type, int elementAmount, List<ResultEntry> outputs, List<Ingredient> ingredients) {
+	public CrystallizationRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack result, List<Ingredient> ingredients) {
 		super(id, type);
 		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
-		this.outputs = ImmutableList.copyOf(outputs);
+		this.result = result;
 		this.elementAmount = elementAmount;
 	}
 
@@ -71,16 +71,12 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	@Nonnull
 	@Override
 	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
-		return ItemStack.EMPTY;
+		return result;
 	}
 
 	@Override
 	public boolean isSpecial() {
 		return true;
-	}
-	
-	public List<ResultEntry> getOutputs() {
-		return outputs;
 	}
 
 	@Nonnull
@@ -88,96 +84,14 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	public RecipeType<?> getType() {
 		return ECRecipeTypes.CRYSTALLIZATION.get();
 	}
-
-	@Override
-	public @NotNull ItemStack assemble(@Nonnull CrystallizerBlockEntity instrument, @Nonnull RegistryAccess registry) {
-		return assemble(instrument.getInventory().getItem(0), instrument, 0);
-	}
-
-	@SuppressWarnings("resource")
-	public ItemStack assemble(ItemStack gem, CrystallizerBlockEntity instrument, float luck) {
-		int index = IntStream.range(0, outputs.size())
-				.filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem))
-				.findFirst()
-				.orElse(0);
-		var size = outputs.size();
-		var list = index >= 0 && index < size ? outputs.subList(index, size) : outputs;
-		int weight = getTotalWeight(list, luck);
-		
-		if (weight > 0) {
-			int roll = Math.min(instrument.getLevel().random.nextInt(weight), weight - 1);
-			
-			
-			for (ResultEntry entry : list) {
-				roll -= entry.getEffectiveWeight(luck);
-				if (roll < 0) {
-					return entry.getResult();
-				}
-			}
-		}
-		return gem.copy();
-	}
-
-	public int getTotalWeight() {
-		return getTotalWeight(outputs, 0);
-	}
-	
-	public int getTotalWeight(List<ResultEntry> list, float luck) {
-		return list.stream().mapToInt(result -> result.getEffectiveWeight(luck)).sum();
-	}
-	
-	public float getWeight(ItemStack stack) {
-		return outputs.stream().filter(r -> ItemHandlerHelper.canItemStacksStack(r.result, stack)).findAny().map(r -> r.weight).orElse(0F);
-	}
 	
 	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return ECRecipeSerializers.CRYSTALLIZATION.get();
 	}
-
-	public static ResultEntry createResult(ItemStack result, float weight) {
-		return createResult(result, weight, 1);
-	}
-	
-	public static ResultEntry createResult(ItemStack result, float weight, float quality) {
-		return new ResultEntry(result, weight, quality);
-	}
-
-	public boolean isValidShard(ItemStack stack) {
-		return ingredients.get(2).test(stack);
-	}
-
-	public static class ResultEntry {
-		public static final Codec<ResultEntry> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-				ItemStack.CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result),
-				Codec.FLOAT.fieldOf(ECNames.WEIGHT).forGetter(r -> r.weight),
-				Codec.FLOAT.optionalFieldOf(ECNames.QUALITY, 1F).forGetter(r -> r.quality)
-		).apply(builder, ResultEntry::new));
-		public static final Codec<List<ResultEntry>> LIST_CODEC = CODEC.listOf();
-		
-		private final float weight;
-		private final float quality;
-		private final ItemStack result;
-		
-		private ResultEntry(ItemStack result, float weight, float quality) {
-			this.result = result;
-			this.weight = weight;
-			this.quality = quality;
-		}
-
-		public ItemStack getResult() {
-			return result.copy();
-		}
-		
-		public int getEffectiveWeight(float luck) {
-			return Math.max(Mth.floor(weight + quality * luck), 0);
-		}
-	}
 	
 	public static class Serializer implements RecipeSerializer<CrystallizationRecipe> {
-
-		private static final Codec<List<ResultEntry>> OUTPUT_CODEC = ResultEntry.LIST_CODEC.fieldOf(ECNames.OUTPUTS).codec();
 
 		@Nonnull
 		@Override
@@ -185,9 +99,9 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			NonNullList<Ingredient> ingredients = readIngredients(GsonHelper.getAsJsonObject(json, ECNames.INGREDIENTS));
-			List<ResultEntry> outputs = CodecHelper.decode(ResultEntry.LIST_CODEC, json.get(ECNames.OUTPUTS));
+            ItemStack result = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 			
-			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
+			return new CrystallizationRecipe(recipeId, type, elementAmount, result, ingredients);
 		}
 
 		public static NonNullList<Ingredient> readIngredients(JsonObject json) {
@@ -195,7 +109,6 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 
 			list.add(RecipeHelper.deserializeIngredient(json, ECNames.GEM));
 			list.add(RecipeHelper.deserializeIngredient(json, ECNames.CRYSTAL));
-			list.add(RecipeHelper.deserializeIngredient(json, ECNames.SHARD));
 			return list;
 		}
 
@@ -203,7 +116,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 		public CrystallizationRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
-			List<ResultEntry> outputs = CodecHelper.decode(OUTPUT_CODEC, buffer);
+            ItemStack result = buffer.readItem();
 			
 			int i = buffer.readInt();
 			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
@@ -212,14 +125,14 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 				ingredients.set(j, Ingredient.fromNetwork(buffer));
 			}
 
-			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
+			return new CrystallizationRecipe(recipeId, type, elementAmount, result, ingredients);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, CrystallizationRecipe recipe) {
 			buffer.writeUtf(recipe.getElementType().getSerializedName());
 			buffer.writeInt(recipe.getElementAmount());
-			CodecHelper.encode(OUTPUT_CODEC, recipe.outputs, buffer);
+            buffer.writeItem(recipe.result);
 			buffer.writeInt(recipe.getIngredients().size());
 			recipe.getIngredients().forEach(ingredient -> ingredient.toNetwork(buffer));
 		}

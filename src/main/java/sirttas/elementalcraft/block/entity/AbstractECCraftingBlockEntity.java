@@ -13,21 +13,24 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
+import sirttas.elementalcraft.container.IRuneableBlockEntity;
 import sirttas.elementalcraft.recipe.IContainerBlockEntityRecipe;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEntity, R extends IContainerBlockEntityRecipe<T>> extends AbstractECContainerBlockEntity implements ICraftingBlockEntity {
+public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEntity, R extends IContainerBlockEntityRecipe<T>> extends AbstractECContainerBlockEntity implements ICraftingBlockEntity, IRuneableBlockEntity {
 
 	protected final RecipeType<R> recipeType;
 	protected final int transferSpeed;
 	protected final RuneHandler runeHandler;
 	protected final int outputSlot;
 	protected final boolean retrieveAll;
+    protected final boolean lockable;
 
 	protected R recipe;
+    protected boolean locked = false;
 	
 	protected AbstractECCraftingBlockEntity(Config<T, R> config, BlockPos pos, BlockState state) {
 		super(config.blockEntityType(), pos, state);
@@ -36,7 +39,17 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 		this.runeHandler = new RuneHandler(config.maxRunes().get(), this::setChanged);
 		this.outputSlot = config.outputSlot();
 		this.retrieveAll = config.retrieveAll();
+        this.lockable = config.lockable();
 	}
+
+    public static <T extends ICraftingBlockEntity, R extends IContainerBlockEntityRecipe<T>> void tick(AbstractECCraftingBlockEntity<T, R> be) {
+        if (be.shouldRetrieverExtractOutput()) {
+            be.retrieve();
+        }
+        if (be.locked) {
+            be.updateLock();
+        }
+    }
 
 	@Override
 	public boolean isRecipeAvailable() {
@@ -57,9 +70,9 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 	public void process() {
 		if (!level.isClientSide) {
 			assemble();
-			retrieve();
 		}
 		recipe = null;
+        updateLock();
 		this.setChanged();
 	}
 
@@ -83,6 +96,21 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 		return level != null ? lookupRecipe(level, recipeType) : null;
 	}
 
+    protected boolean shouldRetrieverExtractOutput() {
+        return (!lockable || locked) && !getInventory().getItem(outputSlot).isEmpty();
+    }
+
+    protected void updateLock() {
+        if (lockable) {
+            locked = !getInventory().getItem(outputSlot).isEmpty();
+        }
+    }
+
+    public boolean isLocked() {
+        return lockable && locked;
+    }
+
+    @Override
 	@Nonnull
 	public RuneHandler getRuneHandler() {
 		return runeHandler;
@@ -117,7 +145,8 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 			Supplier<Integer> transferSpeed,
 			Supplier<Integer> maxRunes,
 			int outputSlot,
-			boolean retrieveAll
+			boolean retrieveAll,
+            boolean lockable
 	) {}
 
 }

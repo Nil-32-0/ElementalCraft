@@ -6,7 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
+import metafact.dpanvil_m.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;

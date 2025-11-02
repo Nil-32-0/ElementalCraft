@@ -1,10 +1,13 @@
 package sirttas.elementalcraft.block.source;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.item.ECItems;
 
 public class SourceElementStorage extends StaticElementStorage {
 
@@ -33,7 +36,7 @@ public class SourceElementStorage extends StaticElementStorage {
 
 	@Override
 	public int extractElement(int count, ElementType type, boolean simulate) {
-		if (Boolean.TRUE.equals(ECConfig.COMMON.disableSourceExhaustion.get())) {
+		if (Boolean.TRUE.equals(ECConfig.SERVER.disableSourceExhaustion.get())) {
 			return count;
 		} else if (!exhausted) {
 			int value = super.extractElement(count, type, simulate);
@@ -62,6 +65,11 @@ public class SourceElementStorage extends StaticElementStorage {
 	public boolean canPipeExtract(ElementType elementType, Direction side) {
 		return false;
 	}
+
+    @Override
+    public boolean doesRenderGauge(Player player) {
+        return source.isAnalyzed() && EntityHelper.handStream(player).anyMatch(i -> i.is(ECItems.SOURCE_ANALYSIS_GLASS.get()));
+    }
 
 	public boolean isExhausted() {
 		return exhausted;

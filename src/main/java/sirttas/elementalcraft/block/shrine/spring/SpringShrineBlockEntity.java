@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
@@ -23,7 +24,7 @@ public class SpringShrineBlockEntity extends AbstractShrineBlockEntity {
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(SpringShrineBlock.NAME);
 
 	public SpringShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.SPAWNING_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.SPRING_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
 	@Override
@@ -33,12 +34,11 @@ public class SpringShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	protected boolean doPeriod() {
-		if (this.hasUpgrade(ShrineUpgrades.FILLING)) {
-			return BlockEntityHelper.getBlockEntity(level, worldPosition.above(2))
-					.flatMap(entity -> entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve())
-					.map(fluid -> fluid.fill(new FluidStack(Fluids.WATER, (int) Math.round(this.getStrength())), FluidAction.EXECUTE) > 0)
-					.orElse(false);
-		}
+        var fillingDirection = getUpgradeDirection(ShrineUpgrades.FILLING);
+
+        if (fillingDirection != null) {
+            return LavaShrineBlockEntity.fill(this, fillingDirection, Fluids.WATER);
+        }
 		return ((BucketItem) Items.WATER_BUCKET).emptyContents(null, level, worldPosition.above(), null);
 	}
 }

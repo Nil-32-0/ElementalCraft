@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -51,8 +52,8 @@ public class NectarShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlo
 	private static final VoxelShape PIPE_3_EAST = Block.box(14D, 9D, 10D, 17D, 11D, 12D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(CORE_1_EAST, CORE_2_EAST, PIPE_1_EAST, PIPE_2_EAST, PIPE_3_EAST);
 
-	public NectarShrineUpgradeBlock() {
-		super(ShrineUpgrades.NECTAR);
+	public NectarShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.NECTAR, properties);
 	}
 	
 	@Nonnull

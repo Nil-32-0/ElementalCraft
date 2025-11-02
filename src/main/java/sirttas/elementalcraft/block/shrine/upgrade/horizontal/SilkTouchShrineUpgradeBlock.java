@@ -9,6 +9,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -67,8 +68,8 @@ public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgrade
 	private static final VoxelShape SHAPE_EAST_ATTACHED = Shapes.or(SHAPE_EAST, ATTACH_EAST);
 
 
-	public SilkTouchShrineUpgradeBlock() {
-		super(ShrineUpgrades.SILK_TOUCH);
+	public SilkTouchShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.SILK_TOUCH, properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(BlockStateProperties.ATTACHED, true)

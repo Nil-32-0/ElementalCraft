@@ -4,7 +4,9 @@
   "element_type": "earth",
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/pristine_earth"
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:kaworu\"}}"
     },
     {
       "type": "forge:partial_nbt",

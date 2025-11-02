@@ -10,6 +10,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
@@ -46,7 +47,8 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 
 	private final ElementType elementType;
 
-	public PedestalBlock(ElementType type) {
+	public PedestalBlock(ElementType type, BlockBehaviour.Properties properties) {
+        super(properties);
 		elementType = type;
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(NORTH, false)

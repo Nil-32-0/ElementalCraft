@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.shrine.grove;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -29,8 +30,8 @@ public class GroveShrineBlock extends AbstractShrineBlock<GroveShrineBlockEntity
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, BASE, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_CENTER, PLATE);
 
-	public GroveShrineBlock() {
-		super(ElementType.WATER);
+	public GroveShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.WATER, properties);
 	}
 	
 	@Nonnull

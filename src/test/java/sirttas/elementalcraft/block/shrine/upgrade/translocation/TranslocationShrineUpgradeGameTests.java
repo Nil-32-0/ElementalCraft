@@ -54,7 +54,7 @@ public class TranslocationShrineUpgradeGameTests {
         assertThat(shrine.getTargetPos()).isEqualTo(targetPos);
         assertThat(shrine.getUpgradeCount(ShrineUpgrades.TRANSLOCATION)).isEqualTo(1);
 
-        ShrineGameTestHelper.forcePeriods(shrine, 100);
+        ShrineGameTestHelper.forcePeriods(shrine, CROPS.size() * 7);
         helper.succeedIf(() -> CROPS.forEach(pos -> helper.assertBlockState(pos, b -> b.getValue(CropBlock.AGE) == 7, () -> "Crop has not been grown")));
     }
 }

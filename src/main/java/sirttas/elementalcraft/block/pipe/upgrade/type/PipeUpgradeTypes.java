@@ -8,7 +8,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -26,7 +25,7 @@ public class PipeUpgradeTypes {
 
     private static final Map<PipeUpgradeType<?>, Item> UPGRADE_ITEM_MAP = new Object2ObjectOpenHashMap<>();
 
-    private static final DeferredRegister<PipeUpgradeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraft.createRL(ECNames.PIPE_UPGRADE_TYPE), ElementalCraftApi.MODID);
+    private static final DeferredRegister<PipeUpgradeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.PIPE_UPGRADE_TYPE), ElementalCraftApi.MODID);
 
     public static final Supplier<IForgeRegistry<PipeUpgradeType<?>>> REGISTRY = DEFERRED_REGISTER.makeRegistry(RegistryBuilder::new);
 

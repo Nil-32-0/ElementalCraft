@@ -12,22 +12,22 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> implements BlockEntityRenderer<T> {
+public class SolarSynthesizerRenderer implements BlockEntityRenderer<SolarSynthesizerBlockEntity> {
 
 	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_synthesizer_beam");
-	public static final ResourceLocation LENSE_LOCATION = ElementalCraft.createRL("block/solar_synthesizer_lense");
+	public static final ResourceLocation LENSE_LOCATION = ElementalCraftApi.createRL("block/solar_synthesizer_lense");
 
 	private static BakedModel lenseModel;
 
 	@Override
-	public void render(T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+	public void render(SolarSynthesizerBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		ECRendererHelper.renderRunes(matrixStack, buffer, te.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
 
 		var elementType = getElementType(te);
@@ -62,7 +62,7 @@ public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> imp
 		}
 	}
 
-	protected ElementType getElementType(T te) {
+	protected ElementType getElementType(SolarSynthesizerBlockEntity te) {
 		ItemStack stack = te.getInventory().getItem(0);
 
 		if (!stack.isEmpty()) {

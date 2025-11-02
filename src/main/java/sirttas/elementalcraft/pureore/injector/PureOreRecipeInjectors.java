@@ -65,7 +65,7 @@ public class PureOreRecipeInjectors {
 		if (id == null) {
 			throw new PureOreException("Cannot register injector as its RecipeType is absent in registry.");
 		}
-		RegistryHelper.register(registry, injector, ElementalCraft.createRL(id.getNamespace() + '/' + id.getPath()));
+		RegistryHelper.register(registry, injector, ElementalCraftApi.createRL(id.getNamespace() + '/' + id.getPath()));
 	}
 
 	public static void register(IEventBus modBus) {

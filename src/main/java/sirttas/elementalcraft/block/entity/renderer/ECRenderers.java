@@ -17,6 +17,7 @@ import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.binder.BinderRenderer;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerRenderer;
+import sirttas.elementalcraft.block.instrument.enchantment.liquefier.EnchantmentLiquefierRenderer;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberRenderer;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceRenderer;
 import sirttas.elementalcraft.block.instrument.io.mill.MillRenderer;
@@ -26,6 +27,7 @@ import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;
 import sirttas.elementalcraft.block.shrine.ShrineRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeRenderer;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.greater.GreaterFortuneShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.sorter.SorterRenderer;
@@ -60,7 +62,8 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.AIR_MILL_GRINDSTONE, d -> new MillRenderer<>(MillRenderer.AIR_MILL_GRINDSTONE_SHAFT_LOCATION));
 		register(ECBlockEntityTypes.WATER_MILL_WOOD_SAW, d -> new MillRenderer<>(MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION));
 		register(ECBlockEntityTypes.AIR_MILL_WOOD_SAW, d -> new MillRenderer<>(MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION));
-		register(ECBlockEntityTypes.PEDESTAL, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.9, 0.5)));
+        register(ECBlockEntityTypes.ENCHANTMENT_LIQUEFIER, EnchantmentLiquefierRenderer::new);
+        register(ECBlockEntityTypes.PEDESTAL, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.9, 0.5)));
 		register(ECBlockEntityTypes.PURE_INFUSER, PureInfuserRenderer::new);
 		register(ECBlockEntityTypes.FIRE_FURNACE, FireFurnaceRenderer::new);
 		register(ECBlockEntityTypes.FIRE_BLAST_FURNACE, FireFurnaceRenderer::new);
@@ -69,6 +72,7 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.VORTEX_SHRINE_UPGRADE, VortexShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.TRANSLOCATION_SHRINE_UPGRADE, TranslocationShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE, OverclockedAccelerationShrineUpgradeRenderer::new);
+        register(ECBlockEntityTypes.GREATER_FORTUNE_SHRINE_UPGRADE, GreaterFortuneShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.SORTER, SorterRenderer::new);
 		register(ECBlockEntityTypes.SOURCE, SourceRenderer::new);
 

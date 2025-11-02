@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.enchantment.Enchantment;
-import sirttas.dpanvil.api.codec.Codecs;
+import metafact.dpanvil_m.api.codec.Codecs;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;

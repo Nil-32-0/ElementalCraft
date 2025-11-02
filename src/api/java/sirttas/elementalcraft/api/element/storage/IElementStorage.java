@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.api.element.storage;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
@@ -44,7 +45,7 @@ public interface IElementStorage {
 		return type != ElementType.NONE;
 	}
 
-	default boolean doesRenderGauge() {
+	default boolean doesRenderGauge(Player player) {
 		return false;
 	}
 
@@ -53,7 +54,9 @@ public interface IElementStorage {
 	}
 	
 	default boolean isEmpty() {
-		return ElementType.ALL_VALID.stream().mapToInt(this::getElementAmount).allMatch(i -> i <= 0);
+		return ElementType.ALL_VALID.stream()
+                .mapToInt(this::getElementAmount)
+                .allMatch(i -> i <= 0);
 	}
 
 	default void fill() {
@@ -73,4 +76,10 @@ public interface IElementStorage {
 		}
 		return new SingleElementStorageWrapper(type, this);
 	}
+
+    default int transferAll(IElementStorage target) {
+        return ElementType.ALL_VALID.stream()
+                .mapToInt(type -> transferTo(target, type, getElementAmount(type)))
+                .sum();
+    }
 }

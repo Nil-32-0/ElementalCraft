@@ -4,7 +4,9 @@
   "element_type": "water",
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/pristine_water"
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:bombadil\"}}"
     },
     {
       "tag": "forge:gems/emerald"

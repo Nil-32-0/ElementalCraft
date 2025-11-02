@@ -13,6 +13,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -53,8 +54,8 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final BooleanProperty CONNECTED = BooleanProperty.create("connected");
 
-    public OverclockedAccelerationShrineUpgradeBlock() {
-        super(ShrineUpgrades.OVERCLOCKED_ACCELERATION);
+    public OverclockedAccelerationShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+        super(ShrineUpgrades.OVERCLOCKED_ACCELERATION, properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(HALF, DoubleBlockHalf.LOWER)

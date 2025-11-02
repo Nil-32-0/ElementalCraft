@@ -195,7 +195,10 @@ public class SpellHelper {
 	}
 
 	public static Spell randomSpell(ElementType type, RandomSource rand) {
-		return randomSpell(Spells.REGISTRY.get().getValues().stream().filter(spell -> spell.getElementType() == type && spell.isValid()).collect(Collectors.toList()), rand);
+		return randomSpell(Spells.REGISTRY.get().getValues().stream()
+                .filter(spell -> spell.getElementType() == type && spell.isValid()).toList(),
+                rand
+        );
 	}
 
 	public static Spell randomSpell(Collection<Spell> spells, RandomSource rand) {

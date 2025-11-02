@@ -6,7 +6,28 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:block",
-    "block": "elementalcraft:growthshrine"
+    "type": "dpanvil_m:and",
+    "values": [
+      {
+        "type": "dpanvil_m:not",
+        "value": {
+          "type": "dpanvil_m:or",
+          "values": [
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_stem_pollination"
+            },
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_crystal_growth"
+            }
+          ]
+        }
+      },
+      {
+        "type": "dpanvil_m:block",
+        "block": "elementalcraft:growthshrine"
+      }
+    ]
   }
 }

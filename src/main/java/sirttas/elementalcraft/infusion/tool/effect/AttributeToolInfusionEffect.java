@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import sirttas.dpanvil.api.codec.Codecs;
+import metafact.dpanvil_m.api.codec.Codecs;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;

@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -33,8 +34,8 @@ public class PickupShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
-	public PickupShrineUpgradeBlock() {
-		super(ShrineUpgrades.PICKUP);
+	public PickupShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.PICKUP, properties);
 	}
 	
 	@Nonnull

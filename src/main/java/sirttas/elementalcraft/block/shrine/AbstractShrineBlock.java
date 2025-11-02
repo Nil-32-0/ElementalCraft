@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -48,7 +49,8 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	private final ElementType elementType;
 	private BlockEntityType<T> entityType;
 
-	protected AbstractShrineBlock(ElementType elementType) {
+	protected AbstractShrineBlock(ElementType elementType, BlockBehaviour.Properties properties) {
+        super(properties);
 		this.elementType = elementType;
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(WATERLOGGED, false));

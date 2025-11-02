@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "elementalcraft:purecrystal"
+      "item": "elementalcraft:pure_crystal"
     },
     "g": {
-      "tag": "elementalcraft:gems/pristine_air"
+      "item": "elementalcraft:pristine_air_gem"
     },
     "s": {
       "tag": "forge:ingots/swift_alloy"

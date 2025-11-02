@@ -6,7 +6,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.MissingMappingsEvent;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
@@ -56,7 +55,7 @@ public class MissingMappingsHandler {
 			String newName = NAME_REMAP.get(oldName);
 
 			if (newName != null) {
-				T entity = registry.getValue(ElementalCraft.createRL(newName));
+				T entity = registry.getValue(ElementalCraftApi.createRL(newName));
 
 				if (entity != null && entity != defaultValue) {
 					mapping.remap(entity);

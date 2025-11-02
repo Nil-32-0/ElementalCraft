@@ -4,7 +4,7 @@
   "element_type": "water",
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/crude_water"
+      "item": "elementalcraft:crude_water_gem"
     },
     {
       "tag": "forge:gems/lapis"

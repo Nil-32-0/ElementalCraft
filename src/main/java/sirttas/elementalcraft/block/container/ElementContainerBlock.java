@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.container;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -28,13 +29,14 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE, GLASS, PIPE_1, PIPE_2, PIPE_3, PIPE_4, CONNECTOR);
 
-	public ElementContainerBlock() {
-		this.registerDefaultState(this.stateDefinition.any()
-				.setValue(NORTH, false)
-				.setValue(EAST, false)
-				.setValue(SOUTH, false)
-				.setValue(WEST, false));
-	}
+    public ElementContainerBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(NORTH, false)
+                .setValue(EAST, false)
+                .setValue(SOUTH, false)
+                .setValue(WEST, false));
+    }
 
 	@Nonnull
 	@Override
@@ -50,6 +52,6 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 
 	@Override
 	public int getDefaultCapacity() {
-		return ECConfig.COMMON.tankCapacity.get();
+		return ECConfig.SERVER.containerCapacity.get();
 	}
 }

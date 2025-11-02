@@ -10,11 +10,8 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -78,8 +75,8 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 	public static final EnumProperty<Part> PART = EnumProperty.create("part", Part.class);
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public BreedingShrineBlock() {
-		super(ElementType.EARTH);
+	public BreedingShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.EARTH, properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(PART, Part.CORE)
@@ -108,7 +105,7 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 			if (blockstate.getBlock() == this && blockstate.getValue(PART) != part) {
 				level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
-				level.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
+				level.levelEvent(player, LevelEvent.PARTICLES_DESTROY_BLOCK, blockpos, Block.getId(blockstate));
 			}
 		}
 		super.playerWillDestroy(level, pos, state, player);

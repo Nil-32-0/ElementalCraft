@@ -34,7 +34,11 @@ public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 
 	private static final VoxelShape SHAPE = Shapes.or(GLASS, CONNECTOR_NORTH_1, CONNECTOR_NORTH_2, CONNECTOR_SOUTH_1, CONNECTOR_SOUTH_2, CONNECTOR_WEST_1, CONNECTOR_WEST_2, CONNECTOR_EAST_1,
 			CONNECTOR_EAST_2, CONNECTOR_DOWN_1, CONNECTOR_DOWN_2, CONNECTOR_UP_1, CONNECTOR_UP_2);
-	
+
+    public SmallElementContainerBlock(Properties properties) {
+        super(properties);
+    }
+
 	@Nonnull
 	@Override
 	@Deprecated
@@ -44,6 +48,6 @@ public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 	
 	@Override
 	public int getDefaultCapacity() {
-		return ECConfig.COMMON.tankSmallCapacity.get();
+		return ECConfig.SERVER.smallContainerCapacity.get();
 	}
 }

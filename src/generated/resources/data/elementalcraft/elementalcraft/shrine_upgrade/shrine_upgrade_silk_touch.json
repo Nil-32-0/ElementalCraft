@@ -4,26 +4,47 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:cache",
+    "type": "dpanvil_m:cache",
     "value": {
-      "type": "dpanvil:or",
+      "type": "dpanvil_m:and",
       "values": [
         {
-          "type": "dpanvil:and",
-          "values": [
-            {
-              "type": "elementalcraft:has_shrine_upgrade",
-              "shrine_upgrade": "elementalcraft:shrine_upgrade_crystal_harvest"
-            },
-            {
-              "type": "dpanvil:block",
-              "block": "elementalcraft:buddingshrine"
-            }
-          ]
+          "type": "dpanvil_m:not",
+          "value": {
+            "type": "dpanvil_m:or",
+            "values": [
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_fortune"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_greater_fortune"
+              }
+            ]
+          }
         },
         {
-          "type": "dpanvil:tag",
-          "tag": "elementalcraft:shrines/upgradables/silk_touch"
+          "type": "dpanvil_m:or",
+          "values": [
+            {
+              "type": "dpanvil_m:and",
+              "values": [
+                {
+                  "type": "elementalcraft:has_shrine_upgrade",
+                  "shrine_upgrade": "elementalcraft:shrine_upgrade_crystal_harvest"
+                },
+                {
+                  "type": "dpanvil_m:block",
+                  "block": "elementalcraft:buddingshrine"
+                }
+              ]
+            },
+            {
+              "type": "dpanvil_m:tag",
+              "tag": "elementalcraft:shrines/upgradables/silk_touch"
+            }
+          ]
         }
       ]
     }

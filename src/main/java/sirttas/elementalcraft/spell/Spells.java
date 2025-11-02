@@ -7,7 +7,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.registry.RegistryHelper;
@@ -34,9 +33,9 @@ import java.util.function.Supplier;
 
 public class Spells {
 
-	private static final DeferredRegister<Spell> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraft.createRL(ECNames.SPELL), ElementalCraftApi.MODID);
+	private static final DeferredRegister<Spell> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.SPELL), ElementalCraftApi.MODID);
 
-	public static final Supplier<IForgeRegistry<Spell>> REGISTRY = DEFERRED_REGISTER.makeRegistry(RegistryHelper.builder(b -> b.setDefaultKey(ElementalCraft.createRL("none"))));
+	public static final Supplier<IForgeRegistry<Spell>> REGISTRY = DEFERRED_REGISTER.makeRegistry(RegistryHelper.builder(b -> b.setDefaultKey(ElementalCraftApi.createRL("none"))));
 
 
 	public static final RegistryObject<Spell> NONE = register("none", Spell::new);
@@ -65,7 +64,7 @@ public class Spells {
 	private Spells() {}
 
 	private static <T extends Spell> RegistryObject<T> register(String name, Function<ResourceKey<Spell>, ? extends T> builder) {
-		return DEFERRED_REGISTER.register(name, () -> builder.apply(ResourceKey.create(REGISTRY.get().getRegistryKey(), ElementalCraft.createRL(name))));
+		return DEFERRED_REGISTER.register(name, () -> builder.apply(ResourceKey.create(REGISTRY.get().getRegistryKey(), ElementalCraftApi.createRL(name))));
 	}
 
 	public static void register(IEventBus modBus) {

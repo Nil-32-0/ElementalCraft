@@ -7,14 +7,14 @@
   "max_amount": 1,
   "model": "elementalcraft:elementalcraft/rune/bombadil",
   "predicate": {
-    "type": "dpanvil:cache",
+    "type": "dpanvil_m:cache",
     "value": {
-      "type": "dpanvil:and",
+      "type": "dpanvil_m:and",
       "values": [
         {
-          "type": "dpanvil:not",
+          "type": "dpanvil_m:not",
           "value": {
-            "type": "dpanvil:or",
+            "type": "dpanvil_m:or",
             "values": [
               {
                 "type": "elementalcraft:has_rune",
@@ -32,7 +32,7 @@
           }
         },
         {
-          "type": "dpanvil:tag",
+          "type": "dpanvil_m:tag",
           "tag": "elementalcraft:rune_affected/luck"
         }
       ]

@@ -77,11 +77,11 @@ public abstract class AbstractMekanismPureOreRecipeInjector<T extends MekanismRe
 	}
 
 	protected static int getInputMultiplier(long count) {
-		return (int) Math.max(2, count * ECConfig.COMMON.mekanismPureOreInputMultiplier.get());
+		return (int) Math.max(2, count * ECConfig.SERVER.mekanismPureOreInputMultiplier.get());
 	}
 
 	protected static int getOutputMultiplier(long count) {
-		return (int) Math.max(2, count * ECConfig.COMMON.mekanismPureOreOutputMultiplier.get());
+		return (int) Math.max(2, count * ECConfig.SERVER.mekanismPureOreOutputMultiplier.get());
 	}
 
 

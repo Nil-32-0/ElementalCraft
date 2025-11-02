@@ -17,10 +17,11 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, 
 	private static final Config<IInfuser, IInfusionRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.INFUSER,
 			ECRecipeTypes.INFUSION,
-			ECConfig.COMMON.infuserTransferSpeed,
-			ECConfig.COMMON.infuserMaxRunes,
+			ECConfig.SERVER.infuserTransferSpeed,
+			ECConfig.SERVER.infuserMaxRunes,
 			0,
-			true
+			true,
+            true
 	);
 
 	private final SingleItemContainer inventory;
@@ -28,7 +29,6 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, 
 	public InfuserBlockEntity(BlockPos pos, BlockState state) {
 		super(CONFIG, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
-		lockable = true;
 	}
 
 	@Override

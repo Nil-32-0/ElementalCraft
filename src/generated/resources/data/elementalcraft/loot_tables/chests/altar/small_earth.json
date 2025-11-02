@@ -113,7 +113,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:earthcrystal",
+          "name": "elementalcraft:earth_crystal",
           "weight": 40
         },
         {

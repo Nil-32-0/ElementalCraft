@@ -8,11 +8,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.gametest.GameTestHolder;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
-import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -22,6 +22,7 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.rune.RuneGameTestHelper;
+import sirttas.elementalcraft.rune.Runes;
 
 import java.util.function.Consumer;
 
@@ -70,7 +71,7 @@ public class SourceBreederGameTests {
 
                             assertThat(stack).isNotNull().hasCount(1).satisfiesAnyOf(
                                     s -> assertThat(s).is(ECBlocks.SOURCE_BREEDER),
-                                    s -> assertThat(s).is(ECItems.RUNE).satisfies(s2 -> RuneGameTestHelper.assertRuneIs(s2, "creative"))
+                                    s -> assertThat(s).is(ECItems.RUNE).satisfies(s2 -> RuneGameTestHelper.assertRuneIs(s2, Runes.CREATIVE))
                             );
                         });
         items.forEach(Entity::discard);
@@ -87,23 +88,23 @@ public class SourceBreederGameTests {
         var pedestal2 = helper.getBlockEntity(new BlockPos(0, 1, 4));
         var pedestal1ItemHandler = ECContainerHelper.getItemHandler(pedestal1, null);
         var pedestal2ItemHandler = ECContainerHelper.getItemHandler(pedestal2, null);
-        var pedestal1ElementStorage = ElementStorageHelper.get(pedestal1);
-        var pedestal2ElementStorage = ElementStorageHelper.get(pedestal2);
+        var pedestal1ElementStorage = ElementStorageGameTestHelper.get(pedestal1);
+        var pedestal2ElementStorage = ElementStorageGameTestHelper.get(pedestal2);
 
         helper.startSequence().thenExecute(() -> {
             breederItemHandler.insertItem(0, new ItemStack(seed), false);
-            pedestal1ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
-            pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
-            pedestal1ElementStorage.ifPresent(IElementStorage::fill);
-            pedestal2ElementStorage.ifPresent(IElementStorage::fill);
-        }).thenExecuteFor(1, () -> {
+        }).thenExecuteAfter(1, ECGameTestHelper.fixAssertions(() -> {
             assertThat(breeder).isNotNull().satisfies(b -> {
                 assertThat(b.getElementType()).isEqualTo(type);
                 assertThat(b.getPedestalsDirections()).hasSize(2);
             });
-        }).thenExecuteFor(10, () -> {
-            pedestal1ElementStorage.ifPresent(IElementStorage::fill);
-            pedestal2ElementStorage.ifPresent(IElementStorage::fill);
+            pedestal1ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
+            pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
+            pedestal1ElementStorage.fill();
+            pedestal2ElementStorage.fill();
+        })).thenExecuteFor(10, () -> {
+            pedestal1ElementStorage.fill();
+            pedestal2ElementStorage.fill();
 
             assertThat(breederItemHandler).isNotEmpty();
         }).thenExecuteAfter(1, () -> {

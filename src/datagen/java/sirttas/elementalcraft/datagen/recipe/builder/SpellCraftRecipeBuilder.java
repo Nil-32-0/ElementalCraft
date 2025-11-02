@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
@@ -66,7 +66,7 @@ public class SpellCraftRecipeBuilder {
 	}
 
 	public void save(Consumer<FinishedRecipe> consumer, String save) {
-		this.save(consumer, ElementalCraft.createRL(SpellCraftRecipe.NAME + '/' + save));
+		this.save(consumer, ElementalCraftApi.createRL(SpellCraftRecipe.NAME + '/' + save));
 	}
 
 	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {

@@ -24,6 +24,7 @@ import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECContainerBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.container.IRuneableBlockEntity;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.item.elemental.LensItem;
 import sirttas.elementalcraft.particle.ParticleHelper;
@@ -32,27 +33,30 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity implements IContainerTopBlockEntity {
+public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity implements IContainerTopBlockEntity, IRuneableBlockEntity/*, IElementStorageBlockEntity*/ {
 
 	private final SingleItemContainer inventory;
 	private final RuneHandler runeHandler;
+
+    protected int multiplier;
 	protected boolean working;
 	private ISingleElementStorage containerCache;
 
 	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
-		this(ECBlockEntityTypes.SOLAR_SYNTHESIZER, pos, state);
+		this(ECBlockEntityTypes.SOLAR_SYNTHESIZER, ECConfig.SERVER.solarSynthesizerLensElementMultiplier.get(), pos, state);
 	}
 
-	protected SolarSynthesizerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state) {
+	protected SolarSynthesizerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, int multiplier, BlockPos pos, BlockState state) {
 		super(blockEntityType, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.COMMON.solarSynthesizerMaxRunes.get(), this::setChanged);
+		runeHandler = new RuneHandler(ECConfig.SERVER.solarSynthesizerMaxRunes.get(), this::setChanged);
+        this.multiplier = multiplier;
 		working = false;
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SolarSynthesizerBlockEntity solarSynthesizer) {
 		if (level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
-			var synthesized = solarSynthesizer.handleSynthesis(ECConfig.COMMON.solarSynthesizerLensElementMultiplier.get());
+			var synthesized = solarSynthesizer.handleSynthesis(solarSynthesizer.multiplier);
 
 			if (synthesized > 0) {
 				solarSynthesizer.breakLens(level, pos);
@@ -80,7 +84,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 
 		if (container != null) {
 			int synthesized = getElementStorage()
-					.map(storage -> runeHandler.handleElementTransfer(storage, container, amount))
+					.map(storage -> runeHandler.handleElementTransfer((ISingleElementStorage) storage, container, amount))
 					.orElse(0);
 			var hasSynthesized = synthesized > 0;
 			
@@ -118,7 +122,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove) {
 			if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
-				return getElementStorage(ECConfig.COMMON.solarSynthesizerLensElementMultiplier.get());
+				return getElementStorage(this.multiplier);
 			} else if (cap == ElementalCraftCapabilities.RUNE_HANDLE) {
 				return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
 			}
@@ -155,6 +159,21 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 				.filter(ISingleElementStorage.class::isInstance)
 				.map(ISingleElementStorage.class::cast);
 	}
+
+//    @Nonnull
+//    @Override
+//    public <U> LazyOptional<U> getElementStorage() {
+//        var item = getInventory().getItem(0);
+//
+//        if (item.isEmpty()) {
+//            return LazyOptional.of(() -> EmptyElementStorage.getSingle(ElementType.NONE)).cast();
+//        }
+//
+//        if (item.getItem() instanceof LensItem lens) {
+//            return LazyOptional.of(() -> lens.getStorage(item, multiplier)).cast();
+//        }
+//        return ElementStorageHelper.get(item).cast();
+//    }
 
 	public RuneHandler getRuneHandler() {
 		return runeHandler;

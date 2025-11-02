@@ -4,7 +4,7 @@
   "element_type": "air",
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/crude_air"
+      "item": "elementalcraft:crude_air_gem"
     },
     {
       "item": "minecraft:sugar"

@@ -6,10 +6,10 @@
       "item": "elementalcraft:unset_jewel"
     },
     "c": {
-      "item": "elementalcraft:watercrystal"
+      "item": "elementalcraft:water_crystal"
     },
     "w": {
-      "tag": "elementalcraft:gems/crude_water"
+      "item": "elementalcraft:crude_water_gem"
     }
   },
   "pattern": [

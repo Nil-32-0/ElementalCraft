@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.shrine.lumber;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -25,8 +26,8 @@ public class LumberShrineBlock extends AbstractShrineBlock<LumberShrineBlockEnti
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
-	public LumberShrineBlock() {
-		super(ElementType.EARTH);
+	public LumberShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.EARTH, properties);
 	}
 
 	@Nonnull

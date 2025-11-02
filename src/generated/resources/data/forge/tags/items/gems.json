@@ -1,5 +1,22 @@
 {
   "values": [
-    "#elementalcraft:gems/input"
+    "elementalcraft:crude_water_gem",
+    "elementalcraft:fine_water_gem",
+    "elementalcraft:pristine_water_gem",
+    "elementalcraft:crude_fire_gem",
+    "elementalcraft:fine_fire_gem",
+    "elementalcraft:pristine_fire_gem",
+    "elementalcraft:crude_earth_gem",
+    "elementalcraft:fine_earth_gem",
+    "elementalcraft:pristine_earth_gem",
+    "elementalcraft:crude_air_gem",
+    "elementalcraft:fine_air_gem",
+    "elementalcraft:pristine_air_gem",
+    "elementalcraft:crude_entropy_gem",
+    "elementalcraft:fine_entropy_gem",
+    "elementalcraft:pristine_entropy_gem",
+    "elementalcraft:crude_purity_gem",
+    "elementalcraft:fine_purity_gem",
+    "elementalcraft:pristine_purity_gem"
   ]
 }

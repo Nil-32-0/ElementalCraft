@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -39,6 +40,10 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 	private static final VoxelShape SIDE_PILLAR_4 = SIDE_PILLAR_1.move(12D / 16, 0D, 12D / 16);
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PILLAR, SIDE_PILLAR_1, SIDE_PILLAR_2, SIDE_PILLAR_3, SIDE_PILLAR_4);
+
+    public DiffuserBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
 
 	@Override
 	public DiffuserBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {

@@ -4,7 +4,9 @@
   "element_type": "earth",
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/fine_earth"
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:soaryn\"}}"
     },
     {
       "type": "forge:partial_nbt",

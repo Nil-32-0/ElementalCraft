@@ -52,21 +52,21 @@ public class ECItemModelProvider extends ItemModelProvider {
 					if (block instanceof AmethystClusterBlock) {
 						singleTextureInBlock(name);
 					} else if (block instanceof WallBlock) {
-						wallInventory(name, ElementalCraft.createRL(BLOCK_PREFIX + StringUtils.removeEnd(name, "_wall")));
+						wallInventory(name, ElementalCraftApi.createRL(BLOCK_PREFIX + StringUtils.removeEnd(name, "_wall")));
 					} else if (block instanceof IronBarsBlock) {
-						singleTexture(name, ElementalCraft.createRL(BLOCK_PREFIX + StringUtils.removeEnd(name, "_pane")))
+						singleTexture(name, ElementalCraftApi.createRL(BLOCK_PREFIX + StringUtils.removeEnd(name, "_pane")))
 								.renderType("minecraft:translucent");
 					} else if (block instanceof ElementPipeBlock pipe) {
 						pipeInventory(pipe, name);
 					} else {
-						withExistingParent(name, ElementalCraft.createRL(BLOCK_PREFIX + name));
+						withExistingParent(name, ElementalCraftApi.createRL(BLOCK_PREFIX + name));
 					}
 				} else if (item instanceof PipeUpgradeItem) {
-					withExistingParent(name, ElementalCraft.createRL(PipeUpgrade.FOLDER + name));
+					withExistingParent(name, ElementalCraftApi.createRL(PipeUpgrade.FOLDER + name));
 				} else if (item instanceof FocusItem || item instanceof SourceAnalysisGlassItem || item instanceof ChiselItem) {
-					singleTexture(name,  new ResourceLocation("minecraft", ITEM_PREFIX + "handheld"), "layer0", ElementalCraft.createRL(ITEM_PREFIX + name));
+					singleTexture(name,  new ResourceLocation("minecraft", ITEM_PREFIX + "handheld"), "layer0", ElementalCraftApi.createRL(ITEM_PREFIX + name));
 				}else if (item instanceof ElementHolderItem) {
-					withExistingParent(name, ElementalCraft.createRL(ITEM_PREFIX + "template_element_holder"));
+					withExistingParent(name, ElementalCraftApi.createRL(ITEM_PREFIX + "template_element_holder"));
 				} else {
 					singleTexture(name);
 				}
@@ -75,23 +75,23 @@ public class ECItemModelProvider extends ItemModelProvider {
 		for (Jewel jewel : Jewels.REGISTRY.get()) {
 			var key = jewel.getKey();
 
-			if (ElementalCraft.owns(key) && !exists(jewel)) {
+			if (ElementalCraft.owns(key) && !exists(jewel) && jewel != Jewels.NONE.get()) {
 				singleJewelTexture(key.getPath());
 			}
 		}
 	}
 
 	private void pipeInventory(ElementPipeBlock pipe, String name) {
-		withExistingParent(name, ElementalCraft.createRL(ITEM_PREFIX + "template_elementpipe"))
-				.texture("texture", ElementalCraft.createRL(BLOCK_PREFIX + ECDataGenerators.getPipeTexture(pipe.getType())));
+		withExistingParent(name, ElementalCraftApi.createRL(ITEM_PREFIX + "template_elementpipe"))
+				.texture("texture", ElementalCraftApi.createRL(BLOCK_PREFIX + ECDataGenerators.getPipeTexture(pipe.getType())));
 	}
 
 	public ItemModelBuilder singleTexture(String name) {
-		return singleTexture(name, ElementalCraft.createRL(ITEM_PREFIX + name));
+		return singleTexture(name, ElementalCraftApi.createRL(ITEM_PREFIX + name));
 	}
 	
 	public ItemModelBuilder singleTextureInBlock(String name) {
-		return singleTexture(name, ElementalCraft.createRL(BLOCK_PREFIX + name));
+		return singleTexture(name, ElementalCraftApi.createRL(BLOCK_PREFIX + name));
 	}
 
 	public ItemModelBuilder singleTexture(String name, ResourceLocation texture) {
@@ -99,7 +99,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	public ItemModelBuilder singleJewelTexture(String name) {
-		return singleTexture("elementalcraft/jewels/" + name, ElementalCraft.createRL("elementalcraft/jewels/" + name));
+		return singleTexture("elementalcraft/jewels/" + name, ElementalCraftApi.createRL("elementalcraft/jewels/" + name));
 	}
 
 	public ItemModelBuilder runeTexture(String name, ResourceLocation slate, ResourceLocation rune) {

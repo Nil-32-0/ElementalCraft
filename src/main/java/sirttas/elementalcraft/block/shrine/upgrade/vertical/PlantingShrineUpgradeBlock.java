@@ -4,12 +4,14 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -44,8 +46,8 @@ public class PlantingShrineUpgradeBlock extends AbstractVerticalShrineUpgradeBlo
 
 	private static final VoxelShape SHAPE_DOWN = Shapes.or(BASE_1_DOWN, BASE_2_DOWN, PIPE_1_DOWN, PIPE_2_DOWN, PIPE_3_DOWN, PIPE_4_DOWN);
 
-	public PlantingShrineUpgradeBlock() {
-		super(ShrineUpgrades.PLANTING);
+	public PlantingShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.PLANTING, properties);
 	}
 
 	@Nonnull
@@ -63,6 +65,10 @@ public class PlantingShrineUpgradeBlock extends AbstractVerticalShrineUpgradeBlo
 	}
 
 	public static boolean plant(@Nonnull ItemStack seeds, @Nonnull Level level, @Nonnull BlockPos pos) {
-		return seeds.useOn(new DirectionalPlaceContext(level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction();
+        if (!(seeds.getItem() instanceof BlockItem blockItem)) {
+            return false;
+        }
+
+        return blockItem.place(new DirectionalPlaceContext(level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction();
 	}
 }

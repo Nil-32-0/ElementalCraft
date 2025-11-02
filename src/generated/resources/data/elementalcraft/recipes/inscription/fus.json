@@ -4,7 +4,9 @@
   "element_type": "air",
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/fine_air"
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:wii\"}}"
     },
     {
       "tag": "forge:string"

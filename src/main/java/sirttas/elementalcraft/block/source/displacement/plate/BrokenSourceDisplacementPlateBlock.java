@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -17,8 +18,8 @@ public class BrokenSourceDisplacementPlateBlock extends Block {
 
     public static final String NAME = "broken_source_displacement_plate";
 
-    public BrokenSourceDisplacementPlateBlock() {
-        super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
+    public BrokenSourceDisplacementPlateBlock(BlockBehaviour.Properties properties) {
+        super(properties);
     }
 
     @Nonnull

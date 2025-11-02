@@ -10,9 +10,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import sirttas.dpanvil.api.codec.CodecHelper;
-import sirttas.dpanvil.api.codec.Codecs;
-import sirttas.dpanvil.api.data.IDataManager;
+import metafact.dpanvil_m.api.codec.CodecHelper;
+import metafact.dpanvil_m.api.codec.Codecs;
+import metafact.dpanvil_m.api.data.IDataManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -29,6 +29,7 @@ public record SpellProperties(
 		int consumeAmount,
 		int cooldown,
 		float range,
+        float strength,
 		int color,
 		boolean hidden,
 		Multimap<Attribute, AttributeModifier> attributes
@@ -42,16 +43,17 @@ public record SpellProperties(
 			Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 0).forGetter(SpellProperties::consumeAmount),
 			Codec.INT.optionalFieldOf(ECNames.COOLDOWN, 0).forGetter(SpellProperties::cooldown),
 			Codec.FLOAT.optionalFieldOf(ECNames.RANGE, 0F).forGetter(SpellProperties::range),
+            Codec.FLOAT.optionalFieldOf(ECNames.STRENGTH, 0F).forGetter(SpellProperties::range),
 			Codecs.COLOR.optionalFieldOf(ECNames.COLOR, -1).forGetter(SpellProperties::color),
 			Codec.BOOL.optionalFieldOf("hidden", false).forGetter(SpellProperties::hidden),
 			Codecs.ATTRIBUTE_MULTIMAP.optionalFieldOf(ECNames.ATTRIBUTES, Multimaps.forMap(Collections.emptyMap())).forGetter(SpellProperties::getAttributes)
 	).apply(builder, SpellProperties::new));
 
 	public SpellProperties() {
-		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, -1, true, null);
+		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, 0, -1, true, null);
 	}
 
-	public SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, int color, boolean hidden, Multimap<Attribute, AttributeModifier> attributes) {
+	public SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, float strength, int color, boolean hidden, Multimap<Attribute, AttributeModifier> attributes) {
 		this.spellType = spellType;
 		this.elementType = elementType;
 		this.weight = weight;
@@ -59,9 +61,10 @@ public record SpellProperties(
 		this.consumeAmount = consumeAmount;
 		this.cooldown = cooldown;
 		this.range = range;
+        this.strength = strength;
 		this.color = color;
 		this.hidden = hidden;
-		this.attributes = attributes != null ? Multimaps.unmodifiableMultimap(attributes) : Multimaps.forMap(Collections.emptyMap());
+		this.attributes = attributes != null && !attributes.isEmpty() ? Multimaps.unmodifiableMultimap(attributes) : Multimaps.forMap(Collections.emptyMap());
 	}
 
     public static ResourceKey<SpellProperties> getKey(ResourceKey<Spell> key) {
@@ -80,7 +83,7 @@ public record SpellProperties(
 	public static final class Builder {
 
 		public static final Encoder<Builder> ENCODER = CodecHelper.remapField(SpellProperties.CODEC, Codecs.HEX_COLOR.fieldOf(ECNames.COLOR), p -> p.color)
-				.comap(builder -> new SpellProperties(builder.type, builder.elementType, builder.weight, builder.useDuration, builder.consumeAmount, builder.cooldown, (float) builder.range, builder.color, builder.hidden, builder.attributes));
+				.comap(builder -> new SpellProperties(builder.type, builder.elementType, builder.weight, builder.useDuration, builder.consumeAmount, builder.cooldown, (float) builder.range, (float) builder.strength, builder.color, builder.hidden, builder.attributes));
 
 		private int cooldown;
 		private int consumeAmount;
@@ -88,6 +91,7 @@ public record SpellProperties(
 		private int weight;
 		private int color;
 		private double range;
+        private double strength;
 		private boolean hidden;
 		private ElementType elementType;
 		private final Spell.Type type;
@@ -138,6 +142,11 @@ public record SpellProperties(
 			this.range = range;
 			return this;
 		}
+
+        public Builder strength(double strength) {
+            this.strength = strength;
+            return this;
+        }
 
 		public Builder color(int color) {
 			this.color = color;

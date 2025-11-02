@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
-import sirttas.dpanvil.api.codec.Codecs;
+import metafact.dpanvil_m.api.codec.Codecs;
 
 public record ShrineRange(
         AABB box,

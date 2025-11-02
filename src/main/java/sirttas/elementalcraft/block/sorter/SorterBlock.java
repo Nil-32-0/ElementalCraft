@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
@@ -37,7 +38,8 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 			Block.box(6D, 6D, 6D, 10D, 10D, 10D));
 
 
-	public SorterBlock() {
+	public SorterBlock(BlockBehaviour.Properties properties) {
+        super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(SOURCE, Direction.SOUTH)
 				.setValue(TARGET, Direction.NORTH));
@@ -73,14 +75,14 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 	@Nonnull
     @Override
 	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return worldIn instanceof Level && ((Level) worldIn).isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurentShape(state);
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+		return blockGetter instanceof Level && ((Level) blockGetter).isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurrentShape(state);
 	}
 	@Nonnull
     @Override
 	@Deprecated
 	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return getCurentShape(state);
+		return getCurrentShape(state);
 	}
 
 	@Nonnull

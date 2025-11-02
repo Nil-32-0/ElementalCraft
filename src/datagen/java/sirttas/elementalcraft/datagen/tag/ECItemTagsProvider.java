@@ -53,6 +53,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(ECTags.Blocks.STRIPPED_CRIMSON, ECTags.Items.STRIPPED_CRIMSON);
 		copy(ECTags.Blocks.STRIPPED_WARPED, ECTags.Items.STRIPPED_WARPED);
 		copy(ECTags.Blocks.STRIPPED_CHERRY, ECTags.Items.STRIPPED_CHERRY);
+        copy(ECTags.Blocks.STRIPPED_BAMBOO, ECTags.Items.STRIPPED_BAMBOO);
 
 		copy(BlockTags.SLABS, ItemTags.SLABS);
 		copy(BlockTags.STAIRS, ItemTags.STAIRS);
@@ -121,23 +122,11 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.NUGGETS_FIREITE).add(ECItems.FIREITE_NUGGET.get());
 		tag(Tags.Items.NUGGETS).addTags(ECTags.Items.NUGGETS_DRENCHED_IRON, ECTags.Items.NUGGETS_SWIFT_ALLOY, ECTags.Items.NUGGETS_FIREITE);
 
-        ElementType.ALL_VALID.forEach(type -> {
-            tag(ECTags.Items.CRUDE_GEMS.get(type)).add(
+        ElementType.ALL_VALID.forEach(type -> tag(Tags.Items.GEMS).add(
                     ECItems.CRUDE_GEMS.get(type).get(),
                     ECItems.FINE_GEMS.get(type).get(),
                     ECItems.PRISTINE_GEMS.get(type).get()
-            );
-            tag(ECTags.Items.FINE_GEMS.get(type)).add(ECItems.FINE_GEMS.get(type).get(), ECItems.PRISTINE_GEMS.get(type).get());
-            tag(ECTags.Items.PRISTINE_GEMS.get(type)).add(ECItems.PRISTINE_GEMS.get(type).get());
-            tag(ECTags.Items.INPUT_ELEMENTAL_GEMS.get(type)).add(
-                    ECItems.CRUDE_GEMS.get(type).get(),
-                    ECItems.FINE_GEMS.get(type).get(),
-                    ECItems.PRISTINE_GEMS.get(type).get()
-            ).addTag(Tags.Items.GEMS_DIAMOND);
-            tag(ECTags.Items.INPUT_GEMS).addTag(ECTags.Items.INPUT_ELEMENTAL_GEMS.get(type));
-        });
-
-		tag(Tags.Items.GEMS).addTags(ECTags.Items.INPUT_GEMS);
+        ));
 
 		tag(ECTags.Items.HARDENED_RODS).add(ECItems.HARDENED_HANDLE.get());
 		tag(Tags.Items.RODS).addTag(ECTags.Items.HARDENED_RODS);
@@ -173,6 +162,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 		addPipeTags();
 
+        tag(ECTags.Items.ENCHANTMENT_HOLDER).add(Items.BOOK, Items.ENCHANTED_BOOK);
+
 		tag(ECTags.Items.STAFF_CRAFT_SWORD).add(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 
 		addPureOreTags();
@@ -199,6 +190,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.RED_FLOWERS).add(Items.POPPY, Items.ROSE_BUSH, Items.RED_TULIP);
 
 		tag(ItemTags.BEACON_PAYMENT_ITEMS).add(ECItems.DRENCHED_IRON_INGOT.get(), ECItems.SWIFT_ALLOY_INGOT.get(), ECItems.FIREITE_INGOT.get());
+        tag(ItemTags.BOOKSHELF_BOOKS).add(ECItems.SPELL_BOOK.get());
 
 		tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(Tags.Items.TOOLS, Tags.Items.ARMORS, ECTags.Items.SPELL_CAST_TOOLS).add(Items.ELYTRA);
 

@@ -37,6 +37,7 @@ import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.vertical.AbstractVerticalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
@@ -88,7 +89,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	}
 
 	private ResourceLocation prefix(String name) {
-		return prefix(ElementalCraft.createRL(name));
+		return prefix(ElementalCraftApi.createRL(name));
 	}
 	
 	private ResourceLocation prefix(ResourceLocation name) {
@@ -192,7 +193,22 @@ public class ECBlockStateProvider extends BlockStateProvider {
 					.part().modelFile(attach).rotationY(90).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.EAST).condition(BlockStateProperties.ATTACHED, true).end()
 					.part().modelFile(attach).rotationY(180).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.SOUTH).condition(BlockStateProperties.ATTACHED, true).end()
 					.part().modelFile(attach).rotationY(270).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.WEST).condition(BlockStateProperties.ATTACHED, true).end();
-		} else if (block instanceof OverclockedAccelerationShrineUpgradeBlock) {
+        } else if (block instanceof FillingShrineUpgradeBlock) {
+            ModelFile core = models().getExistingFile(prefix(name));
+            ModelFile side = models().getExistingFile(prefix(name + SIDE));
+
+            getVariantBuilder(block)
+                    .forAllStates(state -> {
+                        var facing = state.getValue(BlockStateProperties.FACING);
+                        var vertical = facing.getAxis().isVertical();
+
+                        return ConfiguredModel.builder()
+                                .modelFile(vertical ? core : side)
+                                .rotationX(facing == Direction.UP ? 180 : 0)
+                                .rotationY(vertical ? 0 : (int) (facing.toYRot() + 180) % 360)
+                                .build();
+                    });
+        } else if (block instanceof OverclockedAccelerationShrineUpgradeBlock) {
 			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
 			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));
 			ModelFile connector = models().getExistingFile(prefix(name + "_connector"));

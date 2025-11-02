@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -40,7 +41,8 @@ public class SourceDisplacementPlateBlock extends AbstractECEntityBlock implemen
 
     private final ElementType elementType;
 
-    public SourceDisplacementPlateBlock(ElementType elementType) {
+    public SourceDisplacementPlateBlock(ElementType elementType, BlockBehaviour.Properties properties) {
+        super(properties);
         this.elementType = elementType;
     }
 

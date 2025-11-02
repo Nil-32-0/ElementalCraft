@@ -7,7 +7,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.entity.projectile.FeatherSpike;
 import sirttas.elementalcraft.entity.projectile.ThrownElementCrystal;
@@ -22,7 +21,7 @@ public class ECEntities {
     private ECEntities() {}
 
     private static <T extends Entity> RegistryObject<EntityType<T>> register(EntityType.Builder<T> builder, String name) {
-        return DEFERRED_REGISTRY.register(name, () -> builder.build(ElementalCraft.createRL(name).toString()));
+        return DEFERRED_REGISTRY.register(name, () -> builder.build(ElementalCraftApi.createRL(name).toString()));
     }
 
     public static void register(IEventBus bus) {

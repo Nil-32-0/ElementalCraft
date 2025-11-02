@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -43,8 +44,8 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	
 	private final Holder<ShrineUpgrade> upgrade;
 
-	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<ShrineUpgrade> key) {
-		super(ECProperties.Blocks.BLOCK_NOT_SOLID);
+	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<ShrineUpgrade> key, BlockBehaviour.Properties properties) {
+		super(properties);
 		upgrade = ElementalCraft.SHRINE_UPGRADE_MANAGER.getOrCreateHolder(key);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(WATERLOGGED, false));
@@ -84,7 +85,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 		}
 
 		return BlockEntityHelper.getBlockEntityAs(level, shrinePos, AbstractShrineBlockEntity.class)
-				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && getUpgrade().canUpgrade(shrine, level.getBlockState(pos).is(this)))
+				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && getUpgrade().canUpgrade(shrine, level.getBlockState(pos).is(this), facing))
 				.isPresent();
 	}
 

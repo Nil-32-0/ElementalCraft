@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.shrine.harvest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -33,8 +34,8 @@ public class HarvestShrineBlock extends AbstractShrineBlock<HarvestShrineBlockEn
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, BASE_3, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_UP, PIPE_NORTH, PIPE_SOUTH, PIPE_EAST, PIPE_WEST);
 
-	public HarvestShrineBlock() {
-		super(ElementType.EARTH);
+	public HarvestShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.EARTH, properties);
 	}
 
 	@Nonnull

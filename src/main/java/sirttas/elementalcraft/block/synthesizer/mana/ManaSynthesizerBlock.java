@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -16,6 +17,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.botania.ManaSynthesizerBlockInteractions;
 
@@ -42,12 +44,20 @@ public class ManaSynthesizerBlock extends SolarSynthesizerBlock {
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, BASE_3, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_5, PIPE_6, PIPE_7, PIPE_8);
 
+    public ManaSynthesizerBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
+
 	@Override
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+        return createBlockEntity(pos, state);
+    }
+
+    public static SolarSynthesizerBlockEntity createBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		if (ECinteractions.isBotaniaActive()) {
 			return ManaSynthesizerBlockInteractions.newBlockEntity(pos, state);
 		}
-		return null;
+		return new ManaSynthesizerNoBotaniaBlockEntity(pos, state);
 	}
 	
 	@Override

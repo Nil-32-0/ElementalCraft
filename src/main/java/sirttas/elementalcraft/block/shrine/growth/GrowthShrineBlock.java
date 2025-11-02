@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.shrine.growth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -25,8 +26,8 @@ public class GrowthShrineBlock extends AbstractShrineBlock<GrowthShrineBlockEnti
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, PIPE_UP_N, PIPE_UP_S, PIPE_UP_E, PIPE_UP_W);
 
-	public GrowthShrineBlock() {
-		super(ElementType.WATER);
+	public GrowthShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.WATER, properties);
 	}
 	
 	@Nonnull

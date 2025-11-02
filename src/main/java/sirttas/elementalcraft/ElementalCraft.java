@@ -1,17 +1,22 @@
 package sirttas.elementalcraft;
 
+import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import sirttas.dpanvil.api.data.IDataManager;
-import sirttas.dpanvil.api.imc.DataManagerIMC;
+import metafact.dpanvil_m.api.data.IDataManager;
+import metafact.dpanvil_m.api.imc.DataManagerIMC;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -23,10 +28,12 @@ import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.source.trait.value.SourceTraitValueProviderTypes;
+import sirttas.elementalcraft.commands.ECFlux;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.data.predicate.block.ECBlockPosPredicateTypes;
 import sirttas.elementalcraft.entity.ECEntities;
+//import sirttas.elementalcraft.event.ClientEvents;
 import sirttas.elementalcraft.infusion.tool.effect.ToolInfusionEffectTypes;
 import sirttas.elementalcraft.item.ECCreativeModeTabs;
 import sirttas.elementalcraft.item.ECItems;
@@ -56,31 +63,33 @@ public class ElementalCraft {
 	
 	public static final PureOreManager PURE_ORE_MANAGER = new PureOreManager();
 
-	public static final ResourceKey<IDataManager<ShrineUpgrade>> SHRINE_UPGRADE_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.SHRINE_UPGRADE));
+	public static final ResourceKey<IDataManager<ShrineUpgrade>> SHRINE_UPGRADE_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.SHRINE_UPGRADE));
 	public static final IDataManager<ShrineUpgrade> SHRINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, SHRINE_UPGRADE_MANAGER_KEY)
 			.withIdSetter(ShrineUpgrade::setId)
 			.merged(ShrineUpgrade::merge)
 			.build();
 
-	public static final ResourceKey<IDataManager<SpellProperties>> SPELL_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.SPELL_PROPERTIES));
+	public static final ResourceKey<IDataManager<SpellProperties>> SPELL_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.SPELL_PROPERTIES));
 	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SPELL_PROPERTIES_MANAGER_KEY)
 			.withDefault(SpellProperties.NONE)
 			.build();
 
-	public static final ResourceKey<IDataManager<ShrineProperties>> SHRINE_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.SHRINE_PROPERTIES));
+	public static final ResourceKey<IDataManager<ShrineProperties>> SHRINE_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.SHRINE_PROPERTIES));
 	public static final IDataManager<ShrineProperties> SHRINE_PROPERTIES_MANAGER = IDataManager.builder(ShrineProperties.class, SHRINE_PROPERTIES_MANAGER_KEY)
 			.withDefault(ShrineProperties.DEFAULT)
 			.build();
 
-	public static final ResourceKey<IDataManager<IPureOreLoader>> PURE_ORE_LOADERS_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.PURE_ORE_LOADER));
+	public static final ResourceKey<IDataManager<IPureOreLoader>> PURE_ORE_LOADERS_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.PURE_ORE_LOADER));
 	public static final IDataManager<IPureOreLoader> PURE_ORE_LOADERS_MANAGER = IDataManager.builder(IPureOreLoader.class, PURE_ORE_LOADERS_MANAGER_KEY)
 			.build();
 
 	public ElementalCraft() {
 		var modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ECConfig.COMMON_SPEC);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ECConfig.SERVER_SPEC);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ECConfig.CLIENT_SPEC);
+
+//        MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
 		ECBlocks.register(modBus);
 		ECBlockEntityTypes.register(modBus);
@@ -112,15 +121,8 @@ public class ElementalCraft {
 		MinecraftForge.EVENT_BUS.addListener(PURE_ORE_MANAGER::reload);
 	}
 
-	public static ResourceLocation createRL(String name) {
-		if (name.contains(":")) {
-			return new ResourceLocation(name);
-		}
-		return new ResourceLocation(ElementalCraftApi.MODID, name);
-	}
-
-	public static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {
-		return ResourceKey.createRegistryKey(createRL(name));
+    public static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {
+		return ResourceKey.createRegistryKey(ElementalCraftApi.createRL(name));
 	}
 
 	public static <T> boolean owns(Map.Entry<ResourceKey<T>, T> entry) {
@@ -149,4 +151,14 @@ public class ElementalCraft {
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, ElementalCraftApi.TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY, ElementalCraftApi.SOURCE_TRAIT_MANAGER).withCodec(SourceTrait.CODEC));
 	}
+
+    @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+    public static class ClientModEvents {
+        @SubscribeEvent
+        public static void RegisterServerCommandsEvent(RegisterCommandsEvent event) {
+            CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+
+            ECFlux.register(dispatcher);
+        }
+    }
 }

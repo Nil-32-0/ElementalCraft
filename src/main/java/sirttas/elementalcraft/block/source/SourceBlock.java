@@ -35,14 +35,8 @@ public class SourceBlock extends AbstractECEntityBlock {
 
 	public static final String NAME = "source";
 
-	public SourceBlock() {
-		super(BlockBehaviour.Properties.of()
-				.replaceable()
-				.pushReaction(PushReaction.DESTROY)
-				.strength(-1.0F, 3600000.0F)
-				.lightLevel(s -> 7)
-				.noOcclusion()
-				.noLootTable());
+	public SourceBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(ElementType.STATE_PROPERTY, ElementType.NONE));
 	}
@@ -79,14 +73,14 @@ public class SourceBlock extends AbstractECEntityBlock {
 	@Nonnull
 	@Override
 	@Deprecated
-	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return Shapes.empty();
 	}
 
 	private boolean showShape(BlockState state, CollisionContext context) {
 		if (context instanceof EntityCollisionContext entityContext && entityContext.getEntity() instanceof LivingEntity e) {
 			return Stream.of(e.getItemInHand(InteractionHand.MAIN_HAND), e.getItemInHand(InteractionHand.MAIN_HAND))
-					.anyMatch(s -> s.getItem() instanceof ISourceInteractable sourceInteractable && sourceInteractable.canInteractWithSource(s, state));
+					.anyMatch(s -> s.getItem() instanceof ISourceInteractable sourceInteractable && sourceInteractable.canInteractWithSource(state));
 		}
 		return false;
 	}

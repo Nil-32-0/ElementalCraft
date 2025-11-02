@@ -6,6 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -18,7 +19,8 @@ public class AirMillWoodSawBlock extends AbstractAirMillBlock {
 
 	public static final String NAME = "air_mill_wood_saw";
 
-	public AirMillWoodSawBlock() {
+	public AirMillWoodSawBlock(BlockBehaviour.Properties properties) {
+        super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(HALF, DoubleBlockHalf.LOWER)

@@ -9,6 +9,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -64,8 +65,8 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	private static final VoxelShape PIPE_EAST = Block.box(12D, 7D, 7D, 16D, 9D, 9D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST,PLATE_WEST_EAST, PLATE_UP_EAST, PLATE_DOWN_EAST, PLATE_NORTH_EAST, PLATE_SOUTH_EAST);
 
-	public SpringalineShrineUpgradeBlock() {
-		super(ShrineUpgrades.SPRINGALINE);
+	public SpringalineShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.SPRINGALINE, properties);
 	}
 	
 	public static VoxelShape getShape(BlockState state) {

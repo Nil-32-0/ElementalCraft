@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -64,7 +65,8 @@ public class SourceBreederBlock extends AbstractECContainerBlock implements Simp
     private static final VoxelShape SHAPE_UPPER = Shapes.or(BASE_UPPER_1, BASE_UPPER_2, PIPE_UPPER_1, PIPE_UPPER_2, PIPE_UPPER_3, PIPE_UPPER_4);
 
 
-    public SourceBreederBlock() {
+    public SourceBreederBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
                 .setValue(BlockStateProperties.WATERLOGGED, false));

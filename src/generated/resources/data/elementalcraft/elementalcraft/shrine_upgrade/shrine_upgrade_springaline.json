@@ -6,7 +6,7 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:block",
+    "type": "dpanvil_m:block",
     "block": "elementalcraft:buddingshrine"
   }
 }

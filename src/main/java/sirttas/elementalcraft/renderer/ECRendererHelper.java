@@ -19,6 +19,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -29,7 +30,7 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.joml.Quaternionf;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.renderer.ECRenderTypes;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
@@ -42,7 +43,7 @@ public class ECRendererHelper {
     private ECRendererHelper() {}
 
     public static Material getBlockMaterial(String name)  {
-        return getBlockMaterial(ElementalCraft.createRL(name));
+        return getBlockMaterial(ElementalCraftApi.createRL(name));
     }
 
     public static Material getBlockMaterial(ResourceLocation loc)  {
@@ -105,7 +106,7 @@ public class ECRendererHelper {
 
     public static void renderBatched(BlockState state, PoseStack poseStack, VertexConsumer consumer, Level level, BlockPos pos) {
         poseStack.pushPose();
-        Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, level, poseStack, consumer, false, level.random, getModelData(level, pos), null);
+        Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, level, poseStack, consumer, false, RandomSource.create(), getModelData(level, pos), null);
         poseStack.popPose();
     }
 
@@ -116,7 +117,7 @@ public class ECRendererHelper {
     public static void renderBatched(BlockState state, PoseStack poseStack, MultiBufferSource buffer, Level level, BlockPos pos, ModelData data) {
         poseStack.pushPose();
         var blockRenderer = Minecraft.getInstance().getBlockRenderer();
-        var rand = level.random;
+        var rand = RandomSource.create();
 
         if (state.getRenderShape() != RenderShape.INVISIBLE) {
             var model = blockRenderer.getBlockModel(state);

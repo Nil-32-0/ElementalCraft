@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -34,8 +35,8 @@ public class CrystalGrowthShrineUpgradeBlock extends AbstractShrineUpgradeBlock 
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.BONELESS_GROWTH, TOP, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
-	public CrystalGrowthShrineUpgradeBlock() {
-		super(ShrineUpgrades.CRYSTAL_GROWTH);
+	public CrystalGrowthShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.CRYSTAL_GROWTH, properties);
 	}
 	
 	@Nonnull

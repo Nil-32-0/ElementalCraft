@@ -113,7 +113,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:aircrystal",
+          "name": "elementalcraft:air_crystal",
           "weight": 40
         },
         {
@@ -489,7 +489,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:purecrystal",
+          "name": "elementalcraft:pure_crystal",
           "weight": 2
         }
       ],

@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.tag;
 
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -8,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -45,6 +47,7 @@ public class ECTags {
 		public static final TagKey<Item> INFUSABLE_LEGGINGS = createTag("infusable/leggings");
 		public static final TagKey<Item> INFUSABLE_BOOTS = createTag("infusable/boots");
 
+        public static final TagKey<Item> CHISELS = createTag("chisels");
 		public static final TagKey<Item> SPELL_HOLDERS = createTag("spell_holders");
 		public static final TagKey<Item> ELEMENTAL_CRYSTALS = createTag("crystals/elemental");
 		public static final TagKey<Item> CRYSTALS = createTag("crystals");
@@ -59,28 +62,6 @@ public class ECTags {
                         type -> type,
                         type -> createTag("shards/"+type.getSerializedName())
                 ));
-        public static final Map<ElementType, TagKey<Item>> CRUDE_GEMS = ElementType.ALL_VALID.stream()
-                .collect(Collectors.toMap(
-                        type -> type,
-                        type -> createTag("gems/crude_"+type.getSerializedName())
-                ));
-        public static final Map<ElementType, TagKey<Item>> FINE_GEMS = ElementType.ALL_VALID.stream()
-                .collect(Collectors.toMap(
-                        type -> type,
-                        type -> createTag("gems/fine_"+type.getSerializedName())
-                ));
-        public static final Map<ElementType, TagKey<Item>> PRISTINE_GEMS = ElementType.ALL_VALID.stream()
-                .collect(Collectors.toMap(
-                        type -> type,
-                        type -> createTag("gems/pristine_"+type.getSerializedName())
-                ));
-        public static final Map<ElementType, TagKey<Item>> INPUT_ELEMENTAL_GEMS = ElementType.ALL_VALID.stream()
-                .collect(Collectors.toMap(
-                        type -> type,
-                        type -> createTag("gems/input_"+type.getSerializedName())
-                ));
-
-		public static final TagKey<Item> INPUT_GEMS = createTag("gems/input");
 
 		public static final TagKey<Item> RUNE_SLATES = createTag("rune_slates");
 		public static final TagKey<Item> PUREROCKS = createTag("purerocks");
@@ -93,6 +74,8 @@ public class ECTags {
 		public static final TagKey<Item> SMALL_CONTAINER_COMPATIBLES = createTag("small_container_compatibles");
 		public static final TagKey<Item> INSTRUMENTS = createTag("instruments");
 		public static final TagKey<Item> CONTAINER_TOOLS = createTag("container_tools");
+
+        public static final TagKey<Item> ENCHANTMENT_HOLDER = createTag("enchantment_holder");
 		
 		public static final TagKey<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
 
@@ -144,6 +127,7 @@ public class ECTags {
 		public static final TagKey<Item> STRIPPED_CRIMSON = createTag("stripped_crimson");
 		public static final TagKey<Item> STRIPPED_WARPED = createTag("stripped_warped");
 		public static final TagKey<Item> STRIPPED_CHERRY = createTag("stripped_cherry");
+        public static final TagKey<Item> STRIPPED_BAMBOO = createTag("stripped_bamboo");
 
         public static final TagKey<Item> WHITE_FLOWERS = createForgeTag("flowers/white");
         public static final TagKey<Item> ORANGE_FLOWERS = createForgeTag("flowers/orange");
@@ -208,6 +192,7 @@ public class ECTags {
 		public static final TagKey<Block> RUNE_AFFECTED_PRESERVATION = createTag("rune_affected/preservation");
 		public static final TagKey<Block> RUNE_AFFECTED_OPTIMIZATION = createTag("rune_affected/optimization");
 		public static final TagKey<Block> RUNE_AFFECTED_LUCK = createTag("rune_affected/luck");
+        public static final TagKey<Block> RUNE_AFFECTED_TZEENTCH = createTag("rune_affected/tzeentch");
 
 		public static final TagKey<Block> SHRINES_LAVA_LIQUIFIABLES = createTag("shrines/lava/liquifiables");
 		public static final TagKey<Block> SHRINES_GROWTH_BLACKLIST = createTag("shrines/growth/blacklist");
@@ -248,6 +233,7 @@ public class ECTags {
 		public static final TagKey<Block> STRIPPED_CRIMSON = createTag("stripped_crimson");
 		public static final TagKey<Block> STRIPPED_WARPED = createTag("stripped_warped");
 		public static final TagKey<Block> STRIPPED_CHERRY = createTag("stripped_cherry");
+        public static final TagKey<Block> STRIPPED_BAMBOO = createTag("stripped_bamboo");
 
 		private Blocks() {}
 
@@ -319,5 +305,25 @@ public class ECTags {
 			return TagKey.create(Registries.BIOME, new ResourceLocation(modId, name));
 		}
 	}
+
+    public static class DamageTypes {
+        public static final TagKey<DamageType> BYPASSES_JEWELS = createTag("bypasses_jewels");
+        public static final TagKey<DamageType> BLOCKED_BY_TORTOISE_JEWEL = createTag("blocked_by_tortoise_jewel");
+
+
+        private DamageTypes() { }
+
+        private static TagKey<DamageType> createTag(String name) {
+            return createTag(ElementalCraftApi.MODID, name);
+        }
+
+        private static TagKey<DamageType> createForgeTag(String name) {
+            return createTag(ECNames.FORGE, name);
+        }
+
+        private static TagKey<DamageType> createTag(String modId, String name) {
+            return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(modId, name));
+        }
+    }
 
 }

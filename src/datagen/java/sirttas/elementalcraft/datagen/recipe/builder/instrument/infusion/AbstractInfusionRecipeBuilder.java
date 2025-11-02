@@ -5,7 +5,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
@@ -42,7 +42,7 @@ public abstract class AbstractInfusionRecipeBuilder {
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Infusion Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(consumerIn, ElementalCraft.createRL(IInfusionRecipe.NAME + '/' + save));
+			this.save(consumerIn, ElementalCraftApi.createRL(IInfusionRecipe.NAME + '/' + save));
 		}
 	}
 

@@ -113,7 +113,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:firecrystal",
+          "name": "elementalcraft:fire_crystal",
           "weight": 40
         },
         {

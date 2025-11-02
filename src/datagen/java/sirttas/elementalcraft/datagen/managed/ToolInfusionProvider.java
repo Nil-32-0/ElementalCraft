@@ -9,8 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
-import sirttas.elementalcraft.ElementalCraft;
+import metafact.dpanvil_m.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
@@ -100,7 +99,7 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 	}
 
 	protected void add(ToolInfusion infusion, String name) {
-		add(ElementalCraft.createRL(name), infusion);
+		add(ElementalCraftApi.createRL(name), infusion);
 	}
 
 	private ToolInfusion createToolInfusion(ElementType type, IToolInfusionEffect infusion) {

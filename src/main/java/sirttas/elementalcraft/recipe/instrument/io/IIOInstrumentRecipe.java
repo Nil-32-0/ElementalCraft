@@ -31,7 +31,7 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 	default boolean matches(@Nonnull T instrument, @Nonnull Level level) {
 		ItemStack craftingResult = assemble(instrument, level.registryAccess());
 
-		return instrument.getItemHandler().map(inv -> {
+		return instrument.getItemHandler(null).map(inv -> {
 			ItemStack output = inv.getStackInSlot(1);
 
 			return this.getValidElementTypes().contains(instrument.getContainerElementType()) && matches(inv.getStackInSlot(0), level)

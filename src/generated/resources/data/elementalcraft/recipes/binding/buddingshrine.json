@@ -7,10 +7,10 @@
       "item": "elementalcraft:shrinebase"
     },
     {
-      "item": "elementalcraft:earthcrystal"
+      "item": "elementalcraft:earth_crystal"
     },
     {
-      "tag": "elementalcraft:gems/crude_water"
+      "item": "elementalcraft:crude_water_gem"
     },
     {
       "item": "minecraft:amethyst_block"

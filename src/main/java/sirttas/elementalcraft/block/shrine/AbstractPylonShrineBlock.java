@@ -13,6 +13,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -28,8 +29,8 @@ import java.util.function.Supplier;
 public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEntity> extends AbstractShrineBlock<T> {
 
 
-	protected AbstractPylonShrineBlock(ElementType elementType) {
-		super(elementType);
+	protected AbstractPylonShrineBlock(ElementType elementType, BlockBehaviour.Properties properties) {
+		super(elementType, properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
 				.setValue(WATERLOGGED, false));

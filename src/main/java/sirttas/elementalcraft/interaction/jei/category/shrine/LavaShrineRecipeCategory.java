@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlock;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -42,7 +42,7 @@ public class LavaShrineRecipeCategory extends AbstractShrineRecipeCategory<LavaS
         var l = liquifiables.length * 2;
 
         timer = guiHelper.createTickTimer(l * 20, l, false);
-        setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 72, 64);
+        setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 72, 64);
     }
 
     @Nonnull

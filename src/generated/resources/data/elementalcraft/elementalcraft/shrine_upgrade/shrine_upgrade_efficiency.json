@@ -4,7 +4,7 @@
     "element_consumption": 0.5
   },
   "predicate": {
-    "type": "dpanvil:tag",
+    "type": "dpanvil_m:tag",
     "tag": "elementalcraft:shrines"
   }
 }

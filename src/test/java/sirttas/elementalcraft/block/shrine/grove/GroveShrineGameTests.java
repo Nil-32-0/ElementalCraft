@@ -44,7 +44,7 @@ public class GroveShrineGameTests {
     @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
     public static void should_generateFlowers(GameTestHelper helper) {
         helper.startSequence()
-                .thenExecute(() -> ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 2, 3), POSES.size()))
+                .thenExecuteAfter(1, () -> ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 2, 3), POSES.size()))
                 .thenExecuteAfter(1, () -> POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(BlockTags.FLOWERS), () -> "Flower has not been generated")))
                 .thenSucceed();
     }

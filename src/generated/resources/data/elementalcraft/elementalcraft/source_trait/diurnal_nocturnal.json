@@ -18,7 +18,7 @@
             "luck_ratio": 2.0,
             "name": "source_trait.elementalcraft.nocturnal.5",
             "predicate": {
-              "type": "dpanvil:none"
+              "type": "dpanvil_m:none"
             },
             "values": {
               "breeding_cost": 1.5,
@@ -30,7 +30,7 @@
             "breed_index": -4,
             "name": "source_trait.elementalcraft.nocturnal.4",
             "predicate": {
-              "type": "dpanvil:none"
+              "type": "dpanvil_m:none"
             },
             "values": {
               "breeding_cost": 1.4,
@@ -116,7 +116,7 @@
             "breed_index": 4,
             "name": "source_trait.elementalcraft.diurnal.4",
             "predicate": {
-              "type": "dpanvil:none"
+              "type": "dpanvil_m:none"
             },
             "values": {
               "breeding_cost": 1.4,
@@ -129,7 +129,7 @@
             "luck_ratio": 2.0,
             "name": "source_trait.elementalcraft.diurnal.5",
             "predicate": {
-              "type": "dpanvil:none"
+              "type": "dpanvil_m:none"
             },
             "values": {
               "breeding_cost": 1.5,

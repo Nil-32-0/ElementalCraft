@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -31,8 +32,8 @@ public class OverloadShrineBlock extends AbstractShrineBlock<OverloadShrineBlock
 
 	public static final DirectionProperty FACING = DirectionProperty.create("facing", d -> d != Direction.DOWN);
 
-	public OverloadShrineBlock() {
-		super(ElementType.AIR);
+	public OverloadShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.AIR, properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.UP)
 				.setValue(WATERLOGGED, false));

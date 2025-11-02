@@ -11,7 +11,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
@@ -69,7 +69,7 @@ public class BindingRecipeBuilder {
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Binding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(consumer, ElementalCraft.createRL(AbstractBindingRecipe.NAME + '/' + save));
+			this.save(consumer, ElementalCraftApi.createRL(AbstractBindingRecipe.NAME + '/' + save));
 		}
 	}
 

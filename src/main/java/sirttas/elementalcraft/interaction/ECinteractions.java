@@ -25,4 +25,8 @@ public class ECinteractions {
 		return ModList.get().isLoaded("immersiveengineering");
 	}
 
+    public static boolean isPatchouliActive() {
+        return ModList.get().isLoaded("patchouli");
+    }
+
 }

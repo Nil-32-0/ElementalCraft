@@ -4,7 +4,7 @@
   "element_type": "earth",
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/crude_earth"
+      "item": "elementalcraft:crude_earth_gem"
     },
     {
       "type": "forge:partial_nbt",

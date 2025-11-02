@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -19,7 +19,7 @@ public class RegistryHelper {
 	}
 
 	public static <T> void register(IForgeRegistry<T> reg, T thing, String name) {
-		register(reg, thing, ElementalCraft.createRL(name));
+		register(reg, thing, ElementalCraftApi.createRL(name));
 	}
 
 	public static <T> void register(IForgeRegistry<T> reg, T thing, RegistryObject<?> object) {

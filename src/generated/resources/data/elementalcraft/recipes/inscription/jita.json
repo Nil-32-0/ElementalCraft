@@ -4,7 +4,9 @@
   "element_type": "fire",
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/fine_fire"
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:manx\"}}"
     },
     {
       "item": "minecraft:blaze_rod"

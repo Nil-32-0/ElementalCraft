@@ -8,8 +8,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.SpriteSourceProvider;
-import sirttas.dpanvil.api.data.IDataManager;
-import sirttas.elementalcraft.ElementalCraft;
+import metafact.dpanvil_m.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.source.SourceRendererHelper;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateRenderer;
@@ -97,7 +96,7 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
     }
 
     private ResourceLocation createTrimPermutation(String name) {
-        return ElementalCraft.createRL("trims/color_palettes/" + name);
+        return ElementalCraftApi.createRL("trims/color_palettes/" + name);
     }
 
 }

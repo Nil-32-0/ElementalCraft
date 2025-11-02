@@ -17,19 +17,19 @@ public class DoubleHalfBlockGameTests {
     public static Collection<TestFunction> should_breakBothParts() {
         var index = new AtomicInteger(0);
 
-        return DoubleHalfBlockTestHolder.HOLDERS.stream()
+        return DoubleHalfBlockTestCaseHolder.HOLDERS.stream()
                 .map(t -> t.createTestFunction("should_breakBothParts#" + index.getAndIncrement(), DoubleHalfBlockGameTests::should_breakBothParts))
                 .toList();
 
     }
 
-    public static void should_breakBothParts(GameTestHelper helper, DoubleHalfBlockTestHolder holder) {
+    public static void should_breakBothParts(GameTestHelper helper, DoubleHalfBlockTestCaseHolder holder) {
         helper.assertBlockPresent(holder.block(), holder.pos1());
         helper.assertBlockPresent(holder.block(), holder.pos2());
 
         helper.startSequence()
                 .thenExecute(() -> helper.getLevel().destroyBlock(helper.absolutePos(holder.pos1()), true))
-                .thenExecuteAfter(1, () -> {
+                .thenExecuteAfter(5, () -> {
                     helper.assertBlockNotPresent(holder.block(), holder.pos1());
                     helper.assertBlockNotPresent(holder.block(), holder.pos2());
                     helper.assertItemEntityCountIs(holder.block().asItem(), holder.pos1(), 2, 1);

@@ -12,11 +12,13 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -55,18 +57,12 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	private final PipeType type;
 
-	public ElementPipeBlock(PipeType type) {
-		super(BlockBehaviour.Properties.of()
-				.mapColor(MapColor.METAL)
-				.strength(2)
-				.sound(SoundType.METAL)
-				.requiresCorrectToolForDrops()
-				.noOcclusion()
-				.randomTicks());
-		this.registerDefaultState(this.stateDefinition.any()
-				.setValue(COVER, CoverType.NONE));
-		this.type = type;
-	}
+    public ElementPipeBlock(PipeType type, BlockBehaviour.Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(COVER, CoverType.NONE));
+        this.type = type;
+    }
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
@@ -87,14 +83,6 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	@Override
 	@Deprecated
 	public void onPlace(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
-		if (level.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
-			pipe.refresh();
-		}
-	}
-
-	@Override
-	@Deprecated
-	public void tick(@NotNull BlockState state, ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource rand) {
 		if (level.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
 			pipe.refresh();
 		}
@@ -170,19 +158,59 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 			if (shape == ElementPipeShapes.FRAME_SHAPE || state.getValue(COVER) == CoverType.FRAME) {
 				return pipe.setCover(player, hand);
-			} else {
-				var face = pair.getSecond();
-				var value = onShapeActivated(face, pipe, player, hand, hit);
-	
-				if (!value.consumesAction()) {
-					player.displayClientMessage(pipe.getConnectionMessage(face), true);
-					level.updateNeighborsAt(pos, this);
+            } else if (shape == ElementPipeShapes.BASE_SHAPE) {
+                var value = upgrade(state, level, pos, player, hand);
+
+                if (value.consumesAction()) {
+                    return value;
 				}
-				return value;
 			}
+            var face = pair.getSecond();
+            var value = onShapeActivated(face, pipe, player, hand, hit);
+
+            if (!value.consumesAction()) {
+                player.displayClientMessage(pipe.getConnectionMessage(face), true);
+                level.updateNeighborsAt(pos, this);
+            }
+            return value;
 		}
 		return InteractionResult.PASS;
 	}
+
+    private InteractionResult upgrade(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand) {
+        if (!state.is(this)) {
+            return InteractionResult.PASS;
+        }
+
+        var stack = player.getItemInHand(hand);
+
+        if (stack.isEmpty() || !(stack.getItem() instanceof BlockItem item) || !(item.getBlock() instanceof ElementPipeBlock block) || block.type.getTiers() <= type.getTiers()) {
+            return InteractionResult.PASS;
+        }
+
+        var oldBlockEntity = getBlockEntity(level, pos);
+
+        level.setBlockAndUpdate(pos, block.defaultBlockState().setValue(COVER, state.getValue(COVER)));
+
+        var newBlockEntity = getBlockEntity(level, pos);
+
+        if (oldBlockEntity != null && newBlockEntity != null) {
+            oldBlockEntity.copyTo(newBlockEntity);
+            newBlockEntity.refresh();
+        }
+
+        if (!player.getAbilities().instabuild) {
+            stack.shrink(1);
+            EntityHelper.dropAtFeet(level, player, new ItemStack(state.getBlock()));
+        }
+        level.levelEvent(player, LevelEvent.PARTICLES_DESTROY_BLOCK, pos, Block.getId(state));
+        for (Direction face : Direction.values()) { // TODO delay by 5 ticks
+            var p = pos.relative(face);
+
+            this.upgrade(level.getBlockState(p), level, p, player, hand);
+        }
+        return InteractionResult.SUCCESS;
+    }
 
 	private InteractionResult onShapeActivated(Direction face, ElementPipeBlockEntity pipe, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (face != null) {
@@ -199,21 +227,24 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	@Override
 	@Deprecated
 	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock()) {
-			var te = level.getBlockEntity(pos);
+        var newBlock = newState.getBlock();
 
-			if (te instanceof ElementPipeBlockEntity pipe) {
-				if (isCovered(state)) {
-					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(pipe.getCoverState().getBlock()));
-				}
-				pipe.removeAllUpgrades();
+        if (newBlock instanceof ElementPipeBlock || state.getBlock() == newBlock) {
+            return;
+        }
+        var te = level.getBlockEntity(pos);
+
+        if (te instanceof ElementPipeBlockEntity pipe) {
+            if (isCovered(state)) {
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(pipe.getCoverState().getBlock()));
 			}
-			super.onRemove(state, level, pos, newState, isMoving);
+            pipe.removeAllUpgrades();
 		}
+        super.onRemove(state, level, pos, newState, isMoving);
 	}
 	
-	private static ElementPipeBlockEntity getBlockEntity(BlockGetter world, BlockPos pos) {
-		return BlockEntityHelper.getBlockEntityAs(world, pos, ElementPipeBlockEntity.class).orElse(null);
+	private static ElementPipeBlockEntity getBlockEntity(BlockGetter level, BlockPos pos) {
+		return BlockEntityHelper.getBlockEntityAs(level, pos, ElementPipeBlockEntity.class).orElse(null);
 	}
 
 	public PipeType getType() {
@@ -247,8 +278,30 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		}
 	}
 
-	public enum PipeType {
-		IMPAIRED, STANDARD, IMPROVED, CREATIVE;
+	public enum PipeType implements StringRepresentable {
+		IMPAIRED("impaired", 0),
+        STANDARD("standard", 1),
+        IMPROVED("improved", 2),
+        CREATIVE("creative", 3);
+
+        private static final Codec<PipeType> CODEC = StringRepresentable.fromEnum(PipeType::values);
+
+        private final int tiers;
+        private final String name;
+
+        PipeType(String name, int tiers) {
+            this.name = name;
+            this.tiers = tiers;
+        }
+
+        @Override
+        public @NotNull String getSerializedName() {
+            return name;
+        }
+
+        public int getTiers() {
+            return tiers;
+        }
 	}
 
 }

@@ -113,7 +113,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:watercrystal",
+          "name": "elementalcraft:water_crystal",
           "weight": 40
         },
         {

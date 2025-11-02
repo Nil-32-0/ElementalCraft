@@ -6,7 +6,7 @@
       "tag": "forge:nuggets/fireite"
     },
     "g": {
-      "tag": "elementalcraft:gems/pristine_entropy"
+      "item": "elementalcraft:pristine_entropy_gem"
     },
     "s": {
       "item": "elementalcraft:springaline_shard"

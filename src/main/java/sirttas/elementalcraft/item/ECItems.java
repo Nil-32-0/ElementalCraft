@@ -22,7 +22,6 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.ITooltipImageBlock;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlockItem;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
@@ -30,6 +29,7 @@ import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockItem;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
+import sirttas.elementalcraft.item.chisel.ChiselTiers;
 import sirttas.elementalcraft.item.elemental.CrystalItem;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
 import sirttas.elementalcraft.item.elemental.FireFuelItem;
@@ -84,7 +84,9 @@ public class ECItems {
 	public static final RegistryObject<PureElementHolderItem> PURE_HOLDER = register(PureElementHolderItem::new, PureElementHolderItem.NAME);
 	public static final RegistryObject<PureOreItem> PURE_ORE = register(PureOreItem::new, PureOreItem.NAME);
 	public static final RegistryObject<RuneItem> RUNE = register(RuneItem::new, RuneItem.NAME);
-	public static final RegistryObject<ChiselItem> CHISEL = register(ChiselItem::new, ChiselItem.NAME);
+    public static final RegistryObject<ChiselItem> DRENCHED_IRON_CHISEL = register(() -> new ChiselItem(ChiselTiers.DRENCHED_IRON, new Item.Properties()), ChiselItem.NAME_DRENCHED_IRON);
+    public static final RegistryObject<ChiselItem> SWIFT_ALLOY_CHISEL = register(() -> new ChiselItem(ChiselTiers.SWIFT_ALLOY, new Item.Properties()), ChiselItem.NAME_SWIFT_ALLOY);
+    public static final RegistryObject<ChiselItem> FIREITE_CHISEL = register(() -> new ChiselItem(ChiselTiers.FIREITE, new Item.Properties()), ChiselItem.NAME_FIREITE);
 	public static final RegistryObject<FireFuelItem> ELEMENTAL_FIREFUEL = register(FireFuelItem::new, FireFuelItem.NAME);
 	public static final RegistryObject<CoverFrameItem> COVER_FRAME = register(CoverFrameItem::new, CoverFrameItem.NAME);
 	public static final RegistryObject<PipeUpgradeItem> ELEMENT_PUMP = register(PipeUpgradeTypes.ELEMENT_PUMP);
@@ -97,7 +99,7 @@ public class ECItems {
 	public static final RegistryObject<ECItem> INERT_CRYSTAL = register(ECItem::new, "inert_crystal");
 	public static final RegistryObject<ECItem> CONTAINED_CRYSTAL = register(ECItem::new, "contained_crystal");
 	public static final RegistryObject<ECItem> STRONGLY_CONTAINED_CRYSTAL = register(ECItem::new, "strongly_contained_crystal");
-	public static final RegistryObject<ECItem> PURE_CRYSTAL = register(() -> new ECItem().setFoil(true), "purecrystal");
+	public static final RegistryObject<ECItem> PURE_CRYSTAL = register(() -> new ECItem().setFoil(true), "pure_crystal");
 	public static final RegistryObject<ECItem> DRENCHED_IRON_INGOT = register(ECItem::new, "drenched_iron_ingot");
 	public static final RegistryObject<ECItem> DRENCHED_IRON_NUGGET = register(ECItem::new, "drenched_iron_nugget");
 	public static final RegistryObject<ECItem> SWIFT_ALLOY_INGOT = register(ECItem::new, "swift_alloy_ingot");
@@ -109,6 +111,7 @@ public class ECItems {
 	public static final RegistryObject<ECItem> FIREITE_NUGGET = register(ECItem::new, "fireite_nugget");
 	public static final RegistryObject<ECItem> AIR_SILK = register(ECItem::new, "air_silk");
 	public static final RegistryObject<ECItem> SHRINE_UPGRADE_CORE = register(ECItem::new, "shrine_upgrade_core");
+    public static final RegistryObject<ECItem> ADVANCED_SHRINE_UPGRADE_CORE = register(ECItem::new, "advanced_shrine_upgrade_core");
 	public static final RegistryObject<ECItem> SCROLL_PAPER = register(ECItem::new, "scroll_paper");
 	public static final RegistryObject<ECItem> SPRINGALINE_SHARD = register(ECItem::new, "springaline_shard");
 	public static final RegistryObject<ECItem> SOLAR_PRISM = register(ECItem::new, "solar_prism");
@@ -143,6 +146,9 @@ public class ECItems {
                     type -> type,
                     type -> register(() -> new ElementalItem(type), "pristine_" + type.getSerializedName() + "_gem")
             ));
+
+    public static final RegistryObject<ECItem> PRISTINE_SHARD = register(ECItem::new, "pristine_shard");
+
     public static final Map<ElementType, RegistryObject<LensItem>> LENSES = ElementType.getElementsTier(1).stream()
             .collect(Collectors.toMap(
                     type -> type,
@@ -192,8 +198,6 @@ public class ECItems {
 
 				if (block instanceof AbstractElementContainerBlock containerBlock) {
 					blockItem = new ElementContainerBlockItem(containerBlock, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
-				} else if (block instanceof ITooltipImageBlock) {
-					blockItem = new TooltipImageBlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
 				} else {
 					blockItem = new BlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
 				}
@@ -214,7 +218,7 @@ public class ECItems {
 
 	@OnlyIn(Dist.CLIENT)
 	private static void replaceModels(Map<ResourceLocation, BakedModel> modelRegistry, String name, UnaryOperator<BakedModel> modelFactory) {
-		modelRegistry.computeIfPresent(new ModelResourceLocation(ElementalCraft.createRL(name), "inventory"), (k, v) -> modelFactory.apply(v));
+		modelRegistry.computeIfPresent(new ModelResourceLocation(ElementalCraftApi.createRL(name), "inventory"), (k, v) -> modelFactory.apply(v));
 	}
 
 	@OnlyIn(Dist.CLIENT)

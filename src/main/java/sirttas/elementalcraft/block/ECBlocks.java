@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block;
 
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.AmethystBlock;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
@@ -32,6 +33,7 @@ import sirttas.elementalcraft.block.extractor.improved.ImprovedExtractorBlock;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlock;
 import sirttas.elementalcraft.block.instrument.binder.improved.ImprovedBinderBlock;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlock;
+import sirttas.elementalcraft.block.instrument.enchantment.liquefier.EnchantmentLiquefierBlock;
 import sirttas.elementalcraft.block.instrument.infuser.InfuserBlock;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlock;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceBlock;
@@ -66,16 +68,13 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.EfficiencyShrineU
 import sirttas.elementalcraft.block.shrine.upgrade.directional.OptimizationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.RangeShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.StrengthShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.FortuneShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SpringalineShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.*;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.FortuneShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.greater.GreaterFortuneShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.CrystalGrowthShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.FillingShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinationShrineUpgradeBlock;
@@ -95,6 +94,7 @@ import sirttas.elementalcraft.item.elemental.CrystalItem;
 import sirttas.elementalcraft.property.ECProperties;
 
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -104,99 +104,118 @@ public class ECBlocks {
 
 	private ECBlocks() { }
 
-	public static final RegistryObject<SmallElementContainerBlock> SMALL_CONTAINER = register(SmallElementContainerBlock.NAME, SmallElementContainerBlock::new);
-	public static final RegistryObject<ElementContainerBlock> CONTAINER = register(ElementContainerBlock.NAME, ElementContainerBlock::new);
+	public static final RegistryObject<SmallElementContainerBlock> SMALL_CONTAINER = register(SmallElementContainerBlock.NAME, () ->
+            new SmallElementContainerBlock(ECProperties.Blocks.CONTAINER));
+	public static final RegistryObject<ElementContainerBlock> CONTAINER = register(ElementContainerBlock.NAME, () ->
+            new ElementContainerBlock(ECProperties.Blocks.CONTAINER));
 
     public static final Map<ElementType, RegistryObject<ReservoirBlock>> RESERVOIRS = ElementType.ALL_VALID.stream()
             .collect(Collectors.toMap(
                     type -> type,
-                    type -> register(ReservoirBlock.generateName(type), () -> new ReservoirBlock(type))
+                    type -> register(ReservoirBlock.generateName(type), () -> new ReservoirBlock(type, ECProperties.Blocks.CONTAINER))
             ));
 
-	public static final RegistryObject<CreativeElementContainerBlock> CREATIVE_CONTAINER = register(CreativeElementContainerBlock.NAME, CreativeElementContainerBlock::new);
-	public static final RegistryObject<ExtractorBlock> EXTRACTOR = register(ExtractorBlock.NAME, ExtractorBlock::new);
-	public static final RegistryObject<ImprovedExtractorBlock> EXTRACTOR_IMPROVED = register(ImprovedExtractorBlock.NAME, ImprovedExtractorBlock::new);
-	public static final RegistryObject<EvaporatorBlock> EVAPORATOR = register(EvaporatorBlock.NAME, EvaporatorBlock::new);
-	public static final RegistryObject<SolarSynthesizerBlock> SOLAR_SYNTHESIZER = register(SolarSynthesizerBlock.NAME, SolarSynthesizerBlock::new);
-	public static final RegistryObject<ManaSynthesizerBlock> MANA_SYNTHESIZER = register(ManaSynthesizerBlock.NAME, ManaSynthesizerBlock::new);
-	public static final RegistryObject<DiffuserBlock> DIFFUSER = register(DiffuserBlock.NAME, DiffuserBlock::new);
-	public static final RegistryObject<InfuserBlock> INFUSER = register(InfuserBlock.NAME, InfuserBlock::new);
-	public static final RegistryObject<BinderBlock> BINDER = register(BinderBlock.NAME, BinderBlock::new);
-	public static final RegistryObject<ImprovedBinderBlock> BINDER_IMPROVED = register(ImprovedBinderBlock.NAME, ImprovedBinderBlock::new);
-	public static final RegistryObject<CrystallizerBlock> CRYSTALLIZER = register(CrystallizerBlock.NAME, CrystallizerBlock::new);
-	public static final RegistryObject<InscriberBlock> INSCRIBER = register(InscriberBlock.NAME, InscriberBlock::new);
-	public static final RegistryObject<WaterMillGrindstoneBlock> WATER_MILL_GRINDSTONE = register(WaterMillGrindstoneBlock.NAME, WaterMillGrindstoneBlock::new);
-	public static final RegistryObject<AirMillGrindstoneBlock> AIR_MILL_GRINDSTONE = register(AirMillGrindstoneBlock.NAME, AirMillGrindstoneBlock::new);
-	public static final RegistryObject<WaterMillWoodSawBlock> WATER_MILL_WOOD_SAW = register(WaterMillWoodSawBlock.NAME, WaterMillWoodSawBlock::new);
-	public static final RegistryObject<AirMillWoodSawBlock> AIR_MILL_WOOD_SAW = register(AirMillWoodSawBlock.NAME, AirMillWoodSawBlock::new);
-	public static final RegistryObject<PedestalBlock> FIRE_PEDESTAL = register(PedestalBlock.NAME_FIRE, () -> new PedestalBlock(ElementType.FIRE));
-	public static final RegistryObject<PedestalBlock> WATER_PEDESTAL = register(PedestalBlock.NAME_WATER, () -> new PedestalBlock(ElementType.WATER));
-	public static final RegistryObject<PedestalBlock> EARTH_PEDESTAL = register(PedestalBlock.NAME_EARTH, () -> new PedestalBlock(ElementType.EARTH));
-	public static final RegistryObject<PedestalBlock> AIR_PEDESTAL = register(PedestalBlock.NAME_AIR, () -> new PedestalBlock(ElementType.AIR));
-	public static final RegistryObject<PureInfuserBlock> PURE_INFUSER = register(PureInfuserBlock.NAME, PureInfuserBlock::new);
-	public static final RegistryObject<FireFurnaceBlock> FIRE_FURNACE = register(FireFurnaceBlock.NAME, FireFurnaceBlock::new);
-	public static final RegistryObject<FireBlastFurnaceBlock> FIRE_BLAST_FURNACE = register(FireBlastFurnaceBlock.NAME, FireBlastFurnaceBlock::new);
-	public static final RegistryObject<PurifierBlock> PURIFIER = register(PurifierBlock.NAME, PurifierBlock::new);
-	public static final RegistryObject<ElementPipeBlock> PIPE_IMPAIRED = register(ElementPipeBlock.NAME_IMPAIRED, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.IMPAIRED));
-	public static final RegistryObject<ElementPipeBlock> PIPE = register(ElementPipeBlock.NAME, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.STANDARD));
-	public static final RegistryObject<ElementPipeBlock> PIPE_IMPROVED = register(ElementPipeBlock.NAME_IMPROVED, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.IMPROVED));
-	public static final RegistryObject<ElementPipeBlock> PIPE_CREATIVE = register(ElementPipeBlock.NAME_CREATIVE, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.CREATIVE));
-	public static final RegistryObject<RetrieverBlock> RETRIEVER = register(RetrieverBlock.NAME, RetrieverBlock::new);
-	public static final RegistryObject<SorterBlock> SORTER = register(SorterBlock.NAME, SorterBlock::new);
-	public static final RegistryObject<SpellDeskBlock> SPELL_DESK = register(SpellDeskBlock.NAME, SpellDeskBlock::new);
-	public static final RegistryObject<FirePylonBlock> FIRE_PYLON = register(FirePylonBlock.NAME, FirePylonBlock::new);
-	public static final RegistryObject<VacuumShrineBlock> VACUUM_SHRINE = register(VacuumShrineBlock.NAME, VacuumShrineBlock::new);
-	public static final RegistryObject<GrowthShrineBlock> GROWTH_SHRINE = register(GrowthShrineBlock.NAME, GrowthShrineBlock::new);
-	public static final RegistryObject<HarvestShrineBlock> HARVEST_SHRINE = register(HarvestShrineBlock.NAME, HarvestShrineBlock::new);
-	public static final RegistryObject<LumberShrineBlock> LUMBER_SHRINE = register(LumberShrineBlock.NAME, LumberShrineBlock::new);
-	public static final RegistryObject<LavaShrineBlock> LAVA_SHRINE = register(LavaShrineBlock.NAME, LavaShrineBlock::new);
-	public static final RegistryObject<OreShrineBlock> ORE_SHRINE = register(OreShrineBlock.NAME, OreShrineBlock::new);
-	public static final RegistryObject<OverloadShrineBlock> OVERLOAD_SHRINE = register(OverloadShrineBlock.NAME, OverloadShrineBlock::new);
-	public static final RegistryObject<SweetShrineBlock> SWEET_SHRINE = register(SweetShrineBlock.NAME, SweetShrineBlock::new);
-	public static final RegistryObject<EnderLockShrineBlock> ENDER_LOCK_SHRINE = register(EnderLockShrineBlock.NAME, EnderLockShrineBlock::new);
-	public static final RegistryObject<BreedingShrineBlock> BREEDING_SHRINE = register(BreedingShrineBlock.NAME, BreedingShrineBlock::new);
-	public static final RegistryObject<GroveShrineBlock> GROVE_SHRINE = register(GroveShrineBlock.NAME, GroveShrineBlock::new);
-	public static final RegistryObject<SpringShrineBlock> SPRING_SHRINE = register(SpringShrineBlock.NAME, SpringShrineBlock::new);
-	public static final RegistryObject<BuddingShrineBlock> BUDDING_SHRINE = register(BuddingShrineBlock.NAME, BuddingShrineBlock::new);
-	public static final RegistryObject<SpawningShrineBlock> SPAWNING_SHRINE = register(SpawningShrineBlock.NAME, SpawningShrineBlock::new);
-	public static final RegistryObject<AccelerationShrineUpgradeBlock> ACCELERATION_SHRINE_UPGRADE = register(AccelerationShrineUpgradeBlock.NAME, AccelerationShrineUpgradeBlock::new);
-	public static final RegistryObject<OverclockedAccelerationShrineUpgradeBlock> OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE = register(OverclockedAccelerationShrineUpgradeBlock.NAME, OverclockedAccelerationShrineUpgradeBlock::new);
-	public static final RegistryObject<RangeShrineUpgradeBlock> RANGE_SHRINE_UPGRADE = register(RangeShrineUpgradeBlock.NAME, RangeShrineUpgradeBlock::new);
-	public static final RegistryObject<CapacityShrineUpgradeBlock> CAPACITY_SHRINE_UPGRADE = register(CapacityShrineUpgradeBlock.NAME, CapacityShrineUpgradeBlock::new);
-	public static final RegistryObject<EfficiencyShrineUpgradeBlock> EFFICIENCY_SHRINE_UPGRADE = register(EfficiencyShrineUpgradeBlock.NAME, EfficiencyShrineUpgradeBlock::new);
-	public static final RegistryObject<StrengthShrineUpgradeBlock> STRENGTH_SHRINE_UPGRADE = register(StrengthShrineUpgradeBlock.NAME, StrengthShrineUpgradeBlock::new);
-	public static final RegistryObject<OptimizationShrineUpgradeBlock> OPTIMIZATION_SHRINE_UPGRADE = register(OptimizationShrineUpgradeBlock.NAME, OptimizationShrineUpgradeBlock::new);
-	public static final RegistryObject<FortuneShrineUpgradeBlock> FORTUNE_SHRINE_UPGRADE = register(FortuneShrineUpgradeBlock.NAME, FortuneShrineUpgradeBlock::new);
-	public static final RegistryObject<SilkTouchShrineUpgradeBlock> SILK_TOUCH_SHRINE_UPGRADE = register(SilkTouchShrineUpgradeBlock.NAME, SilkTouchShrineUpgradeBlock::new);
-	public static final RegistryObject<PlantingShrineUpgradeBlock> PLANTING_SHRINE_UPGRADE = register(PlantingShrineUpgradeBlock.NAME, PlantingShrineUpgradeBlock::new);
-	public static final RegistryObject<BonelessGrowthShrineUpgradeBlock> BONELESS_GROWTH_SHRINE_UPGRADE = register(BonelessGrowthShrineUpgradeBlock.NAME, BonelessGrowthShrineUpgradeBlock::new);
-	public static final RegistryObject<PickupShrineUpgradeBlock> PICKUP_SHRINE_UPGRADE = register(PickupShrineUpgradeBlock.NAME, PickupShrineUpgradeBlock::new);
-	public static final RegistryObject<VortexShrineUpgradeBlock> VORTEX_SHRINE_UPGRADE = register(VortexShrineUpgradeBlock.NAME, VortexShrineUpgradeBlock::new);
-	public static final RegistryObject<NectarShrineUpgradeBlock> NECTAR_SHRINE_UPGRADE = register(NectarShrineUpgradeBlock.NAME, NectarShrineUpgradeBlock::new);
-	public static final RegistryObject<MysticalGroveShrineUpgradeBlock> MYSTICAL_GROVE_SHRINE_UPGRADE = register(MysticalGroveShrineUpgradeBlock.NAME, MysticalGroveShrineUpgradeBlock::new);
-	public static final RegistryObject<StemPollinationShrineUpgradeBlock> STEM_POLLINATION_SHRINE_UPGRADE = register(StemPollinationShrineUpgradeBlock.NAME, StemPollinationShrineUpgradeBlock::new);
-	public static final RegistryObject<ProtectionShrineUpgradeBlock> PROTECTION_SHRINE_UPGRADE = register(ProtectionShrineUpgradeBlock.NAME, ProtectionShrineUpgradeBlock::new);
-	public static final RegistryObject<FillingShrineUpgradeBlock> FILLING_SHRINE_UPGRADE = register(FillingShrineUpgradeBlock.NAME, FillingShrineUpgradeBlock::new);
-	public static final RegistryObject<SpringalineShrineUpgradeBlock> SPRINGALINE_SHRINE_UPGRADE = register(SpringalineShrineUpgradeBlock.NAME, SpringalineShrineUpgradeBlock::new);
-	public static final RegistryObject<CrystalHarvestShrineUpgradeBlock> CRYSTAL_HARVEST_SHRINE_UPGRADE = register(CrystalHarvestShrineUpgradeBlock.NAME, CrystalHarvestShrineUpgradeBlock::new);
-	public static final RegistryObject<CrystalGrowthShrineUpgradeBlock> CRYSTAL_GROWTH_SHRINE_UPGRADE = register(CrystalGrowthShrineUpgradeBlock.NAME, CrystalGrowthShrineUpgradeBlock::new);
-	public static final RegistryObject<TranslocationShrineUpgradeBlock> TRANSLOCATION_SHRINE_UPGRADE = register(TranslocationShrineUpgradeBlock.NAME, TranslocationShrineUpgradeBlock::new);
-	public static final RegistryObject<SourceBlock> SOURCE = register(SourceBlock.NAME, SourceBlock::new);
+	public static final RegistryObject<CreativeElementContainerBlock> CREATIVE_CONTAINER = register(
+            CreativeElementContainerBlock.NAME,
+            () -> new CreativeElementContainerBlock(ECProperties.Blocks.CONTAINER));
+	public static final RegistryObject<ExtractorBlock> EXTRACTOR = registerDefault(ExtractorBlock.NAME, ExtractorBlock::new);
+	public static final RegistryObject<ImprovedExtractorBlock> EXTRACTOR_IMPROVED = registerDefault(ImprovedExtractorBlock.NAME, ImprovedExtractorBlock::new);
+	public static final RegistryObject<EvaporatorBlock> EVAPORATOR = registerDefault(EvaporatorBlock.NAME, EvaporatorBlock::new);
+	public static final RegistryObject<SolarSynthesizerBlock> SOLAR_SYNTHESIZER = registerDefault(SolarSynthesizerBlock.NAME, SolarSynthesizerBlock::new);
+	public static final RegistryObject<ManaSynthesizerBlock> MANA_SYNTHESIZER = registerDefault(ManaSynthesizerBlock.NAME, ManaSynthesizerBlock::new);
+	public static final RegistryObject<DiffuserBlock> DIFFUSER = registerDefault(DiffuserBlock.NAME, DiffuserBlock::new);
+	public static final RegistryObject<InfuserBlock> INFUSER = registerDefault(InfuserBlock.NAME, InfuserBlock::new);
+	public static final RegistryObject<BinderBlock> BINDER = registerDefault(BinderBlock.NAME, BinderBlock::new);
+	public static final RegistryObject<ImprovedBinderBlock> BINDER_IMPROVED = registerDefault(ImprovedBinderBlock.NAME, ImprovedBinderBlock::new);
+	public static final RegistryObject<CrystallizerBlock> CRYSTALLIZER = registerDefault(CrystallizerBlock.NAME, CrystallizerBlock::new);
+	public static final RegistryObject<InscriberBlock> INSCRIBER = registerDefault(InscriberBlock.NAME, InscriberBlock::new);
+	public static final RegistryObject<WaterMillGrindstoneBlock> WATER_MILL_GRINDSTONE = registerDefault(WaterMillGrindstoneBlock.NAME, WaterMillGrindstoneBlock::new);
+	public static final RegistryObject<AirMillGrindstoneBlock> AIR_MILL_GRINDSTONE = registerDefault(AirMillGrindstoneBlock.NAME, AirMillGrindstoneBlock::new);
+	public static final RegistryObject<WaterMillWoodSawBlock> WATER_MILL_WOOD_SAW = registerDefault(WaterMillWoodSawBlock.NAME, WaterMillWoodSawBlock::new);
+	public static final RegistryObject<AirMillWoodSawBlock> AIR_MILL_WOOD_SAW = registerDefault(AirMillWoodSawBlock.NAME, AirMillWoodSawBlock::new);
+	public static final RegistryObject<EnchantmentLiquefierBlock> ENCHANTMENT_LIQUEFIER = registerDefault(EnchantmentLiquefierBlock.NAME, EnchantmentLiquefierBlock::new);
+    public static final RegistryObject<PedestalBlock> FIRE_PEDESTAL = register(PedestalBlock.NAME_FIRE, () ->
+            new PedestalBlock(ElementType.FIRE, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
+	public static final RegistryObject<PedestalBlock> WATER_PEDESTAL = register(PedestalBlock.NAME_WATER, () ->
+            new PedestalBlock(ElementType.WATER, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
+	public static final RegistryObject<PedestalBlock> EARTH_PEDESTAL = register(PedestalBlock.NAME_EARTH, () ->
+            new PedestalBlock(ElementType.EARTH, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
+	public static final RegistryObject<PedestalBlock> AIR_PEDESTAL = register(PedestalBlock.NAME_AIR, () ->
+            new PedestalBlock(ElementType.AIR, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
+	public static final RegistryObject<PureInfuserBlock> PURE_INFUSER = registerDefault(PureInfuserBlock.NAME, PureInfuserBlock::new);
+	public static final RegistryObject<FireFurnaceBlock> FIRE_FURNACE = registerDefault(FireFurnaceBlock.NAME, FireFurnaceBlock::new);
+	public static final RegistryObject<FireBlastFurnaceBlock> FIRE_BLAST_FURNACE = registerDefault(FireBlastFurnaceBlock.NAME, FireBlastFurnaceBlock::new);
+	public static final RegistryObject<PurifierBlock> PURIFIER = registerDefault(PurifierBlock.NAME, PurifierBlock::new);
+	public static final RegistryObject<ElementPipeBlock> PIPE_IMPAIRED = register(ElementPipeBlock.NAME_IMPAIRED, () ->
+            new ElementPipeBlock(ElementPipeBlock.PipeType.IMPAIRED, ECProperties.Blocks.PIPE));
+	public static final RegistryObject<ElementPipeBlock> PIPE = register(ElementPipeBlock.NAME, () ->
+            new ElementPipeBlock(ElementPipeBlock.PipeType.STANDARD, ECProperties.Blocks.PIPE));
+	public static final RegistryObject<ElementPipeBlock> PIPE_IMPROVED = register(ElementPipeBlock.NAME_IMPROVED, () ->
+            new ElementPipeBlock(ElementPipeBlock.PipeType.IMPROVED, ECProperties.Blocks.PIPE));
+	public static final RegistryObject<ElementPipeBlock> PIPE_CREATIVE = register(ElementPipeBlock.NAME_CREATIVE, () ->
+            new ElementPipeBlock(ElementPipeBlock.PipeType.CREATIVE, ECProperties.Blocks.PIPE));
+	public static final RegistryObject<RetrieverBlock> RETRIEVER = registerDefault(RetrieverBlock.NAME, RetrieverBlock::new);
+	public static final RegistryObject<SorterBlock> SORTER = registerNoOcclusion(SorterBlock.NAME, SorterBlock::new);
+	public static final RegistryObject<SpellDeskBlock> SPELL_DESK = registerDefault(SpellDeskBlock.NAME, SpellDeskBlock::new);
+	public static final RegistryObject<FirePylonBlock> FIRE_PYLON = registerNoOcclusion(FirePylonBlock.NAME, FirePylonBlock::new);
+	public static final RegistryObject<VacuumShrineBlock> VACUUM_SHRINE = registerNoOcclusion(VacuumShrineBlock.NAME, VacuumShrineBlock::new);
+	public static final RegistryObject<GrowthShrineBlock> GROWTH_SHRINE = registerNoOcclusion(GrowthShrineBlock.NAME, GrowthShrineBlock::new);
+	public static final RegistryObject<HarvestShrineBlock> HARVEST_SHRINE = registerNoOcclusion(HarvestShrineBlock.NAME, HarvestShrineBlock::new);
+	public static final RegistryObject<LumberShrineBlock> LUMBER_SHRINE = registerNoOcclusion(LumberShrineBlock.NAME, LumberShrineBlock::new);
+	public static final RegistryObject<LavaShrineBlock> LAVA_SHRINE = registerNoOcclusion(LavaShrineBlock.NAME, LavaShrineBlock::new);
+	public static final RegistryObject<OreShrineBlock> ORE_SHRINE = registerNoOcclusion(OreShrineBlock.NAME, OreShrineBlock::new);
+	public static final RegistryObject<OverloadShrineBlock> OVERLOAD_SHRINE = registerNoOcclusion(OverloadShrineBlock.NAME, OverloadShrineBlock::new);
+	public static final RegistryObject<SweetShrineBlock> SWEET_SHRINE = registerNoOcclusion(SweetShrineBlock.NAME, SweetShrineBlock::new);
+	public static final RegistryObject<EnderLockShrineBlock> ENDER_LOCK_SHRINE = registerNoOcclusion(EnderLockShrineBlock.NAME, EnderLockShrineBlock::new);
+	public static final RegistryObject<BreedingShrineBlock> BREEDING_SHRINE = registerNoOcclusion(BreedingShrineBlock.NAME, BreedingShrineBlock::new);
+	public static final RegistryObject<GroveShrineBlock> GROVE_SHRINE = registerNoOcclusion(GroveShrineBlock.NAME, GroveShrineBlock::new);
+	public static final RegistryObject<SpringShrineBlock> SPRING_SHRINE = registerNoOcclusion(SpringShrineBlock.NAME, SpringShrineBlock::new);
+	public static final RegistryObject<BuddingShrineBlock> BUDDING_SHRINE = registerNoOcclusion(BuddingShrineBlock.NAME, BuddingShrineBlock::new);
+	public static final RegistryObject<SpawningShrineBlock> SPAWNING_SHRINE = registerNoOcclusion(SpawningShrineBlock.NAME, SpawningShrineBlock::new);
+	public static final RegistryObject<AccelerationShrineUpgradeBlock> ACCELERATION_SHRINE_UPGRADE = registerNoOcclusion(AccelerationShrineUpgradeBlock.NAME, AccelerationShrineUpgradeBlock::new);
+	public static final RegistryObject<OverclockedAccelerationShrineUpgradeBlock> OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE = registerNoOcclusion(OverclockedAccelerationShrineUpgradeBlock.NAME, OverclockedAccelerationShrineUpgradeBlock::new);
+	public static final RegistryObject<RangeShrineUpgradeBlock> RANGE_SHRINE_UPGRADE = registerNoOcclusion(RangeShrineUpgradeBlock.NAME, RangeShrineUpgradeBlock::new);
+	public static final RegistryObject<CapacityShrineUpgradeBlock> CAPACITY_SHRINE_UPGRADE = registerNoOcclusion(CapacityShrineUpgradeBlock.NAME, CapacityShrineUpgradeBlock::new);
+	public static final RegistryObject<EfficiencyShrineUpgradeBlock> EFFICIENCY_SHRINE_UPGRADE = registerNoOcclusion(EfficiencyShrineUpgradeBlock.NAME, EfficiencyShrineUpgradeBlock::new);
+	public static final RegistryObject<StrengthShrineUpgradeBlock> STRENGTH_SHRINE_UPGRADE = registerNoOcclusion(StrengthShrineUpgradeBlock.NAME, StrengthShrineUpgradeBlock::new);
+    public static final RegistryObject<OverwhelmingStrengthShrineUpgradeBlock> OVERWHELMING_STRENGTH_SHRINE_UPGRADE = registerNoOcclusion(OverwhelmingStrengthShrineUpgradeBlock.NAME, OverwhelmingStrengthShrineUpgradeBlock::new);
+	public static final RegistryObject<OptimizationShrineUpgradeBlock> OPTIMIZATION_SHRINE_UPGRADE = registerNoOcclusion(OptimizationShrineUpgradeBlock.NAME, OptimizationShrineUpgradeBlock::new);
+	public static final RegistryObject<FortuneShrineUpgradeBlock> FORTUNE_SHRINE_UPGRADE = registerNoOcclusion(FortuneShrineUpgradeBlock.NAME, FortuneShrineUpgradeBlock::new);
+	public static final RegistryObject<GreaterFortuneShrineUpgradeBlock> GREATER_FORTUNE_SHRINE_UPGRADE = registerNoOcclusion(GreaterFortuneShrineUpgradeBlock.NAME, GreaterFortuneShrineUpgradeBlock::new);
+    public static final RegistryObject<SilkTouchShrineUpgradeBlock> SILK_TOUCH_SHRINE_UPGRADE = registerNoOcclusion(SilkTouchShrineUpgradeBlock.NAME, SilkTouchShrineUpgradeBlock::new);
+	public static final RegistryObject<PlantingShrineUpgradeBlock> PLANTING_SHRINE_UPGRADE = registerNoOcclusion(PlantingShrineUpgradeBlock.NAME, PlantingShrineUpgradeBlock::new);
+	public static final RegistryObject<BonelessGrowthShrineUpgradeBlock> BONELESS_GROWTH_SHRINE_UPGRADE = registerNoOcclusion(BonelessGrowthShrineUpgradeBlock.NAME, BonelessGrowthShrineUpgradeBlock::new);
+	public static final RegistryObject<PickupShrineUpgradeBlock> PICKUP_SHRINE_UPGRADE = registerNoOcclusion(PickupShrineUpgradeBlock.NAME, PickupShrineUpgradeBlock::new);
+	public static final RegistryObject<VortexShrineUpgradeBlock> VORTEX_SHRINE_UPGRADE = registerNoOcclusion(VortexShrineUpgradeBlock.NAME, VortexShrineUpgradeBlock::new);
+	public static final RegistryObject<NectarShrineUpgradeBlock> NECTAR_SHRINE_UPGRADE = registerNoOcclusion(NectarShrineUpgradeBlock.NAME, NectarShrineUpgradeBlock::new);
+	public static final RegistryObject<MysticalGroveShrineUpgradeBlock> MYSTICAL_GROVE_SHRINE_UPGRADE = registerNoOcclusion(MysticalGroveShrineUpgradeBlock.NAME, MysticalGroveShrineUpgradeBlock::new);
+	public static final RegistryObject<StemPollinationShrineUpgradeBlock> STEM_POLLINATION_SHRINE_UPGRADE = registerNoOcclusion(StemPollinationShrineUpgradeBlock.NAME, StemPollinationShrineUpgradeBlock::new);
+	public static final RegistryObject<ProtectionShrineUpgradeBlock> PROTECTION_SHRINE_UPGRADE = registerNoOcclusion(ProtectionShrineUpgradeBlock.NAME, ProtectionShrineUpgradeBlock::new);
+	public static final RegistryObject<FillingShrineUpgradeBlock> FILLING_SHRINE_UPGRADE = registerNoOcclusion(FillingShrineUpgradeBlock.NAME, FillingShrineUpgradeBlock::new);
+	public static final RegistryObject<SpringalineShrineUpgradeBlock> SPRINGALINE_SHRINE_UPGRADE = registerNoOcclusion(SpringalineShrineUpgradeBlock.NAME, SpringalineShrineUpgradeBlock::new);
+	public static final RegistryObject<CrystalHarvestShrineUpgradeBlock> CRYSTAL_HARVEST_SHRINE_UPGRADE = registerNoOcclusion(CrystalHarvestShrineUpgradeBlock.NAME, CrystalHarvestShrineUpgradeBlock::new);
+	public static final RegistryObject<CrystalGrowthShrineUpgradeBlock> CRYSTAL_GROWTH_SHRINE_UPGRADE = registerNoOcclusion(CrystalGrowthShrineUpgradeBlock.NAME, CrystalGrowthShrineUpgradeBlock::new);
+	public static final RegistryObject<TranslocationShrineUpgradeBlock> TRANSLOCATION_SHRINE_UPGRADE = registerNoOcclusion(TranslocationShrineUpgradeBlock.NAME, TranslocationShrineUpgradeBlock::new);
+	public static final RegistryObject<SourceBlock> SOURCE = register(SourceBlock.NAME, () -> new SourceBlock(ECProperties.Blocks.SOURCE));
 
     public static final Map<ElementType, RegistryObject<SourceDisplacementPlateBlock>> SOURCE_DISPLACEMENT_PLATES = ElementType.ALL_VALID.stream()
             .collect(Collectors.toMap(
                     type -> type,
-                    type -> register(SourceDisplacementPlateBlock.generateName(type), () -> new SourceDisplacementPlateBlock(type))
+                    type -> register(SourceDisplacementPlateBlock.generateName(type), () ->
+                            new SourceDisplacementPlateBlock(type, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES)
+                    )
             ));
 
-	public static final RegistryObject<BrokenSourceDisplacementPlateBlock> BROKEN_SOURCE_DISPLACEMENT_PLATE = register(BrokenSourceDisplacementPlateBlock.NAME, BrokenSourceDisplacementPlateBlock::new);
-	public static final RegistryObject<SourceBreederBlock> SOURCE_BREEDER = register(SourceBreederBlock.NAME, SourceBreederBlock::new);
-	public static final RegistryObject<SourceBreederPedestalBlock> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlock.NAME, SourceBreederPedestalBlock::new);
-	public static final RegistryObject<TranslocationAnchorBlock> TRANSLOCATION_ANCHOR = register(TranslocationAnchorBlock.NAME, TranslocationAnchorBlock::new);
+	public static final RegistryObject<BrokenSourceDisplacementPlateBlock> BROKEN_SOURCE_DISPLACEMENT_PLATE = registerDefault(BrokenSourceDisplacementPlateBlock.NAME, BrokenSourceDisplacementPlateBlock::new);
+	public static final RegistryObject<SourceBreederBlock> SOURCE_BREEDER = registerDefault(SourceBreederBlock.NAME, SourceBreederBlock::new);
+	public static final RegistryObject<SourceBreederPedestalBlock> SOURCE_BREEDER_PEDESTAL = registerNoOcclusion(SourceBreederPedestalBlock.NAME, SourceBreederPedestalBlock::new);
+	public static final RegistryObject<TranslocationAnchorBlock> TRANSLOCATION_ANCHOR = registerDefault(TranslocationAnchorBlock.NAME, TranslocationAnchorBlock::new);
 
 
-	public static final RegistryObject<DropExperienceBlock> CRYSTAL_ORE = register("inert_crystal_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
-	public static final RegistryObject<DropExperienceBlock> DEEPSLATE_CRYSTAL_ORE = register("deepslate_inert_crystal_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE)));
+	public static final RegistryObject<DropExperienceBlock> CRYSTAL_ORE = register("inert_crystal_ore", () ->
+            new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE), UniformInt.of(0, 3)));
+	public static final RegistryObject<DropExperienceBlock> DEEPSLATE_CRYSTAL_ORE = register("deepslate_inert_crystal_ore", () ->
+            new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE), UniformInt.of(0, 3)));
 	public static final RegistryObject<Block> WHITE_ROCK = registerSimple("whiterock", ECProperties.Blocks.WHITEROCK);
 	public static final RegistryObject<SlabBlock> WHITE_ROCK_SLAB = registerSlab(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
 	public static final RegistryObject<StairBlock> WHITE_ROCK_STAIRS = registerStairs(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
@@ -224,7 +243,7 @@ public class ECBlocks {
 	public static final RegistryObject<Block> DRENCHED_IRON_BLOCK = registerSimple("drenched_iron_block", BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK));
 	public static final RegistryObject<Block> SWIFT_ALLOY_BLOCK = registerSimple("swift_alloy_block", BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK));
 	public static final RegistryObject<Block> FIREITE_BLOCK = registerSimple("fireite_block", BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK));
-	public static final RegistryObject<Block> INERT_CRYSTAL_BLOCK = registerSimple("inertcrystal_block");
+	public static final RegistryObject<Block> INERT_CRYSTAL_BLOCK = registerSimple("inert_crystal_block");
 
     public static final Map<ElementType, RegistryObject<Block>> CRYSTAL_BLOCKS = ElementType.ALL_VALID.stream()
             .collect(Collectors.toMap(
@@ -249,36 +268,44 @@ public class ECBlocks {
 		return DEFERRED_REGISTER.register(name, block);
 	}
 
+    private static <T extends Block> RegistryObject<T> registerDefault(String name, Function<BlockBehaviour.Properties, T> block) {
+        return register(name, () -> block.apply(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
+    }
+
+    private static <T extends Block> RegistryObject<T> registerNoOcclusion(String name, Function<BlockBehaviour.Properties, T> block) {
+        return register(name, () -> block.apply(ECProperties.Blocks.DEFAULT_NO_OCCLUSION));
+    }
+
 	private static RegistryObject<Block> registerSimple(String name, BlockBehaviour.Properties properties) {
-		return DEFERRED_REGISTER.register(name, () -> new Block(properties));
+        return register(name, () -> new Block(properties));
 	}
 
 	private static RegistryObject<Block> registerSimple(String name) {
-		return DEFERRED_REGISTER.register(name, () -> new Block(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
+        return registerSimple(name, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
 	}
 
 	private static <T extends Block> RegistryObject<SlabBlock> registerSlab(RegistryObject<T> block, BlockBehaviour.Properties properties) {
-		return DEFERRED_REGISTER.register(block.getId().getPath() + "_slab", () -> new SlabBlock(properties));
+		return register(block.getId().getPath() + "_slab", () -> new SlabBlock(properties));
 	}
 
 	private static <T extends Block> RegistryObject<StairBlock> registerStairs(RegistryObject<T> block, BlockBehaviour.Properties properties) {
-		return DEFERRED_REGISTER.register(block.getId().getPath() + "_stairs", () -> new StairBlock(() -> block.get().defaultBlockState(), properties));
+		return register(block.getId().getPath() + "_stairs", () -> new StairBlock(() -> block.get().defaultBlockState(), properties));
 	}
 
 	private static <T extends Block> RegistryObject<WallBlock> registerWall(RegistryObject<T> block, BlockBehaviour.Properties properties) {
-		return DEFERRED_REGISTER.register(block.getId().getPath() + "_wall", () -> new WallBlock(properties));
+		return register(block.getId().getPath() + "_wall", () -> new WallBlock(properties));
 	}
 
 	private static <T extends Block> RegistryObject<FenceBlock> registerFence(RegistryObject<T> block, BlockBehaviour.Properties properties) {
-		return DEFERRED_REGISTER.register(block.getId().getPath() + "_fence", () -> new FenceBlock(properties));
+		return register(block.getId().getPath() + "_fence", () -> new FenceBlock(properties));
 	}
 
 	private static RegistryObject<GlassBlock> registerGlass(String name) {
-		return DEFERRED_REGISTER.register(name, () -> new GlassBlock(ECProperties.Blocks.GLASS));
+        return register(name, () -> new GlassBlock(ECProperties.Blocks.GLASS));
 	}
 	private static RegistryObject<IronBarsBlock> registerGlassPane(RegistryObject<? extends GlassBlock> block) {
-		return DEFERRED_REGISTER.register(block.getId().getPath() + "_pane", () -> new IronBarsBlock(ECProperties.Blocks.GLASS_PANE));
-	}
+		return register(block.getId().getPath() + "_pane", () -> new IronBarsBlock(ECProperties.Blocks.GLASS_PANE));
+    }
 
 	public static void register(IEventBus bus) {
 		DEFERRED_REGISTER.register(bus);

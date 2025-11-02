@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEntity implements Clearable, IContainerBlockEntity, ContainerListener {
+public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEntity implements Clearable, IContainerBlockEntity {
 
 	private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(this::createHandler);
 
@@ -32,20 +32,9 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 		super(blockEntityType, pos, state);
 	}
 
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
-		this.clearContent();
-		super.onDataPacket(net, packet);
-	}
-
 	@Nonnull
 	protected IItemHandler createHandler() {
 		return new InvWrapper(this.getInventory());
-	}
-
-	@Override
-	public void clearContent() {
-		this.getInventory().clearContent();
 	}
 
 	@Override
@@ -72,18 +61,8 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 	@Nonnull
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
 		if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER) {
-			return getItemHandler().cast();
+			return (LazyOptional<T>) getItemHandler(side);
 		}
 		return super.getCapability(cap, side);
-	}
-
-	@Override
-	public LazyOptional<IItemHandler> getItemHandler() {
-		return itemHandler;
-	}
-
-	@Override
-	public void containerChanged(@Nonnull Container invBasic) {
-		this.setChanged();
 	}
 }

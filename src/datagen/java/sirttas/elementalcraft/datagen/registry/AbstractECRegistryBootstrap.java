@@ -9,7 +9,7 @@ import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -38,7 +38,7 @@ public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuild
     }
 
     public <U> HolderSet<U> createHolderSet(ResourceKey<Registry<U>> registry, String ... names) {
-        return createHolderSet(registry, Arrays.stream(names).map(ElementalCraft::createRL).toArray(ResourceLocation[]::new));
+        return createHolderSet(registry, Arrays.stream(names).map(ElementalCraftApi::createRL).toArray(ResourceLocation[]::new));
     }
 
     public <U> HolderSet<U> createHolderSet(ResourceKey<Registry<U>> registry, ResourceLocation ... names) {
@@ -50,7 +50,7 @@ public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuild
     }
 
     public <U> Holder<U> getReference(ResourceKey<Registry<U>> registry, String name) {
-        return getReference(registry, ElementalCraft.createRL(name));
+        return getReference(registry, ElementalCraftApi.createRL(name));
     }
 
     public <U> Holder<U> getReference(ResourceKey<Registry<U>> registry, ResourceLocation name) {
@@ -67,7 +67,11 @@ public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuild
     protected abstract void gather();
 
     protected Holder.Reference<T> add(String name, T entry) {
-        return context.register(ResourceKey.create(key, ElementalCraft.createRL(name)), entry);
+        return add(ResourceKey.create(key, ElementalCraftApi.createRL(name)), entry);
+    }
+
+    protected Holder.Reference<T> add(ResourceKey<T> k, T entry) {
+        return context.register(k, entry);
     }
 
 }

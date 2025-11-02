@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sirttas.dpanvil.api.data.IDataManager;
+import metafact.dpanvil_m.api.data.IDataManager;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -37,4 +37,11 @@ public class ElementalCraftApi {
 			.build();
 
 	private ElementalCraftApi() {}
+
+    public static ResourceLocation createRL(String name) {
+        if (name.contains(":")) {
+            return new ResourceLocation(name);
+        }
+        return new ResourceLocation(MODID, name);
+    }
 }

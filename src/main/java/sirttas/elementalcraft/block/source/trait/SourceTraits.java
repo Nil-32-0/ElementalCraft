@@ -4,9 +4,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sirttas.dpanvil.api.data.IDataManager;
-import sirttas.dpanvil.api.event.DataManagerReloadEvent;
-import sirttas.elementalcraft.ElementalCraft;
+import metafact.dpanvil_m.api.data.IDataManager;
+import metafact.dpanvil_m.api.event.DataManagerReloadEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
@@ -44,7 +43,7 @@ public class SourceTraits {
 	}
 
 	public static ResourceKey<SourceTrait> key(String name) {
-		return key(ElementalCraft.createRL(name));
+		return key(ElementalCraftApi.createRL(name));
 	}
 
 	public static ResourceKey<SourceTrait> key(ResourceLocation name) {

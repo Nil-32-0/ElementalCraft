@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
+import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
@@ -37,7 +38,7 @@ import java.util.List;
 
 public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements ItemLike {
 
-    public static final String FOLDER = "elementalcraft/pipe_upgrade/";
+    public static final String FOLDER = "elementalcraft/pipe_upgrades/";
 
     private final PipeUpgradeType<?> type;
 
@@ -109,7 +110,7 @@ public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements Item
         // NOOP
     }
 
-    public void onTransfer(ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) {
+    public void onTransfer(ElementType type, int amount, @Nullable IElementTransferPathNode from, @Nullable IElementTransferPathNode to) {
         // NOOP
     }
 
@@ -176,5 +177,9 @@ public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements Item
             item = this.type.asItem();
         }
         return item;
+    }
+
+    public int getWeight() {
+        return 0;
     }
 }

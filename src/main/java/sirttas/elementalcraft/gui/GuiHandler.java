@@ -24,7 +24,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
@@ -75,7 +74,7 @@ public class GuiHandler {
 	public static void onDrawScreenPost(RegisterGuiOverlaysEvent event) {
 		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "gauge", (f, g, t, w, h) -> drawGauge(f, g));
 		event.registerBelow(VanillaGuiOverlay.PORTAL.id(), "translocation_anchor_marker", (f, g, t, w, h) -> drawAnchors(f, g, w, h));
-		event.registerBelow(ElementalCraft.createRL("translocation_anchor_marker"), "single_translocation_anchor_marker", (f, g, t, w, h) -> drawAnchor(f, g, w, h));
+		event.registerBelow(ElementalCraftApi.createRL("translocation_anchor_marker"), "single_translocation_anchor_marker", (f, g, t, w, h) -> drawAnchor(f, g, w, h));
 	}
 
 	public static void drawGauge(ForgeGui gui, GuiGraphics guiGraphics) {
@@ -223,7 +222,7 @@ public class GuiHandler {
 
 			if (tile != null) {
 				var storages = ElementStorageHelper.get(tile)
-						.filter(storage -> storage.doesRenderGauge() || GuiHelper.showDebugInfo())
+						.filter(storage -> storage.doesRenderGauge(player) || GuiHelper.showDebugInfo())
 						.map(GuiHandler::splitStorage)
 						.orElse(Collections.emptyList());
 

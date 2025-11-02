@@ -1,10 +1,10 @@
 {
   "type": "elementalcraft:spell_craft",
   "crystal": {
-    "item": "elementalcraft:watercrystal"
+    "item": "elementalcraft:water_crystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/crude_water"
+    "item": "elementalcraft:crude_water_gem"
   },
   "output": {
     "item": "elementalcraft:scroll",

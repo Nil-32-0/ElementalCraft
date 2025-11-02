@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_aircrystal": {
+    "has_air_crystal": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:aircrystal"
+              "elementalcraft:air_crystal"
             ]
           }
         ]
@@ -34,7 +34,7 @@
   },
   "requirements": [
     [
-      "has_aircrystal",
+      "has_air_crystal",
       "has_whiterock",
       "has_the_recipe"
     ]

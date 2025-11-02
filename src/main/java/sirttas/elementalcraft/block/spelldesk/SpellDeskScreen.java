@@ -8,13 +8,13 @@ import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import javax.annotation.Nonnull;
 
 public class SpellDeskScreen extends AbstractContainerScreen<SpellDeskMenu> implements MenuAccess<SpellDeskMenu> {
 	
-	private static final ResourceLocation SPELL_DESK_GUI_TEXTURE = ElementalCraft.createRL("textures/gui/container/spell_desk.png");
+	private static final ResourceLocation SPELL_DESK_GUI_TEXTURE = ElementalCraftApi.createRL("textures/gui/container/spell_desk.png");
 
 	private Button previous;
 	private Button next;

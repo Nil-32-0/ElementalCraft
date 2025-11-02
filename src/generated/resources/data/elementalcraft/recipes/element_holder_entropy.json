@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "c": {
-      "item": "elementalcraft:entropycrystal"
+      "item": "elementalcraft:entropy_crystal"
     },
     "e": {
       "item": "elementalcraft:extractor"

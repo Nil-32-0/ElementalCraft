@@ -1,0 +1,68 @@
+{
+  "bonuses": {
+    "element_consumption": 2.0,
+    "strength": 5.0
+  },
+  "max_amount": 1,
+  "predicate": {
+    "type": "dpanvil_m:cache",
+    "value": {
+      "type": "dpanvil_m:and",
+      "values": [
+        {
+          "type": "dpanvil_m:not",
+          "value": {
+            "type": "dpanvil_m:or",
+            "values": [
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_overclocked_acceleration"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_translocation"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_greater_fortune"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
+              }
+            ]
+          }
+        },
+        {
+          "type": "dpanvil_m:or",
+          "values": [
+            {
+              "type": "dpanvil_m:and",
+              "values": [
+                {
+                  "type": "elementalcraft:has_shrine_upgrade",
+                  "shrine_upgrade": "elementalcraft:shrine_upgrade_filling"
+                },
+                {
+                  "type": "dpanvil_m:blocks",
+                  "blocks": [
+                    "elementalcraft:springshrine",
+                    "elementalcraft:lavashrine"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "dpanvil_m:tag",
+              "tag": "elementalcraft:shrines/upgradables/strength"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -10,10 +10,10 @@
       "item": "elementalcraft:springaline_glass"
     },
     {
-      "item": "elementalcraft:purecrystal"
+      "item": "elementalcraft:pure_crystal"
     },
     {
-      "tag": "elementalcraft:gems/pristine_air"
+      "item": "elementalcraft:pristine_air_gem"
     }
   ],
   "output": {

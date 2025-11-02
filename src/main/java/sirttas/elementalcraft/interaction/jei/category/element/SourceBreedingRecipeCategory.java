@@ -8,7 +8,6 @@ import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
@@ -34,7 +33,7 @@ public class SourceBreedingRecipeCategory extends AbstractECRecipeCategory<Eleme
 
 	public SourceBreedingRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.source_breeding", createDrawableStack(guiHelper, new ItemStack(ECBlocks.SOURCE_BREEDER.get())), guiHelper.createBlankDrawable(67, 80));
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/source_breeding.png"), 0, 0, 47, 33), 10, 10);
+		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/source_breeding.png"), 0, 0, 47, 33), 10, 10);
 
 		artificialTraitsMap = getArtificialTraitsMap();
 	}

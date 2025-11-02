@@ -5,7 +5,28 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:block",
-    "block": "elementalcraft:sweetshrine"
+    "type": "dpanvil_m:and",
+    "values": [
+      {
+        "type": "dpanvil_m:not",
+        "value": {
+          "type": "dpanvil_m:or",
+          "values": [
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_strength"
+            },
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_overwhelming_strength"
+            }
+          ]
+        }
+      },
+      {
+        "type": "dpanvil_m:block",
+        "block": "elementalcraft:sweetshrine"
+      }
+    ]
   }
 }

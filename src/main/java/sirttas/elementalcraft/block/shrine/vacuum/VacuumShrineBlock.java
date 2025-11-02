@@ -5,6 +5,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -26,8 +27,8 @@ public class VacuumShrineBlock extends AbstractShrineBlock<VacuumShrineBlockEnti
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, Block.box(6D, 12D, 6D, 10D, 15D, 10D));
 
-	public VacuumShrineBlock() {
-		super(ElementType.AIR);
+	public VacuumShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.AIR, properties);
 	}
 
 	@Nonnull

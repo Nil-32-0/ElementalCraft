@@ -6,6 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractMillBlock;
@@ -17,7 +18,8 @@ public class WaterMillWoodSawBlock extends AbstractMillBlock {
 
 	public static final String NAME = "water_mill_wood_saw";
 
-	public WaterMillWoodSawBlock() {
+	public WaterMillWoodSawBlock(BlockBehaviour.Properties properties) {
+        super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(WATERLOGGED, false));

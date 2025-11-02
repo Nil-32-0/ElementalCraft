@@ -10,7 +10,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
@@ -61,7 +60,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 
 	@Nonnull
 	private static ResourceLocation getEnchantmentName(Enchantment enchantment) {
-		return ElementalCraft.createRL(ForgeRegistries.ENCHANTMENTS.getKey(enchantment).getPath());
+		return ElementalCraftApi.createRL(ForgeRegistries.ENCHANTMENTS.getKey(enchantment).getPath());
 	}
 
 	@Override

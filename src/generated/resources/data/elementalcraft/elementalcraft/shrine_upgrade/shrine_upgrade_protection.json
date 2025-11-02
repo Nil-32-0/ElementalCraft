@@ -4,25 +4,25 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:cache",
+    "type": "dpanvil_m:cache",
     "value": {
-      "type": "dpanvil:or",
+      "type": "dpanvil_m:or",
       "values": [
         {
-          "type": "dpanvil:and",
+          "type": "dpanvil_m:and",
           "values": [
             {
               "type": "elementalcraft:has_shrine_upgrade",
               "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex"
             },
             {
-              "type": "dpanvil:block",
+              "type": "dpanvil_m:block",
               "block": "elementalcraft:vacuumshrine"
             }
           ]
         },
         {
-          "type": "dpanvil:tag",
+          "type": "dpanvil_m:tag",
           "tag": "elementalcraft:shrines/upgradables/protection"
         }
       ]

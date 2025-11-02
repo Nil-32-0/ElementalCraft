@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_purecrystal": {
+    "has_pure_crystal": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:purecrystal"
+              "elementalcraft:pure_crystal"
             ]
           }
         ]
@@ -34,7 +34,7 @@
   },
   "requirements": [
     [
-      "has_purecrystal",
+      "has_pure_crystal",
       "has_whiterock",
       "has_the_recipe"
     ]

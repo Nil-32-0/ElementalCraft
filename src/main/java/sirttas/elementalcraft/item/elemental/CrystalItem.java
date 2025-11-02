@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 public class CrystalItem extends ElementalItem {
 
     public static String generateName(ElementType type) {
-        return type.getSerializedName() + "crystal";
+        return type.getSerializedName() + "_crystal";
     }
 
     public static String generateNameBlock(ElementType type) {

@@ -4,38 +4,13 @@
   "element_type": "purity",
   "ingredients": {
     "crystal": {
-      "item": "elementalcraft:puritycrystal"
+      "item": "elementalcraft:purity_crystal"
     },
     "gem": {
-      "tag": "elementalcraft:gems/input_purity"
-    },
-    "shard": {
-      "tag": "elementalcraft:shards/purity"
+      "item": "elementalcraft:crude_purity_gem"
     }
   },
-  "outputs": [
-    {
-      "quality": -0.5,
-      "result": {
-        "Count": 1,
-        "id": "elementalcraft:crude_purity_gem"
-      },
-      "weight": 15.0
-    },
-    {
-      "result": {
-        "Count": 1,
-        "id": "elementalcraft:fine_purity_gem"
-      },
-      "weight": 4.0
-    },
-    {
-      "quality": 2.0,
-      "result": {
-        "Count": 1,
-        "id": "elementalcraft:pristine_purity_gem"
-      },
-      "weight": 1.0
-    }
-  ]
+  "output": {
+    "item": "elementalcraft:fine_purity_gem"
+  }
 }

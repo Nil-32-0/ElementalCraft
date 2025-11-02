@@ -21,16 +21,17 @@ public class ToolInfusionClientHandler {
 	@SubscribeEvent
 	public static void addInfusionTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
-		List<Component> tooltip = event.getToolTip();
 		ToolInfusion infusion = ToolInfusionHelper.getInfusion(stack);
 
-		if (infusion != null) {
-			var index = IntStream.range(0, tooltip.size())
-					.filter(i -> ForgeRegistries.ITEMS.getKey(stack.getItem()).toString().equals(tooltip.get(i).getString()))
-					.findFirst()
-					.orElse(tooltip.size());
+        if (infusion == ToolInfusion.NONE) return;
 
-			tooltip.addAll(index, infusion.getTooltipInformation());
-		}
+        List<Component> tooltip = event.getToolTip();
+
+        var index = IntStream.range(0, tooltip.size())
+                .filter(i -> ForgeRegistries.ITEMS.getKey(stack.getItem()).toString().equals(tooltip.get(i).getString()))
+                .findFirst()
+                .orElse(tooltip.size());
+
+        tooltip.addAll(index, infusion.getTooltipInformation());
 	}
 }

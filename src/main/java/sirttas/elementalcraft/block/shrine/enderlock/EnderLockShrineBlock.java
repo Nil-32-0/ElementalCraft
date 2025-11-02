@@ -5,6 +5,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -41,8 +42,8 @@ public class EnderLockShrineBlock extends AbstractPylonShrineBlock<EnderLockShri
 	private static final VoxelShape LOWER_SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, BASE, IRON_NORTH, IRON_SOUTH, IRON_EAST, IRON_WEST);
 	private static final VoxelShape UPPER_SHAPE = Shapes.or(UPPER_BASE, UPPER_RING_1, UPPER_RING_2, UPPER_RING_3);
 
-	public EnderLockShrineBlock() {
-		super(ElementType.WATER);
+	public EnderLockShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.WATER, properties);
 	}
 
 	@Override

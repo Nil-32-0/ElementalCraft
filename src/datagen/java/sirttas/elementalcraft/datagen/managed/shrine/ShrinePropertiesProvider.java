@@ -3,7 +3,7 @@ package sirttas.elementalcraft.datagen.managed.shrine;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
-import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
+import metafact.dpanvil_m.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlockEntity;
@@ -55,8 +55,10 @@ public class ShrinePropertiesProvider extends AbstractManagedDataBuilderProvider
 				.consumption(50)
 				.range(ShrineRange.expendingUp(4, 9).stitch());
 		builder(LavaShrineBlockEntity.PROPERTIES_KEY, ElementType.FIRE)
+                .capacity(50000)
 				.period(1200)
 				.consumption(5000)
+                .strength(1000)
 				.range(ShrineRange.box(-1, 1, -1, 2, 2, 2).stitch().fixedHeight());
 		builder(OreShrineBlockEntity.PROPERTIES_KEY, ElementType.EARTH)
 				.period(200)

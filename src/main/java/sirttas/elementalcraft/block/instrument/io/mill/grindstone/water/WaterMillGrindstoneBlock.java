@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -23,6 +24,10 @@ import java.util.Map;
 public class WaterMillGrindstoneBlock extends AbstractMillBlock {
 
 	public static final String NAME = "water_mill_grindstone";
+
+    public WaterMillGrindstoneBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
 
 	private static final Map<Direction, VoxelShape> SHAPES = ShapeHelper.directionShapes(Direction.NORTH, Shapes.or(SHAPE_NORTH, Block.box(4D, 5D, 4D, 12D, 8D, 12D)));
 

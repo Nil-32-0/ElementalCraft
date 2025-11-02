@@ -8,7 +8,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 
@@ -16,7 +15,7 @@ import java.util.function.Supplier;
 
 public class PureOreLoaderTypes {
 
-    public static final ResourceKey<Registry<Codec<? extends IPureOreLoader>>> KEY = ResourceKey.createRegistryKey(ElementalCraft.createRL(ECNames.PURE_ORE_LOADER_SERIALIZER));
+    public static final ResourceKey<Registry<Codec<? extends IPureOreLoader>>> KEY = ResourceKey.createRegistryKey(ElementalCraftApi.createRL(ECNames.PURE_ORE_LOADER_SERIALIZER));
 
     private static final DeferredRegister<Codec<? extends IPureOreLoader>> DEFERRED_REGISTER = DeferredRegister.create(KEY, ElementalCraftApi.MODID);
 

@@ -12,6 +12,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
@@ -27,6 +28,10 @@ import javax.annotation.Nonnull;
 public class RetrieverBlock extends Block implements ISorterBlock {
 
 	public static final String NAME = "instrument_retriever";
+
+    public RetrieverBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
 
 	private static final VoxelShape CORE = Block.box(5D, 5D, 5D, 11D, 11D, 11D);
 
@@ -57,14 +62,14 @@ public class RetrieverBlock extends Block implements ISorterBlock {
     @Override
 	@Deprecated
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return worldIn instanceof Level && ((Level) worldIn).isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurentShape(state);
+		return worldIn instanceof Level && ((Level) worldIn).isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurrentShape(state);
 	}
 
 	@Nonnull
     @Override
 	@Deprecated
 	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return getCurentShape(state);
+		return getCurrentShape(state);
 	}
 
 	@Nonnull

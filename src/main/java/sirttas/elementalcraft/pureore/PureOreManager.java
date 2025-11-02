@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.crafting.StrictNBTIngredient;
-import sirttas.dpanvil.api.event.DataPackReloadCompleteEvent;
+import metafact.dpanvil_m.api.event.DataPackReloadCompleteEvent;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -132,7 +132,7 @@ public class PureOreManager {
 				.sorted(Comparator.comparingInt(IPureOreLoader::getOrder))
 				.forEach(l -> l.generate(registry, injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ores.put(l, e)));
 
-		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
+		if (Boolean.TRUE.equals(ECConfig.SERVER.pureOreRecipeInjection.get())) {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection.");
 			this.pureOres.values().removeIf(o -> !o.isProcessable());
 

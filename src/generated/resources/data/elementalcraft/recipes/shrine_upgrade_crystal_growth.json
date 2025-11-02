@@ -6,10 +6,10 @@
       "item": "elementalcraft:shrine_upgrade_core"
     },
     "c": {
-      "item": "elementalcraft:watercrystal"
+      "item": "elementalcraft:water_crystal"
     },
     "e": {
-      "tag": "elementalcraft:gems/pristine_earth"
+      "item": "elementalcraft:pristine_earth_gem"
     },
     "s": {
       "item": "elementalcraft:springaline_block"

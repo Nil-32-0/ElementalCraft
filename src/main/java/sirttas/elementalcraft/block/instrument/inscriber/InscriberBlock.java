@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -36,6 +37,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -113,7 +115,8 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public InscriberBlock() {
+	public InscriberBlock(BlockBehaviour.Properties properties) {
+        super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(WATERLOGGED, false));
@@ -139,14 +142,14 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 
 		if (inscriber != null && hand == InteractionHand.MAIN_HAND) {
-			if (heldItem.is(ECItems.CHISEL.get()) && !inscriber.isLocked()) {
+			if (heldItem.is(ECTags.Items.CHISELS) && !inscriber.isLocked()) {
 				return makeProgress(player, hand, inscriber, heldItem);
 			} else if ((inscriber.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !inscriber.getInventory().isEmpty()) {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
 				}
 				return InteractionResult.SUCCESS;
-			} else if (heldItem.is(ECItems.CHISEL.get())) {
+			} else if (heldItem.is(ECTags.Items.CHISELS)) {
 				return InteractionResult.PASS;
 			}
 			for (int i = 0; i < inv.getSlots(); i++) {

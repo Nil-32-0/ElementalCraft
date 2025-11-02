@@ -4,38 +4,13 @@
   "element_type": "entropy",
   "ingredients": {
     "crystal": {
-      "item": "elementalcraft:entropycrystal"
+      "item": "elementalcraft:entropy_crystal"
     },
     "gem": {
-      "tag": "elementalcraft:gems/input_entropy"
-    },
-    "shard": {
-      "tag": "elementalcraft:shards/entropy"
+      "item": "elementalcraft:crude_entropy_gem"
     }
   },
-  "outputs": [
-    {
-      "quality": -0.5,
-      "result": {
-        "Count": 1,
-        "id": "elementalcraft:crude_entropy_gem"
-      },
-      "weight": 15.0
-    },
-    {
-      "result": {
-        "Count": 1,
-        "id": "elementalcraft:fine_entropy_gem"
-      },
-      "weight": 4.0
-    },
-    {
-      "quality": 2.0,
-      "result": {
-        "Count": 1,
-        "id": "elementalcraft:pristine_entropy_gem"
-      },
-      "weight": 1.0
-    }
-  ]
+  "output": {
+    "item": "elementalcraft:fine_entropy_gem"
+  }
 }

@@ -17,7 +17,6 @@ import net.silentchaos512.gear.gear.material.MaterialCategories;
 import net.silentchaos512.gear.gear.part.PartTextureSet;
 import net.silentchaos512.gear.gear.trait.condition.MaterialRatioTraitCondition;
 import net.silentchaos512.gear.util.Const;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
@@ -231,7 +230,7 @@ public class ECSilentGearMaterialProvider extends MaterialsProvider {
     }
 
     public static MaterialBuilder createBuilder(List<MaterialBuilder> list, TagKey<Item> tag, int tiers) {
-        MaterialBuilder builder = new MaterialBuilder(ElementalCraft.createRL(tag.location().getPath()), tiers, tag);
+        MaterialBuilder builder = new MaterialBuilder(ElementalCraftApi.createRL(tag.location().getPath()), tiers, tag);
 
         list.add(builder);
         return builder;

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -11,9 +12,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
@@ -37,6 +39,10 @@ public class InscriptionRecipeBuilder {
 		elementAmount = 5000;
 		this.output = output;
 	}
+
+    public static InscriptionRecipeBuilder inscriptionRecipe(ResourceKey<Rune> output, ElementType elementType) {
+        return inscriptionRecipe(output.location(), elementType);
+    }
 
 	public static InscriptionRecipeBuilder inscriptionRecipe(ResourceLocation output, ElementType elementType) {
 		return new InscriptionRecipeBuilder(ECRecipeSerializers.INSCRIPTION.get(), output, elementType);
@@ -78,7 +84,7 @@ public class InscriptionRecipeBuilder {
 	}
 
 	public void save(Consumer<FinishedRecipe> consumer, String save) {
-		this.save(consumer, ElementalCraft.createRL(InscriptionRecipe.NAME + '/' + save));
+		this.save(consumer, ElementalCraftApi.createRL(InscriptionRecipe.NAME + '/' + save));
 	}
 
 	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {

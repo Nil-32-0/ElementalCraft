@@ -7,10 +7,10 @@
       "item": "elementalcraft:firepylon"
     },
     {
-      "item": "elementalcraft:firecrystal"
+      "item": "elementalcraft:fire_crystal"
     },
     {
-      "tag": "elementalcraft:gems/pristine_fire"
+      "item": "elementalcraft:pristine_fire_gem"
     },
     {
       "item": "minecraft:obsidian"
