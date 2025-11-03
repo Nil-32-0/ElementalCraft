@@ -18,6 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.ElementTypeTier;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 import sirttas.elementalcraft.loot.LootHandler;
@@ -30,7 +31,8 @@ import java.util.stream.Collectors;
 
 public class ECEntityLoot extends EntityLootSubProvider {
 
-    private static final Map<ElementType, LootPool.Builder> ELEMENT_POOLS = ElementType.getElementsTier(1).stream().collect(Collectors.toMap(
+    private static final Map<ElementType, LootPool.Builder> ELEMENT_POOLS =
+    ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).stream().collect(Collectors.toMap(
             type -> type,
             ECEntityLoot::createShardPool
     ));

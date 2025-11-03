@@ -21,6 +21,7 @@ import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.ElementTypeTier;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlockItem;
@@ -149,7 +150,8 @@ public class ECItems {
 
     public static final RegistryObject<ECItem> PRISTINE_SHARD = register(ECItem::new, "pristine_shard");
 
-    public static final Map<ElementType, RegistryObject<LensItem>> LENSES = ElementType.getElementsTier(1).stream()
+    public static final Map<ElementType, RegistryObject<LensItem>> LENSES =
+        ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).stream()
             .collect(Collectors.toMap(
                     type -> type,
                     type -> register(() -> new LensItem(type), LensItem.generateName(type))
@@ -166,7 +168,8 @@ public class ECItems {
                     type -> type,
                     type -> register(() -> new ElementalItem(type), "artificial_" + type.getSerializedName() + "_source_seed")
             ));
-    public static final Map<ElementType, RegistryObject<ElementalItem>> NATURAL_SOURCE_SEEDS = ElementType.getElementsTier(1).stream()
+    public static final Map<ElementType, RegistryObject<ElementalItem>> NATURAL_SOURCE_SEEDS =
+        ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).stream()
             .collect(Collectors.toMap(
                     type -> type,
                     type -> register(() -> new ElementalItem(type), "natural_" + type.getSerializedName() + "_source_seed")

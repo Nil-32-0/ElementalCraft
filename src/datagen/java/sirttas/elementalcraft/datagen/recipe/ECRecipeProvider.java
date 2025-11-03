@@ -44,6 +44,7 @@ import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.ElementTypeTier;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -241,7 +242,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private static void registerLenses(@Nonnull Consumer<FinishedRecipe> consumer) {
-        ElementType.getElementsTier(1).forEach(type -> BindingRecipeBuilder.bindingRecipe(
+        ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).forEach(type -> BindingRecipeBuilder.bindingRecipe(
                 ECItems.LENSES.get(type).get(), type)
                 .addIngredient(ECItems.SPRINGALINE_SHARD.get())
                 .addIngredient(ECBlocks.SPRINGALINE_GLASS_PANE.get())
@@ -1938,7 +1939,7 @@ public class ECRecipeProvider extends RecipeProvider {
                 .save(consumer)
         );
 
-        ElementType.getElementsTier(1).forEach(type -> ShapelessRecipeBuilder
+        ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).forEach(type -> ShapelessRecipeBuilder
                 .shapeless(RecipeCategory.MISC, ECItems.NATURAL_SOURCE_SEEDS.get(type).get())
                 .requires(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(type).get())
                 .requires(new NaturalSourceIngredient(type))

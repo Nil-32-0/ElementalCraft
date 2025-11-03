@@ -18,13 +18,13 @@ import java.util.stream.Stream;
 
 public enum ElementType implements StringRepresentable, IElementTypeProvider {
 
-	NONE(0, 0, 0, "none", 0, 1),
-	WATER(43, 173, 255, "water", 1, 1),
-	FIRE(247, 107, 27, "fire", 2, 1),
-	EARTH(13, 128, 37, "earth", 3, 1),
-	AIR(238, 255, 219, "air", 4, 1),
-    ENTROPY(31, 31, 31, "entropy", 6, 1),
-    PURITY(255, 255, 255, "purity", 7, 1);
+	NONE(0, 0, 0, "none", 0, ElementTypeTier.PRIMORDIAL),
+	WATER(43, 173, 255, "water", 1, ElementTypeTier.PRIMORDIAL),
+	FIRE(247, 107, 27, "fire", 2, ElementTypeTier.PRIMORDIAL),
+	EARTH(13, 128, 37, "earth", 3, ElementTypeTier.PRIMORDIAL),
+	AIR(238, 255, 219, "air", 4, ElementTypeTier.PRIMORDIAL),
+    ENTROPY(31, 31, 31, "entropy", 6, ElementTypeTier.PRIMORDIAL),
+    PURITY(255, 255, 255, "purity", 7, ElementTypeTier.PRIMORDIAL);
 
 	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).toList());
 	public static final Codec<ElementType> CODEC = StringRepresentable.fromEnum(ElementType::values);
@@ -37,13 +37,13 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 	private final String name;
     private final int gaugeOffset;
     private final String gaugeTextureLocation;
-    private final int elementTier;
+    private final ElementTypeTier elementTier;
 
-    ElementType(int r, int g, int b, String name, int gaugeOffset, int elementTier) {
+    ElementType(int r, int g, int b, String name, int gaugeOffset, ElementTypeTier elementTier) {
         this(r, g, b, name, gaugeOffset, "textures/gui/element_gauge.png", elementTier);
     }
 
-	ElementType(int r, int g, int b, String name, int gaugeOffset, String gaugeTextureLocation, int elementTier) {
+	ElementType(int r, int g, int b, String name, int gaugeOffset, String gaugeTextureLocation, ElementTypeTier elementTier) {
 		this.r = r / 255F;
 		this.g = g / 255F;
 		this.b = b / 255F;
@@ -78,20 +78,20 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
         return gaugeTextureLocation;
     }
 
-    public int getElementTier() {
+    public ElementTypeTier getElementTier() {
         return elementTier;
     }
 
-    public static List<ElementType> getElementsTier(int tier) {
-        return ALL_VALID.stream().filter(type -> type.getElementTier() == tier).toList();
+    public static List<ElementType> getElementsTier(ElementTypeTier tier) {
+        return ALL_VALID.stream().filter(type -> type.getElementTier().equals(tier)).toList();
     }
 
-    public static List<ElementType> getElementsTierAbove(int tier) {
-        return ALL_VALID.stream().filter(type -> type.getElementTier() >= tier).toList();
+    public static List<ElementType> getElementsTierAbove(ElementTypeTier tier) {
+        return ALL_VALID.stream().filter(type -> type.getElementTier().compareTiers(tier) <= 0).toList();
     }
 
-    public static List<ElementType> getElementsTierBelow(int tier) {
-        return ALL_VALID.stream().filter(type -> type.getElementTier() <= tier).toList();
+    public static List<ElementType> getElementsTierBelow(ElementTypeTier tier) {
+        return ALL_VALID.stream().filter(type -> type.getElementTier().compareTiers(tier) >= 0).toList();
     }
 
 	public static ElementType random() {
@@ -103,7 +103,7 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
         return ALL_VALID.get(random);
 	}
 
-    public static ElementType randomOfTier(RandomSource rand, int tier) {
+    public static ElementType randomOfTier(RandomSource rand, ElementTypeTier tier) {
         int random = rand.nextInt(getElementsTier(tier).size());
         return getElementsTier(tier).get(random);
     }

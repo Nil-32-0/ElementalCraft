@@ -7,7 +7,6 @@ import org.jetbrains.annotations.VisibleForTesting;
 import sirttas.elementalcraft.api.source.flux.ISourceFlux;
 
 import javax.annotation.Nonnull;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -36,7 +35,32 @@ public class SourceFlux implements INBTSerializable<FloatTag>, ISourceFlux {
 
     @Override
     public void consume() {
-        this.flux = Math.max(0, this.flux - config.consumption());
+        setFlux(this.flux - config.consumption());
+    }
+
+    @Override
+    public void consume(float amount) {
+        setFlux(this.flux - amount);
+    }
+
+    @Override
+    public void setFlux(float amount) {
+        this.flux = Math.max(0F, Math.min(amount, config.capacity()));
+    }
+
+    @Override
+    public void replenish(float amount) {
+        setFlux(this.flux + amount);
+    }
+
+    @Override
+    public float getCurrentFlux() {
+        return this.flux;
+    }
+
+    @Override
+    public float getMax() {
+        return config.capacity();
     }
 
     void tick(NeighborSupplier neighbors) {
@@ -46,9 +70,9 @@ public class SourceFlux implements INBTSerializable<FloatTag>, ISourceFlux {
     }
 
     private void recover() {
-        var amount = config.recovery() * (1 - this.flux / config.capacity());
+        var increase = config.recovery() * (1 - this.flux / config.capacity());
 
-        this.flux = Math.min(config.capacity(), this.flux + amount);
+        setFlux(this.flux + increase);
     }
 
     private void transfer(SourceFlux other) {
@@ -63,11 +87,11 @@ public class SourceFlux implements INBTSerializable<FloatTag>, ISourceFlux {
             return;
         }
         other.fluxReceived += amount;
-        this.flux = Math.max(0, this.flux - amount);
+        setFlux(this.flux - amount);
     }
 
     private void afterTransfers() {
-        this.flux = Math.min(config.capacity(), this.flux + fluxReceived);
+        setFlux(this.flux + fluxReceived);
         fluxReceived = 0;
     }
 
@@ -82,7 +106,7 @@ public class SourceFlux implements INBTSerializable<FloatTag>, ISourceFlux {
 
     @Override
     public void deserializeNBT(FloatTag nbt) {
-        flux = nbt.getAsFloat();
+        setFlux(nbt.getAsFloat());
     }
 
     @VisibleForTesting

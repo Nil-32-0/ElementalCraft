@@ -33,7 +33,7 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.data.predicate.block.ECBlockPosPredicateTypes;
 import sirttas.elementalcraft.entity.ECEntities;
-//import sirttas.elementalcraft.event.ClientEvents;
+import sirttas.elementalcraft.event.ClientEvents;
 import sirttas.elementalcraft.infusion.tool.effect.ToolInfusionEffectTypes;
 import sirttas.elementalcraft.item.ECCreativeModeTabs;
 import sirttas.elementalcraft.item.ECItems;
@@ -89,7 +89,7 @@ public class ElementalCraft {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ECConfig.SERVER_SPEC);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ECConfig.CLIENT_SPEC);
 
-//        MinecraftForge.EVENT_BUS.register(new ClientEvents());
+        MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
 		ECBlocks.register(modBus);
 		ECBlockEntityTypes.register(modBus);

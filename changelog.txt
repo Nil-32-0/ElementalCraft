@@ -1,3 +1,9 @@
+1.20.1-m6.1.1:
+- Add 'ec_flux add' and 'ec_flux drain' commands to affect current chunk's source flux
+- Added more utilities to Source Flux
+- Enabled reading the current chunk's source flux with debug menu in creative/spectator mode
+- Introduced Element Type Tiers, to categorize element types into specific tiers
+
 1.20.1-m6.1.0:
 - Backported up to 6.2.2 from ElementalCraft on future versions
 - Check changelog of those versions for true changelog
