@@ -8,16 +8,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.range.Range;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.range.RangeRenderTimer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,14 +29,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DiffuserBlockEntity extends AbstractECBlockEntity implements IContainerTopBlockEntity {
 
+    private static Range RANGE = Range.builder().box(10).build();
+
 	private boolean hasDiffused;
 	private final RuneHandler runeHandler;
 
 	private ISingleElementStorage containerCache;
+    private final RangeRenderTimer rangeRenderTimer;
 
 	public DiffuserBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.DIFFUSER, pos, state);
 		runeHandler = new RuneHandler(ECConfig.SERVER.diffuserMaxRunes.get(), this::setChanged);
+        rangeRenderTimer = new RangeRenderTimer();
 	}
 
 
@@ -72,6 +79,22 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 					});
 		}
 	}
+
+    public static void clientTick(Level level, BlockPos pos, BlockState state, DiffuserBlockEntity diffuser) {
+        diffuser.rangeRenderTimer.tick();
+    }
+
+    public boolean showsRange() {
+        return rangeRenderTimer.showsRange();
+    }
+
+    public void startShowingRange() {
+        rangeRenderTimer.startShowingRange();
+    }
+
+    public AABB getRange() {
+        return this.runeHandler.getRange(RANGE).move(this.worldPosition);
+    }
 
 	public boolean hasDiffused() {
 		return hasDiffused;

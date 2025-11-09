@@ -1,12 +1,12 @@
 {
   "parent": "elementalcraft:main/root",
   "criteria": {
-    "has_lavashrine": {
+    "has_melting_shrine": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:lavashrine"
+              "elementalcraft:melting_shrine"
             ]
           }
         ]
@@ -16,7 +16,7 @@
   },
   "requirements": [
     [
-      "has_lavashrine"
+      "has_melting_shrine"
     ]
   ],
   "sends_telemetry_event": true

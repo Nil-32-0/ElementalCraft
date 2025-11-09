@@ -1,3 +1,9 @@
+1.20.1-m6.2.0
+- Backport Range Runes
+- Lava Shrine is now Melting Shrine and is recipe based
+- Mostly up to date with most recent version, minor differences exist but will either be patched
+    in future releases or aren't a concern due to differing design requirements
+
 1.20.1-m6.2.0a:
 - Add Rudimentary Extractor
 - Backport new Synthesizers from 7.0.0 future. Functionality is mostly retained

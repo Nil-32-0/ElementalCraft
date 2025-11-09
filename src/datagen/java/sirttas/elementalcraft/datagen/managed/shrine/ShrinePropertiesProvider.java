@@ -13,7 +13,7 @@ import sirttas.elementalcraft.block.shrine.firepylon.FirePylonBlockEntity;
 import sirttas.elementalcraft.block.shrine.grove.GroveShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.growth.GrowthShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.melting.MeltingShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.lumber.LumberShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlockEntity;
@@ -54,7 +54,7 @@ public class ShrinePropertiesProvider extends AbstractManagedDataBuilderProvider
 		builder(LumberShrineBlockEntity.PROPERTIES_KEY, ElementType.EARTH).period(10)
 				.consumption(50)
 				.range(ShrineRange.expendingUp(4, 9).stitch());
-		builder(LavaShrineBlockEntity.PROPERTIES_KEY, ElementType.FIRE)
+		builder(MeltingShrineBlockEntity.PROPERTIES_KEY, ElementType.FIRE)
                 .capacity(50000)
 				.period(1200)
 				.consumption(5000)

@@ -25,6 +25,7 @@ import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
+import sirttas.elementalcraft.recipe.melting.MeltingRecipe;
 
 import java.util.function.Supplier;
 
@@ -43,7 +44,8 @@ public class ECRecipeSerializers {
 	public static final RegistryObject<PureInfusionRecipe.Serializer> PURE_INFUSION = register(PureInfusionRecipe.Serializer::new, PureInfusionRecipe.NAME);
 	public static final RegistryObject<SpellCraftRecipe.Serializer> SPELL_CRAFT = register(SpellCraftRecipe.Serializer::new, SpellCraftRecipe.NAME);
 	public static final RegistryObject<ShapedRecipe.Serializer> STAFF = register(StaffRecipe.Serializer::new, StaffItem.NAME);
-	
+	public static final RegistryObject<MeltingRecipe.Serializer> MELTING = register(MeltingRecipe.Serializer::new, MeltingRecipe.NAME);
+
 
 	private ECRecipeSerializers() {}
 

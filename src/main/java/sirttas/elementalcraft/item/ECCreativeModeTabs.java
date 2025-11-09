@@ -95,7 +95,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.GROWTH_SHRINE.get());
                 o.accept(ECBlocks.HARVEST_SHRINE.get());
                 o.accept(ECBlocks.LUMBER_SHRINE.get());
-                o.accept(ECBlocks.LAVA_SHRINE.get());
+                o.accept(ECBlocks.MELTING_SHRINE.get());
                 o.accept(ECBlocks.ORE_SHRINE.get());
                 o.accept(ECBlocks.OVERLOAD_SHRINE.get());
                 o.accept(ECBlocks.SWEET_SHRINE.get());

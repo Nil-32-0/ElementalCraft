@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.lava;
+package sirttas.elementalcraft.block.shrine.melting;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

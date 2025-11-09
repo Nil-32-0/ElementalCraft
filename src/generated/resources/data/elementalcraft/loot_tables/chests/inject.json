@@ -123,7 +123,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:water_crystal",
+          "name": "elementalcraft:entropy_crystal",
           "weight": 10
         },
         {
@@ -155,7 +155,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:entropy_crystal",
+          "name": "elementalcraft:water_crystal",
           "weight": 10
         },
         {
@@ -171,7 +171,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:air_crystal",
+          "name": "elementalcraft:fire_crystal",
           "weight": 10
         },
         {
@@ -203,7 +203,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:fire_crystal",
+          "name": "elementalcraft:air_crystal",
           "weight": 10
         },
         {
@@ -219,7 +219,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:water_shard",
+          "name": "elementalcraft:entropy_shard",
           "weight": 5
         },
         {
@@ -251,7 +251,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:entropy_shard",
+          "name": "elementalcraft:water_shard",
           "weight": 5
         },
         {
@@ -267,7 +267,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:air_shard",
+          "name": "elementalcraft:fire_shard",
           "weight": 5
         },
         {
@@ -299,12 +299,12 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:fire_shard",
+          "name": "elementalcraft:air_shard",
           "weight": 5
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:powerful_water_shard",
+          "name": "elementalcraft:powerful_entropy_shard",
           "weight": 2
         },
         {
@@ -314,12 +314,12 @@
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:powerful_entropy_shard",
+          "name": "elementalcraft:powerful_water_shard",
           "weight": 2
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:powerful_air_shard",
+          "name": "elementalcraft:powerful_fire_shard",
           "weight": 2
         },
         {
@@ -329,7 +329,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:powerful_fire_shard",
+          "name": "elementalcraft:powerful_air_shard",
           "weight": 2
         }
       ],

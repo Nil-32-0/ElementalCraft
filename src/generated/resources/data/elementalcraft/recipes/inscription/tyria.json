@@ -1,0 +1,29 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 10000,
+  "element_type": "entropy",
+  "ingredients": [
+    {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:whale\"}}"
+    },
+    {
+      "item": "minecraft:glowstone"
+    },
+    {
+      "item": "minecraft:glowstone"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:tyria"
+      }
+    }
+  },
+  "slate": {
+    "item": "elementalcraft:major_rune_slate"
+  }
+}

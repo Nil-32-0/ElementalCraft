@@ -1,10 +1,10 @@
 {
   "values": [
-    "elementalcraft:powerful_water_shard",
-    "elementalcraft:powerful_purity_shard",
     "elementalcraft:powerful_entropy_shard",
-    "elementalcraft:powerful_air_shard",
+    "elementalcraft:powerful_purity_shard",
+    "elementalcraft:powerful_water_shard",
+    "elementalcraft:powerful_fire_shard",
     "elementalcraft:powerful_earth_shard",
-    "elementalcraft:powerful_fire_shard"
+    "elementalcraft:powerful_air_shard"
   ]
 }

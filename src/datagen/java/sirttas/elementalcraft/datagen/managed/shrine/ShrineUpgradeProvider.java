@@ -28,11 +28,11 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 			.or(IBlockPosPredicate.match(ECBlocks.VACUUM_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.VORTEX)))
 			.cache();
 	private static final IBlockPosPredicate STRENGTH_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH)
-			.or(IBlockPosPredicate.match(ECBlocks.SPRING_SHRINE.get(), ECBlocks.LAVA_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.FILLING)))
+			.or(IBlockPosPredicate.match(ECBlocks.SPRING_SHRINE.get(), ECBlocks.MELTING_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.FILLING)))
 			.cache();
 
     private static final IBlockPosPredicate FILLING_PREDICATE = IBlockPosPredicate.match(ECBlocks.SPRING_SHRINE.get())
-            .and(FacingBlockPredicate.DOWN).or(IBlockPosPredicate.match(ECBlocks.LAVA_SHRINE.get())
+            .and(FacingBlockPredicate.DOWN).or(IBlockPosPredicate.match(ECBlocks.MELTING_SHRINE.get())
                     .and(FacingBlockPredicate.NORTH.or(FacingBlockPredicate.SOUTH).or(FacingBlockPredicate.WEST).or(FacingBlockPredicate.EAST))).cache();
 
     private static final List<ResourceKey<ShrineUpgrade>> ADVANCED_UPGRADES = List.of(

@@ -3,9 +3,12 @@ package sirttas.elementalcraft.block.diffuser;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -29,7 +32,13 @@ public class DiffuserRenderer implements BlockEntityRenderer<DiffuserBlockEntity
 	
 	@Override
 	public void render(@Nonnull DiffuserBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		float angle = ECRendererHelper.getClientTicks(partialTicks);
+		if (te.showsRange()) {
+            BlockPos pos = te.getBlockPos();
+
+            LevelRenderer.renderLineBox(matrixStack, buffer.getBuffer(RenderType.lines()), te.getRange().move(-pos.getX(), -pos.getY(), -pos.getZ()), 1, 1, 0.6F, 1);
+        }
+
+        float angle = ECRendererHelper.getClientTicks(partialTicks);
 		
 		if (cubeModel == null) {
 			cubeModel = Minecraft.getInstance().getModelManager().getModel(CUBE_LOCATION);

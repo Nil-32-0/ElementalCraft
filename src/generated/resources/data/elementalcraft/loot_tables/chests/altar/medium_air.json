@@ -139,6 +139,11 @@
         },
         {
           "type": "minecraft:item",
+          "name": "elementalcraft:crude_air_gem",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
           "functions": [
             {
               "element_type": "air",

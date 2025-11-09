@@ -1,0 +1,29 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 5000,
+  "element_type": "entropy",
+  "ingredients": [
+    {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:kirby\"}}"
+    },
+    {
+      "tag": "forge:dusts/glowstone"
+    },
+    {
+      "tag": "forge:dusts/glowstone"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:whale"
+      }
+    }
+  },
+  "slate": {
+    "item": "elementalcraft:rune_slate"
+  }
+}

@@ -16,6 +16,7 @@ import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.ElementTypeTier;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.item.ECItems;
@@ -32,14 +33,14 @@ public class ECChestLoot implements LootTableSubProvider {
 	@Override
 	public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
 		consumer.accept(createPath("inject"), createInject());
-		consumer.accept(createPath("altar/small_fire"), createSmallAltar(ElementType.FIRE));
-		consumer.accept(createPath("altar/medium_fire"), createMediumAltar(ElementType.FIRE));
-		consumer.accept(createPath("altar/small_water"), createSmallAltar(ElementType.WATER));
-		consumer.accept(createPath("altar/medium_water"), createMediumAltar(ElementType.WATER));
-		consumer.accept(createPath("altar/small_air"), createSmallAltar(ElementType.AIR));
-		consumer.accept(createPath("altar/medium_air"), createMediumAltar(ElementType.AIR));
-		consumer.accept(createPath("altar/small_earth"), createSmallAltar(ElementType.EARTH));
-		consumer.accept(createPath("altar/medium_earth"), createMediumAltar(ElementType.EARTH));
+        ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).forEach(type -> {
+            if (!type.equals(ElementType.PURITY)) {
+                consumer.accept(createPath("altar/small_" + type.getSerializedName()),
+                        createSmallAltar(type));
+                consumer.accept(createPath("altar/medium_" + type.getSerializedName()),
+                        createMediumAltar(type));
+            }
+        });
 	}
 
 	@Nonnull
@@ -90,7 +91,8 @@ public class ECChestLoot implements LootTableSubProvider {
 				.add(LootItem.lootTableItem(ElementalItemHelper.getCrystalForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6))).setWeight(40))
 				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10))).setWeight(20))
 				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForElement(type)).setWeight(5))
-				.add(randomSpell(type).setWeight(15))
+                .add(LootItem.lootTableItem(ElementalItemHelper.getCrudeGemForElement(type)).setWeight(5))
+                .add(randomSpell(type).setWeight(15))
 				.add(rune(getSmallRune(type)).setWeight(10))
 				.add(rune(getMediumRune(type)).setWeight(5))));
 	}
@@ -145,6 +147,7 @@ public class ECChestLoot implements LootTableSubProvider {
 			case EARTH -> Runes.SOARYN;
 			case FIRE -> Runes.MANX;
 			case WATER -> Runes.CLAPTRAP;
+            case ENTROPY -> Runes.KIRBY;
 			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}
@@ -155,6 +158,7 @@ public class ECChestLoot implements LootTableSubProvider {
 			case EARTH -> Runes.KAWORU;
 			case FIRE -> Runes.JITA;
 			case WATER -> Runes.BOMBADIL;
+            case ENTROPY -> Runes.WHALE;
 			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}
@@ -165,6 +169,7 @@ public class ECChestLoot implements LootTableSubProvider {
 			case EARTH -> Runes.MEWTWO;
 			case FIRE -> Runes.TANO;
 			case WATER -> Runes.TZEENTCH;
+            case ENTROPY -> Runes.TYRIA;
 			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}

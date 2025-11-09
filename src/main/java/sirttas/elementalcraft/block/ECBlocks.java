@@ -55,7 +55,7 @@ import sirttas.elementalcraft.block.shrine.firepylon.FirePylonBlock;
 import sirttas.elementalcraft.block.shrine.grove.GroveShrineBlock;
 import sirttas.elementalcraft.block.shrine.growth.GrowthShrineBlock;
 import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineBlock;
-import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlock;
+import sirttas.elementalcraft.block.shrine.melting.MeltingShrineBlock;
 import sirttas.elementalcraft.block.shrine.lumber.LumberShrineBlock;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlock;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
@@ -178,7 +178,7 @@ public class ECBlocks {
 	public static final RegistryObject<GrowthShrineBlock> GROWTH_SHRINE = registerNoOcclusion(GrowthShrineBlock.NAME, GrowthShrineBlock::new);
 	public static final RegistryObject<HarvestShrineBlock> HARVEST_SHRINE = registerNoOcclusion(HarvestShrineBlock.NAME, HarvestShrineBlock::new);
 	public static final RegistryObject<LumberShrineBlock> LUMBER_SHRINE = registerNoOcclusion(LumberShrineBlock.NAME, LumberShrineBlock::new);
-	public static final RegistryObject<LavaShrineBlock> LAVA_SHRINE = registerNoOcclusion(LavaShrineBlock.NAME, LavaShrineBlock::new);
+	public static final RegistryObject<MeltingShrineBlock> MELTING_SHRINE = registerNoOcclusion(MeltingShrineBlock.NAME, MeltingShrineBlock::new);
 	public static final RegistryObject<OreShrineBlock> ORE_SHRINE = registerNoOcclusion(OreShrineBlock.NAME, OreShrineBlock::new);
 	public static final RegistryObject<OverloadShrineBlock> OVERLOAD_SHRINE = registerNoOcclusion(OverloadShrineBlock.NAME, OverloadShrineBlock::new);
 	public static final RegistryObject<SweetShrineBlock> SWEET_SHRINE = registerNoOcclusion(SweetShrineBlock.NAME, SweetShrineBlock::new);

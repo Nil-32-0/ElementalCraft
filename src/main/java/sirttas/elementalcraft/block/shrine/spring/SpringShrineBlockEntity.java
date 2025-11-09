@@ -8,13 +8,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.melting.MeltingShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
@@ -37,7 +33,7 @@ public class SpringShrineBlockEntity extends AbstractShrineBlockEntity {
         var fillingDirection = getUpgradeDirection(ShrineUpgrades.FILLING);
 
         if (fillingDirection != null) {
-            return LavaShrineBlockEntity.fill(this, fillingDirection, Fluids.WATER);
+            return MeltingShrineBlockEntity.fill(this, fillingDirection, Fluids.WATER, 1);
         }
 		return ((BucketItem) Items.WATER_BUCKET).emptyContents(null, level, worldPosition.above(), null);
 	}

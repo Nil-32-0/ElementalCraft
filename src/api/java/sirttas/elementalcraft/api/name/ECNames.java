@@ -34,6 +34,7 @@ public class ECNames {
 	public static final String EXHAUSTED = "exhausted";
 	public static final String EXTRACTION_AMOUNT = "extraction_amount";
 	public static final String EXTRACTION_SPEED = "extraction_speed";
+    public static final String FLUID = "fluid";
     public static final String FLUX = "source_flux";
 	public static final String FORGE = "forge";
 	public static final String FORGE_CAPS = "ForgeCaps";

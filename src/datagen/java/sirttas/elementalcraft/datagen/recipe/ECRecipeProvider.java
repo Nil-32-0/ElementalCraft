@@ -31,6 +31,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
@@ -49,6 +50,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlock;
+import sirttas.elementalcraft.datagen.recipe.builder.MeltingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.PureInfusionRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.SpellCraftRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.BindingRecipeBuilder;
@@ -135,6 +137,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		registerCrystallizations(consumer);
 		registerDecorations(consumer);
 		registerSourceBreeding(consumer);
+        registerMelting(consumer);
 	}
 
 	private static void registerMaterials(@Nonnull Consumer<FinishedRecipe> consumer) {
@@ -889,7 +892,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Items.BONE_MEAL)
 				.addIngredient(Tags.Items.GEMS_DIAMOND)
 				.save(consumer);
-		BindingRecipeBuilder.bindingRecipe(ECBlocks.LAVA_SHRINE.get(), ElementType.FIRE)
+		BindingRecipeBuilder.bindingRecipe(ECBlocks.MELTING_SHRINE.get(), ElementType.FIRE)
 				.addIngredient(ECBlocks.FIRE_PYLON.get())
 				.addIngredient(ECItems.CRYSTALS.get(ElementType.FIRE).get())
 				.addIngredient(ECItems.PRISTINE_GEMS.get(ElementType.FIRE).get())
@@ -1682,6 +1685,19 @@ public class ECRecipeProvider extends RecipeProvider {
 		grindToDye(Items.RED_DYE, ECTags.Items.RED_FLOWERS, consumer);
 	}
 
+    private void registerMelting(Consumer<FinishedRecipe> consumer) {
+        MeltingRecipeBuilder.melting(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_LAVA, Fluids.LAVA)
+                .cooldown(1200)
+                .elementAmount(5000)
+                .fillingAmount(1000)
+                .save(consumer);
+        MeltingRecipeBuilder.melting(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_WATER, Fluids.WATER)
+                .cooldown(10)
+                .elementAmount(1)
+                .fillingAmount(1000)
+                .save(consumer);
+    }
+
 	private void grindToDye(ItemLike dye, ItemLike from, Consumer<FinishedRecipe> consumer) {
 		GrindingRecipeBuilder.grindingRecipe(dye)
 				.withCount(2)
@@ -1787,6 +1803,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECItems.AIR_SILK.get())
 				.addIngredient(ECItems.AIR_SILK.get())
 				.save(consumer);
+
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.MANX, ElementType.FIRE)
 				.withElementAmount(2000)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
@@ -1807,6 +1824,28 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_COAL)
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_COAL)
 				.save(consumer);
+
+        InscriptionRecipeBuilder.inscriptionRecipe(Runes.KIRBY, ElementType.ENTROPY)
+                .withElementAmount(2000)
+                .setSlate(ECItems.MINOR_RUNE_SLATE.get())
+                .addIngredient(ECItems.CRUDE_GEMS.get(ElementType.ENTROPY).get())
+                .addIngredient(Items.TORCH)
+                .addIngredient(Items.TORCH)
+                .save(consumer);
+        InscriptionRecipeBuilder.inscriptionRecipe(Runes.WHALE, ElementType.ENTROPY)
+                .setSlate(ECItems.RUNE_SLATE.get())
+                .addIngredient(createRuneIngredient(Runes.KIRBY))
+                .addIngredient(Tags.Items.DUSTS_GLOWSTONE)
+                .addIngredient(Tags.Items.DUSTS_GLOWSTONE)
+                .save(consumer);
+        InscriptionRecipeBuilder.inscriptionRecipe(Runes.TYRIA, ElementType.ENTROPY)
+                .withElementAmount(10000)
+                .setSlate(ECItems.MAJOR_RUNE_SLATE.get())
+                .addIngredient(createRuneIngredient(Runes.WHALE))
+                .addIngredient(Items.GLOWSTONE)
+                .addIngredient(Items.GLOWSTONE)
+                .save(consumer);
+
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.SOARYN, ElementType.EARTH)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
 				.addIngredient(ECItems.CRUDE_GEMS.get(ElementType.EARTH).get())
@@ -1827,6 +1866,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(createRuneIngredient(Runes.ZOD))
 				.addIngredient(createRuneIngredient(Runes.TANO))
 				.save(consumer);
+
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.CLAPTRAP, ElementType.WATER)
 				.withElementAmount(2000)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())

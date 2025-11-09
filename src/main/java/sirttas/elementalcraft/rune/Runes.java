@@ -19,6 +19,9 @@ public class Runes {
     public static final ResourceKey<Rune> MANX = createKey("manx");
     public static final ResourceKey<Rune> JITA = createKey("jita");
     public static final ResourceKey<Rune> TANO = createKey("tano");
+    public static final ResourceKey<Rune> KIRBY = createKey("kirby");
+    public static final ResourceKey<Rune> WHALE = createKey("whale");
+    public static final ResourceKey<Rune> TYRIA = createKey("tyria");
     public static final ResourceKey<Rune> SOARYN = createKey("soaryn");
     public static final ResourceKey<Rune> KAWORU = createKey("kaworu");
     public static final ResourceKey<Rune> MEWTWO = createKey("mewtwo");

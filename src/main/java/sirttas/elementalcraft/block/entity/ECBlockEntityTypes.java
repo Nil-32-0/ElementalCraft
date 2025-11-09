@@ -43,7 +43,7 @@ import sirttas.elementalcraft.block.shrine.firepylon.FirePylonBlockEntity;
 import sirttas.elementalcraft.block.shrine.grove.GroveShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.growth.GrowthShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.melting.MeltingShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.lumber.LumberShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlockEntity;
@@ -124,7 +124,7 @@ public class ECBlockEntityTypes {
     public static final RegistryObject<BlockEntityType<GrowthShrineBlockEntity>> GROWTH_SHRINE = register(GrowthShrineBlockEntity::new, ECBlocks.GROWTH_SHRINE);
     public static final RegistryObject<BlockEntityType<HarvestShrineBlockEntity>> HARVEST_SHRINE = register(HarvestShrineBlockEntity::new, ECBlocks.HARVEST_SHRINE);
     public static final RegistryObject<BlockEntityType<LumberShrineBlockEntity>> LUMBER_SHRINE = register(LumberShrineBlockEntity::new, ECBlocks.LUMBER_SHRINE);
-    public static final RegistryObject<BlockEntityType<LavaShrineBlockEntity>> LAVA_SHRINE = register(LavaShrineBlockEntity::new, ECBlocks.LAVA_SHRINE);
+    public static final RegistryObject<BlockEntityType<MeltingShrineBlockEntity>> MELTING_SHRINE = register(MeltingShrineBlockEntity::new, ECBlocks.MELTING_SHRINE);
     public static final RegistryObject<BlockEntityType<OreShrineBlockEntity>> ORE_SHRINE = register(OreShrineBlockEntity::new, ECBlocks.ORE_SHRINE);
     public static final RegistryObject<BlockEntityType<OverloadShrineBlockEntity>> OVERLOAD_SHRINE = register(OverloadShrineBlockEntity::new, ECBlocks.OVERLOAD_SHRINE);
     public static final RegistryObject<BlockEntityType<SweetShrineBlockEntity>> SWEET_SHRINE = register(SweetShrineBlockEntity::new, ECBlocks.SWEET_SHRINE);

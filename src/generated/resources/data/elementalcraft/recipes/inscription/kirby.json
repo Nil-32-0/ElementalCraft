@@ -1,0 +1,27 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 2000,
+  "element_type": "entropy",
+  "ingredients": [
+    {
+      "item": "elementalcraft:crude_entropy_gem"
+    },
+    {
+      "item": "minecraft:torch"
+    },
+    {
+      "item": "minecraft:torch"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:kirby"
+      }
+    }
+  },
+  "slate": {
+    "item": "elementalcraft:minor_rune_slate"
+  }
+}

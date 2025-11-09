@@ -13,6 +13,7 @@ import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
+import sirttas.elementalcraft.recipe.melting.MeltingRecipe;
 
 public class ECRecipeTypes {
 	private static final DeferredRegister<RecipeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, ElementalCraftApi.MODID);
@@ -25,6 +26,7 @@ public class ECRecipeTypes {
 	public static final RegistryObject<RecipeType<SawingRecipe>> SAWING = register(SawingRecipe.NAME);
 	public static final RegistryObject<RecipeType<PureInfusionRecipe>> PURE_INFUSION = register(PureInfusionRecipe.NAME);
 	public static final RegistryObject<RecipeType<SpellCraftRecipe>> SPELL_CRAFT = register(SpellCraftRecipe.NAME);
+    public static final RegistryObject<RecipeType<MeltingRecipe>> MELTING = register(MeltingRecipe.NAME);
 
 
 	private ECRecipeTypes() {}

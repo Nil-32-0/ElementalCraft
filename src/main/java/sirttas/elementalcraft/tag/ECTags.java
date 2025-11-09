@@ -1,24 +1,30 @@
 package sirttas.elementalcraft.tag;
 
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.tags.TagManager;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.interaction.curios.CuriosConstants;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -193,8 +199,11 @@ public class ECTags {
 		public static final TagKey<Block> RUNE_AFFECTED_OPTIMIZATION = createTag("rune_affected/optimization");
 		public static final TagKey<Block> RUNE_AFFECTED_LUCK = createTag("rune_affected/luck");
         public static final TagKey<Block> RUNE_AFFECTED_TZEENTCH = createTag("rune_affected/tzeentch");
+        public static final TagKey<Block> RUNE_AFFECTED_RANGE = createTag("rune_affected/range");
 
 		public static final TagKey<Block> SHRINES_LAVA_LIQUIFIABLES = createTag("shrines/lava/liquifiables");
+        public static final TagKey<Block> SHRINES_MELTING_LIQUIFIABLES_LAVA = createTag("shrines/melting/liquifiables/lava");
+        public static final TagKey<Block> SHRINES_MELTING_LIQUIFIABLES_WATER = createTag("shrines/melting/liquifiables/water");
 		public static final TagKey<Block> SHRINES_GROWTH_BLACKLIST = createTag("shrines/growth/blacklist");
 		public static final TagKey<Block> SHRINES_ORE_HARVESTABLE_CRYSTALS = createTag("shrines/ore/harvestable_crystals");
 		public static final TagKey<Block> SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS = createTag("shrines/harvest/harvestable_tall_plants");
@@ -256,20 +265,15 @@ public class ECTags {
 			return BlockTags.create(new ResourceLocation(modId, name));
 		}
 
-		public static HolderSet.Named<Block> getTag(ResourceLocation loc) {
-			return getTag(t -> t.location().equals(loc));
+		public static HolderSet.Direct<Block> getTag(TagKey<Block> key) {
+			return getTag(b -> ForgeRegistries.BLOCKS.tags().getTag(key).contains(b));
 		}
 
-		public static HolderSet.Named<Block> getTag(TagKey<Block> key) {
-			return getTag(t -> t.equals(key));
-		}
-
-		public static HolderSet.Named<Block> getTag(Predicate<TagKey<Block>> predicate) {
-			return BuiltInRegistries.BLOCK.getTags()
-					.filter(p -> predicate.test(p.getFirst()))
-					.map(Pair::getSecond)
-					.findFirst()
-					.orElse(null);
+		public static HolderSet.Direct<Block> getTag(Predicate<Block> predicate) {
+			return HolderSet.direct(ForgeRegistries.BLOCKS.getValues().stream()
+					.filter(predicate)
+					.map(Holder::direct)
+					.toList());
 		}
 	}
 

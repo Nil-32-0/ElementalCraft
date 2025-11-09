@@ -94,13 +94,17 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
                 ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.ENCHANTMENT_LIQUEFIER.get(), ECBlocks.SOURCE_BREEDER.get());
         tag(ECTags.Blocks.RUNE_AFFECTED_TZEENTCH).addTag(ECTags.Blocks.RUNE_AFFECTED_LUCK)
                 .add(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get());
+        tag(ECTags.Blocks.RUNE_AFFECTED_RANGE).add(ECBlocks.DIFFUSER.get(), ECBlocks.CRACKING_SYNTHESIZER.get(),
+                ECBlocks.VIBRATION_SYNTHESIZER.get());
 
 		tag(ECTags.Blocks.SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS).add(Blocks.SUGAR_CANE, Blocks.BAMBOO, Blocks.KELP, Blocks.KELP_PLANT, Blocks.CACTUS).addOptional(IEBlocks.Misc.HEMP_PLANT.getId());
 		tag(ECTags.Blocks.SHRINES_LAVA_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT, Blocks.SMOOTH_BASALT);
+        tag(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_LAVA).add(Blocks.BASALT, Blocks.POLISHED_BASALT, Blocks.SMOOTH_BASALT);
+        tag(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_WATER).add(Blocks.SNOW_BLOCK).addTag(BlockTags.ICE);
 		tag(ECTags.Blocks.SHRINES_GROWTH_BLACKLIST).add(Blocks.GRASS, Blocks.GRASS_BLOCK, Blocks.TALL_GRASS);
 		tag(ECTags.Blocks.SHRINES_ORE_HARVESTABLE_CRYSTALS).addTag(ECTags.Blocks.CLUSTERS);
 
-		tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.LAVA_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.OVERLOAD_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.SPRING_SHRINE.get(), ECBlocks.BUDDING_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get(),  ECBlocks.FIRE_PYLON.get());
+		tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.MELTING_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.OVERLOAD_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.SPRING_SHRINE.get(), ECBlocks.BUDDING_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get(),  ECBlocks.FIRE_PYLON.get());
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.VACUUM_SHRINE.get(), ECBlocks.FIRE_PYLON.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.ENDER_LOCK_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get());
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).add(ECBlocks.SWEET_SHRINE.get(), ECBlocks.VACUUM_SHRINE.get(), ECBlocks.FIRE_PYLON.get());
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_PROTECTION).add(ECBlocks.FIRE_PYLON.get(), ECBlocks.ENDER_LOCK_SHRINE.get());

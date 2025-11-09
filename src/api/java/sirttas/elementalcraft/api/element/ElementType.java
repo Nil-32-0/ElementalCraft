@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 public enum ElementType implements StringRepresentable, IElementTypeProvider {
 
-	NONE(0, 0, 0, "none", 0, ElementTypeTier.PRIMORDIAL),
+	NONE(0, 0, 0, "none", 0, ElementTypeTier.NONE),
 	WATER(43, 173, 255, "water", 1, ElementTypeTier.PRIMORDIAL),
 	FIRE(247, 107, 27, "fire", 2, ElementTypeTier.PRIMORDIAL),
 	EARTH(13, 128, 37, "earth", 3, ElementTypeTier.PRIMORDIAL),

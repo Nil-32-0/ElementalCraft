@@ -59,7 +59,7 @@ import sirttas.elementalcraft.interaction.jei.category.instrument.io.Purificatio
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.mill.SawingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.ToolInfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.shrine.BuddingShrineRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.shrine.LavaShrineRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.shrine.MeltingShrineRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.shrine.SpringShrineRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientHelper;
@@ -170,7 +170,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new SpellCraftRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new DisplacementRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new BuddingShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
-		registry.addRecipeCategories(new LavaShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new MeltingShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SpringShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new CrystalThrowingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SourceBreedingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
@@ -218,7 +218,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
         );
 
         registry.addRecipeCatalyst(new ItemStack(ECBlocks.BUDDING_SHRINE.get()), ECJEIRecipeTypes.BUDDING_SHRINE);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.LAVA_SHRINE.get()), ECJEIRecipeTypes.LAVA_SHRINE);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.MELTING_SHRINE.get()), ECJEIRecipeTypes.MELTING_SHRINE);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPRING_SHRINE.get()), ECJEIRecipeTypes.SPRING_SHRINE);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER_PEDESTAL.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
@@ -266,7 +266,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(RecipeTypes.ANVIL, createJewelsAnvilRecipes(registry.getVanillaRecipeFactory()));
 		registry.addRecipes(ECJEIRecipeTypes.DISPLACEMENT, ElementType.ALL_VALID);
 		registry.addRecipes(ECJEIRecipeTypes.BUDDING_SHRINE, List.of(BuddingShrineBlock.CrystalType.values()));
-		registry.addRecipes(ECJEIRecipeTypes.LAVA_SHRINE, List.of(ECBlocks.LAVA_SHRINE.get()));
+		registry.addRecipes(ECJEIRecipeTypes.MELTING_SHRINE, getRecipes(recipeManager, ECRecipeTypes.MELTING));
 		registry.addRecipes(ECJEIRecipeTypes.SPRING_SHRINE, List.of(ECBlocks.SPRING_SHRINE.get()));
 		registry.addRecipes(ECJEIRecipeTypes.CRYSTAL_THROWING, ElementType.ALL_VALID);
 

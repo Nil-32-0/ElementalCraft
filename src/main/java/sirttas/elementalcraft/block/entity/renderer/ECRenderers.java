@@ -91,7 +91,7 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.BUDDING_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.BREEDING_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.SPAWNING_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.LAVA_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.MELTING_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.ORE_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.OVERLOAD_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.SWEET_SHRINE, ShrineRenderer::new);
