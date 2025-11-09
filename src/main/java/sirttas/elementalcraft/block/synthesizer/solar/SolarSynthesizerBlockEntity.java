@@ -1,8 +1,6 @@
 package sirttas.elementalcraft.block.synthesizer.solar;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -11,60 +9,61 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.api.ElementalCraftCapabilities;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.api.rune.handler.RuneHandler;
-import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
-import sirttas.elementalcraft.block.entity.AbstractECContainerBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.container.IRuneableBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.AbstractContainerSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.SynthesizerProperties;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.item.elemental.LensItem;
 import sirttas.elementalcraft.particle.ParticleHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity implements IContainerTopBlockEntity, IRuneableBlockEntity/*, IElementStorageBlockEntity*/ {
+public class SolarSynthesizerBlockEntity extends AbstractContainerSynthesizerBlockEntity {
 
 	private final SingleItemContainer inventory;
-	private final RuneHandler runeHandler;
-
-    protected int multiplier;
-	protected boolean working;
-	private ISingleElementStorage containerCache;
 
 	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
-		this(ECBlockEntityTypes.SOLAR_SYNTHESIZER, ECConfig.SERVER.solarSynthesizerLensElementMultiplier.get(), pos, state);
+        this(ECBlockEntityTypes.SOLAR_SYNTHESIZER, SynthesizerProperties.getFromConfig(SolarSynthesizerBlockEntity.class), pos, state);
 	}
 
-	protected SolarSynthesizerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, int multiplier, BlockPos pos, BlockState state) {
-		super(blockEntityType, pos, state);
+	protected SolarSynthesizerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, SynthesizerProperties properties, BlockPos pos, BlockState state) {
+		super(blockEntityType, properties, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.SERVER.solarSynthesizerMaxRunes.get(), this::setChanged);
-        this.multiplier = multiplier;
-		working = false;
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SolarSynthesizerBlockEntity solarSynthesizer) {
-		if (level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
-			var synthesized = solarSynthesizer.handleSynthesis(solarSynthesizer.multiplier);
-
-			if (synthesized > 0) {
-				solarSynthesizer.breakLens(level, pos);
-			}
-		} else {
-			solarSynthesizer.working = false;
-		}
+		solarSynthesizer.handleSynthesis();
 	}
+
+    @Override
+    protected int getElementAmountForStack(ItemStack stack) {
+        if (isReceivingSkyLight() && stack.is(ECTags.Items.LENSES)) {
+            return Math.round(synthesisMultiplier);
+        }
+        return 0;
+    }
+
+    @Override
+    protected int synthesizeElement() {
+        var amount = super.synthesizeElement();
+
+        if (amount > 0) {
+            breakLens(this.level, this.getBlockPos());
+        }
+
+        return amount;
+    }
+
+    protected boolean isReceivingSkyLight() {
+        return level != null && level.dimensionType().hasSkyLight() && level.canSeeSky(this.worldPosition) && level.isDay();
+    }
 
 	protected void breakLens(Level level, BlockPos pos) {
 		ItemStack stack = inventory.getItem(0);
@@ -79,63 +78,22 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 		}
 	}
 
-	protected int handleSynthesis(float amount) {
-		ISingleElementStorage container = getContainer();
+    public ElementType getElementType() {
+        var item = getInventory().getItem(0);
 
-		if (container != null) {
-			int synthesized = getElementStorage()
-					.map(storage -> runeHandler.handleElementTransfer((ISingleElementStorage) storage, container, amount))
-					.orElse(0);
-			var hasSynthesized = synthesized > 0;
-			
-			if (hasSynthesized || working) {
-				working = hasSynthesized;
-				setChanged();
-			}
-			return synthesized;
-		}
-		return 0;
-	}
-
-	public boolean isWorking() {
-		return working;
-	}
-
-	@Override
-	public void load(@Nonnull CompoundTag compound) {
-		super.load(compound);
-		if (compound.contains(ECNames.RUNE_HANDLER)) {
-			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
-		}
-		working = compound.getBoolean(ECNames.WORKING);
-	}
-
-	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound) {
-		super.saveAdditional(compound);
-		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
-		compound.putBoolean(ECNames.WORKING, working);
-	}
-
-	@Override
-	@Nonnull
-	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-		if (!this.remove) {
-			if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
-				return getElementStorage(this.multiplier);
-			} else if (cap == ElementalCraftCapabilities.RUNE_HANDLE) {
-				return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
-			}
-		}
-		return super.getCapability(cap, side);
-	}
+        if (item.getItem() instanceof LensItem lens) {
+            return lens.getElementType();
+        }
+        return ElementType.NONE;
+    }
 
 	@Nonnull
-	protected  <U> LazyOptional<U> getElementStorage(int multiplier) {
+    @Override
+	public  <U> LazyOptional<U> getElementStorage() {
 		var item = getInventory().getItem(0);
 
 		if (item.getItem() instanceof LensItem lens) {
-			return LazyOptional.of(() -> lens.getStorage(item, multiplier)).cast();
+			return LazyOptional.of(() -> lens.getStorage(item, (int) this.synthesisMultiplier)).cast();
 		}
 		return ElementStorageHelper.get(item).cast();
 	}
@@ -146,36 +104,9 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 		return inventory;
 	}
 
-	@Override
-	public ISingleElementStorage getContainer() {
-		if (containerCache == null) {
-			containerCache = IContainerTopBlockEntity.super.getContainer();
-		}
-		return containerCache;
-	}
-
-	public Optional<ISingleElementStorage> getElementStorage() {
+	public Optional<ISingleElementStorage> getElementStorageNonLazy() {
 		return ElementStorageHelper.get(this)
 				.filter(ISingleElementStorage.class::isInstance)
 				.map(ISingleElementStorage.class::cast);
-	}
-
-//    @Nonnull
-//    @Override
-//    public <U> LazyOptional<U> getElementStorage() {
-//        var item = getInventory().getItem(0);
-//
-//        if (item.isEmpty()) {
-//            return LazyOptional.of(() -> EmptyElementStorage.getSingle(ElementType.NONE)).cast();
-//        }
-//
-//        if (item.getItem() instanceof LensItem lens) {
-//            return LazyOptional.of(() -> lens.getStorage(item, multiplier)).cast();
-//        }
-//        return ElementStorageHelper.get(item).cast();
-//    }
-
-	public RuneHandler getRuneHandler() {
-		return runeHandler;
 	}
 }

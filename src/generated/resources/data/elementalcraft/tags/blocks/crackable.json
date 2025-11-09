@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#elementalcraft:crackable/global/50",
+    "#elementalcraft:crackable/global/100",
+    "#elementalcraft:crackable/normal/200",
+    "#elementalcraft:crackable/sculk/200",
+    "#elementalcraft:crackable/sculk/1000"
+  ]
+}

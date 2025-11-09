@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "tag": "minecraft:wool_carpets"
+    },
+    "h": {
+      "tag": "forge:rods/hardened"
+    },
+    "i": {
+      "tag": "forge:ingots/drenched_iron"
+    }
+  },
+  "pattern": [
+    "cic",
+    "cic",
+    " h "
+  ],
+  "result": {
+    "item": "elementalcraft:air_mill"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "i": {
+      "tag": "forge:ingots/iron"
+    },
+    "p": {
+      "item": "minecraft:stone_pickaxe"
+    }
+  },
+  "pattern": [
+    "ipi",
+    " c "
+  ],
+  "result": {
+    "item": "elementalcraft:cracking_earth_synthesizer"
+  },
+  "show_notification": true
+}

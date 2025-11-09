@@ -2,79 +2,85 @@ package sirttas.elementalcraft.block.extractor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.AbstractECEntityBlock;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.particle.ParticleHelper;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.block.WaterLoggingHelper;
+import sirttas.elementalcraft.block.shape.ShapeHelper;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-public class ExtractorBlock extends AbstractECEntityBlock {
+public class ExtractorBlock extends AbstractElementExtractorBlock {
 
-	public static final String NAME = "extractor";
+	public static final String NAME = "element_extractor";
 
-	private static final VoxelShape BASE = Block.box(6D, 0D, 6D, 10D, 4D, 10D);
-	private static final VoxelShape PILLAR = Block.box(7D, 4D, 7D, 9D, 13D, 9D);
-	private static final VoxelShape TOP = Block.box(6D, 13D, 6D, 10D, 16D, 10D);
+    private static final VoxelShape BASE_1 = Block.box(0D, 1D, 5D, 16D, 3D, 11D);
+    private static final VoxelShape BASE_2 = Block.box(0D, 1D, 0D, 4D, 3D, 16D);
+    private static final VoxelShape BASE_3 = Block.box(12D, 1D, 0D, 16D, 3D, 16D);
+    private static final VoxelShape BASE_4 = Block.box(6D, 0D, 6D, 10D, 1D, 10D);
 
-	private static final VoxelShape PIPE_N = Block.box(7D, 1D, 3D, 9D, 3D, 6D);
-	private static final VoxelShape PIPE_S = Block.box(7D, 1D, 10D, 9D, 3D, 13D);
-	private static final VoxelShape PIPE_E = Block.box(10D, 1D, 7D, 13D, 3D, 9D);
-	private static final VoxelShape PIPE_W = Block.box(3D, 1D, 7D, 6D, 3D, 9D);
+    private static final VoxelShape PILLAR_1 = Shapes.or(
+            Block.box(2D, 3D, 6D, 6D, 4D, 10D),
+            Block.box(3D, 4D, 7D, 5D, 13D, 9D),
+            Block.box(2D, 13D, 6D, 6D, 16D, 10D)
+    );
+    private static final VoxelShape PILLAR_2 = PILLAR_1.move(8D / 16, 0, 0);
 
-	private static final VoxelShape SHAPE = Shapes.or(BASE, PILLAR, TOP, PIPE_N, PIPE_S, PIPE_E, PIPE_W);
+    private static final VoxelShape SIDE_PILLAR_1 = Block.box(1D, 0D, 1D, 3D, 4D, 3D);
+    private static final VoxelShape SIDE_PILLAR_2 = SIDE_PILLAR_1.move(12D / 16, 0D, 0D);
+    private static final VoxelShape SIDE_PILLAR_3 = SIDE_PILLAR_1.move(0D, 0D, 12D / 16);
+    private static final VoxelShape SIDE_PILLAR_4 = SIDE_PILLAR_1.move(12D / 16, 0D, 12D / 16);
+
+    private static final VoxelShape X_SHAPE = Shapes.or(BASE_1, BASE_2, BASE_3, BASE_4, PILLAR_1, PILLAR_2, SIDE_PILLAR_1, SIDE_PILLAR_2, SIDE_PILLAR_3, SIDE_PILLAR_4);
+    private static final VoxelShape Z_SHAPE = ShapeHelper.rotateShape(Direction.NORTH, Direction.EAST, X_SHAPE);
 
     public ExtractorBlock(BlockBehaviour.Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.X)
+                .setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
 	@Override
 	public ExtractorBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new ExtractorBlockEntity(pos, state);
 	}
-	
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECServerTicker(level, type, ECBlockEntityTypes.EXTRACTOR, ExtractorBlockEntity::serverTick);
-	}
 
-	
-	@Nonnull
+    @Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return SHAPE;
-	}
-	
-	@Override
-	@Deprecated
-	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state, world, pos.below());
-	}
-	
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-		BlockEntityHelper.getBlockEntityAs(world, pos, ExtractorBlockEntity.class)
-				.filter(ExtractorBlockEntity::canExtract)
-				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getSourceElementType(), world, Vec3.atCenterOf(pos), Direction.DOWN, 1, rand));
-	}
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+        return state.getValue(BlockStateProperties.HORIZONTAL_AXIS) == Direction.Axis.X ? X_SHAPE : Z_SHAPE;
+    }
+
+    @Override
+    public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_AXIS, context.getHorizontalDirection().getAxis()).setValue(BlockStateProperties.WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
+    }
+
+    @Nonnull
+    @Override
+    public BlockState rotate(@NotNull BlockState state, Rotation rot) {
+        return switch (rot) {
+            case COUNTERCLOCKWISE_90, CLOCKWISE_90 -> switch (state.getValue(BlockStateProperties.HORIZONTAL_AXIS)) {
+                case Z -> state.setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.X);
+                case X -> state.setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.Z);
+                default -> state;
+            };
+            default -> state;
+        };
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(BlockStateProperties.WATERLOGGED, BlockStateProperties.HORIZONTAL_AXIS);
+    }
 }

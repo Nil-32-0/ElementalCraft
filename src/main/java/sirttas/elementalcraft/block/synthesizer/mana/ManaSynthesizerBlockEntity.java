@@ -3,12 +3,14 @@ package sirttas.elementalcraft.block.synthesizer.mana;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.synthesizer.SynthesizerProperties;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.interaction.ECinteractions;
@@ -22,27 +24,32 @@ public class ManaSynthesizerBlockEntity extends SolarSynthesizerBlockEntity {
 	private final ManaSynthesizerManaReceiver manaReceiver;
 
 	public ManaSynthesizerBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.MANA_SYNTHESIZER, ECConfig.SERVER.manaSynthesizerManaCapacity.get(), pos, state);
+		super(ECBlockEntityTypes.MANA_SYNTHESIZER, SynthesizerProperties.getFromConfig(ManaSynthesizerBlockEntity.class), pos, state);
 		manaReceiver = new ManaSynthesizerManaReceiver(this);
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ManaSynthesizerBlockEntity manaSynthesizer) {
-		var ratio = ECConfig.SERVER.manaElementRatio.get().floatValue();
-		var mana = Math.min(ECConfig.SERVER.manaSynthesizerManaCapacity.get() / 20, manaSynthesizer.manaReceiver.getCurrentMana());
-
-		if (mana > 0) {
-			var synthesized = manaSynthesizer.handleSynthesis(mana * ratio);
-
-			if (synthesized > 0) {
-				manaSynthesizer.manaReceiver.receiveMana(-Math.round(synthesized / ratio));
-				manaSynthesizer.breakLens(level, pos);
-			}
-		} else {
-			manaSynthesizer.working = false;
-		}
+        manaSynthesizer.handleSynthesis();
 	}
 
-	@Override
+    @Override
+    protected int getElementAmountForStack(ItemStack stack) {
+        float ratio = ECConfig.SERVER.manaElementRatio.get().floatValue();
+        int mana = Math.min(ECConfig.SERVER.manaSynthesizerManaCapacity.get() / 20, manaReceiver.getCurrentMana());
+
+        if (mana > 0) {
+            float synthesized = mana * ratio;
+
+            if (synthesized > 0) {
+                manaReceiver.receiveMana(-Math.round(synthesized / ratio));
+                breakLens(level, this.getBlockPos());
+            }
+            return (int) synthesized;
+        }
+        return 0;
+    }
+
+    @Override
 	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		manaReceiver.setMana(compound.getInt("mana"));
@@ -61,7 +68,7 @@ public class ManaSynthesizerBlockEntity extends SolarSynthesizerBlockEntity {
 			if (ECinteractions.isBotaniaActive() && cap == BotaniaForgeCapabilities.MANA_RECEIVER) {
 				return LazyOptional.of(manaReceiver != null ? () -> manaReceiver : null).cast();
 			} else if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
-				return getElementStorage(ECConfig.SERVER.manaSynthesizerLensElementMultiplier.get());
+				return getElementStorage();
 			}
 		}
 		return super.getCapability(cap, side);

@@ -5,6 +5,19 @@ import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 import org.apache.commons.lang3.tuple.Pair;
+import sirttas.elementalcraft.block.synthesizer.AbstractSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.combustion.CombustionSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.cracking.SculkCrackingSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.culinary.CulinarySynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.draining.DrainingSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerBlockEntity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ECConfig {
 
@@ -35,10 +48,10 @@ public class ECConfig {
 		public final IntValue extractorMaxRunes;
 		public final IntValue improvedExtractorExtractionAmount;
 		public final IntValue improvedExtractorMaxRunes;
+        public final IntValue rudimentaryExtractorExtractionAmount;
 		public final IntValue evaporatorExtractionAmount;
 		public final IntValue evaporatorMaxRunes;
-		public final IntValue solarSynthesizerMaxRunes;
-		public final IntValue solarSynthesizerLensElementMultiplier;
+        public final Map<Class<? extends AbstractSynthesizerBlockEntity>, Map<String, ForgeConfigSpec.ConfigValue<?>>> synthesizerValues = new HashMap<>();
 		public final IntValue diffuserDiffusionAmount;
 		public final IntValue diffuserMaxRunes;
 		public final IntValue diffuserRange;
@@ -120,10 +133,8 @@ public class ECConfig {
         public final DoubleValue sourceFluxConsumption;
         public final DoubleValue sourceFluxTransfer;
 
-		public final IntValue manaSynthesizerMaxRunes;
 		public final IntValue manaSynthesizerManaCapacity;
 		public final DoubleValue manaElementRatio;
-		public final IntValue manaSynthesizerLensElementMultiplier;
 
 		public final IntValue mekanismPureOreInputMultiplier;
 		public final IntValue mekanismPureOreOutputMultiplier;
@@ -131,21 +142,22 @@ public class ECConfig {
 		public Server(ForgeConfigSpec.Builder builder) {
 			builder.comment("ElementalCraft config").push("elementalcraft");
 
-            builder.comment("Containers config").push("container");
+            builder.pop().comment("Synthesizers config").push("synthesizer");
+            generateSynthesizerConfigs(builder);
+
+            builder.pop().comment("Containers config").push("container");
             smallContainerCapacity = builder.comment("The element capacity of a small element container.").defineInRange("smallContainerCapacity", 1000, 0, 100000000);
             containerCapacity = builder.comment("The element capacity of a element container.").defineInRange("containerCapacity", 100000, 0, 100000000);
             reservoirCapacity = builder.comment("The element capacity of a element reservoir.").defineInRange("reservoirCapacity", 5000000, 0, 100000000);
 			builder.pop().push("extractor");
-			extractorExtractionAmount = builder.comment("The amount of element extracted by an extractor.").defineInRange("extractorExtractionAmount", 5, 0, 100);
-			extractorMaxRunes = builder.comment("The max amount ofrunes on an extractor.").defineInRange("extractorMaxRunes", 1, 0, 10);
-            improvedExtractorExtractionAmount = builder.comment("The amount of element extracted by an improved extractor.").defineInRange("improvedExtractorExtractionAmount", 50, 0, 500);
-			improvedExtractorMaxRunes = builder.comment("The max amount of runes on an improved extracto.").defineInRange("improvedExtractoMaxRunes", 3, 0, 10);
-			builder.pop().push("evaporator");
+			extractorExtractionAmount = builder.comment("The amount of element extracted by an element extractor.").defineInRange("extractorExtractionAmount", 25, 0, 100);
+			extractorMaxRunes = builder.comment("The max amount of runes on an element extractor.").defineInRange("extractorMaxRunes", 1, 0, 10);
+            improvedExtractorExtractionAmount = builder.comment("The amount of element extracted by an improved element extractor.").defineInRange("improvedExtractorExtractionAmount", 100, 0, 500);
+			improvedExtractorMaxRunes = builder.comment("The max amount of runes on an improved element extractor.").defineInRange("improvedExtractoMaxRunes", 3, 0, 10);
+			rudimentaryExtractorExtractionAmount = builder.comment("The amount of element extracted by a rudimentary element extractor.").defineInRange("rudimentaryExtractorExtractionAmount", 5, 0, 100);
+            builder.pop().push("evaporator");
 			evaporatorExtractionAmount = builder.comment("The amount of element extracted by an evaporator.").defineInRange("evaporatorExtractionAmount", 1, 0, 100);
 			evaporatorMaxRunes = builder.comment("The max amount of runes on an evaporator.").defineInRange("evaporatorMaxRunes", 1, 0, 10);
-			builder.pop().push("solarSynthesizer");
-			solarSynthesizerMaxRunes = builder.comment("The max amount of runes on a Solar Synthesizer.").defineInRange("solarSynthesizerMaxRunes", 2, 0, 10);
-            solarSynthesizerLensElementMultiplier = builder.comment("the multiplier of lens in the Solar Synthesizer (based on 1500)").defineInRange("solarSynthesizerLensElementMultiplier", 25, 0, 100);
 			builder.pop().push("diffuser");
 			diffuserDiffusionAmount = builder.comment("The amount of element transfered by a diffuser.").defineInRange("diffuserDiffusionAmount", 5, 0, 100);
 			diffuserMaxRunes = builder.comment("The max amount of runes on a diffuser.").defineInRange("diffuserMaxRunes", 3, 0, 10);
@@ -215,7 +227,7 @@ public class ECConfig {
 			sorterMaxItem = builder.comment("The max amount of items an order sorter can filter.").defineInRange("sorterMaxItem", 15, 0, 100);
 			sorterMaxRunes = builder.comment("The max amount of runes an order sorter can have.").defineInRange("sorterMaxRunes", 3, 0, 10);
 
-			builder.pop(2).comment("Pure Infuser and pedestals config").push("pureInfuser");
+			builder.pop().comment("Pure Infuser and pedestals config").push("pureInfuser");
 			pureInfuserTransferSpeed = builder.comment("The max amount of element consumed by the pure infuser per tick.").defineInRange("pureInfuserTransferSpeed", 100, 0, 1000);
 			pureInfuserMaxRunes = builder.comment("The max amount of runes on a pure infuser.").defineInRange("pureInfuserMaxRunes", 3, 0, 10);
 			builder.push("pedestals");
@@ -264,9 +276,7 @@ public class ECConfig {
 
 			builder.pop(3).comment("mod interaction config").push("interaction");
 			builder.push("botania").push("manaSynthesizer");
-			manaSynthesizerMaxRunes = builder.comment("The max amount of runes on a Mana Synthesizer.").defineInRange("manaSynthesizerMaxRunes", 2, 0, 10);
 			manaSynthesizerManaCapacity = builder.comment("The mana capacity of the Mana Synthesizer.").defineInRange("manaSynthesizerManaCapacity", 10000, 0, 1000000);
-			manaSynthesizerLensElementMultiplier = builder.comment("the multiplier of lens in the Mana Synthesizer (based on 1500)").defineInRange("manaSynthesizerLensElementMultiplier", 50, 0, 100);
 			manaElementRatio = builder.comment("The amount of element 1 mana is worth.").defineInRange("manaElementRatio", 0.1, 0, 100);
 			builder.pop(2).push("mekanism");
 			mekanismPureOreInputMultiplier = builder.comment("The amount multiplier when using pure ore in mekanism.").defineInRange("mekanismPureOreInputMultiplier",5, 0, 20);
@@ -274,6 +284,32 @@ public class ECConfig {
 
 			builder.pop(2);
 		}
+
+        private void generateSynthesizerConfigs(ForgeConfigSpec.Builder builder) {
+            synthesizerValues.put(AirMillSynthesizerBlockEntity.class, generateSynthesizerConfig(builder, "airMillSynthesizer"));
+            synthesizerValues.put(SolarSynthesizerBlockEntity.class, generateSynthesizerConfig(builder, "solarSynthesizer"));
+            synthesizerValues.put(ManaSynthesizerBlockEntity.class, generateSynthesizerConfig(builder, "manaSynthesizer"));
+            synthesizerValues.put(CombustionSynthesizerBlockEntity.class, generateSynthesizerConfig(builder, "combustionSynthesizer"));
+            synthesizerValues.put(CrackingSynthesizerBlockEntity.class, generateSynthesizerConfig(builder, "crackingSynthesizer"));
+            synthesizerValues.put(CulinarySynthesizerBlockEntity.class, generateSynthesizerConfig(builder, "culinarySynthesizer"));
+            synthesizerValues.put(DrainingSynthesizerBlockEntity.class, generateSynthesizerConfig(builder, "drainingSynthesizer"));
+            synthesizerValues.put(SculkCrackingSynthesizerBlockEntity.class, generateSynthesizerConfig(builder, "sculkCrackingSynthesizer"));
+            synthesizerValues.put(VibrationSynthesizerBlockEntity.class, generateSynthesizerConfig(builder, "vibrationSynthesizer"));
+        }
+
+        private Map<String, ForgeConfigSpec.ConfigValue<?>> generateSynthesizerConfig(ForgeConfigSpec.Builder builder, String synthesizerName) {
+            Map<String, ForgeConfigSpec.ConfigValue<?>> returnMap = new HashMap<>();
+            builder.pop().push(synthesizerName);
+            returnMap.put("runes", builder.comment("The max amount of runes on the synthesizer.")
+                    .defineInRange(synthesizerName+"MaxRunes", 2, 0, 10));
+            returnMap.put("speed", builder.comment("The speed the synthesizer exports elements at.")
+                    .defineInRange(synthesizerName+"SynthesisSpeed", 25, 0, 1000));
+            returnMap.put("capacity", builder.comment("The maximum amount of element the synthesizer can hold in its buffer")
+                    .defineInRange(synthesizerName+"Capacity", 10000, 0, 1000000));
+            returnMap.put("mult", builder.comment("the multiplier of the synthesizer (based on 1500)")
+                    .defineInRange("solarSynthesizerLensElementMultiplier", 25.0D, 0, 1500));
+            return returnMap;
+        }
 	}
 
 	public static class Client {
@@ -287,6 +323,8 @@ public class ECConfig {
 
 		public final IntValue gaugeOffsetX;
 		public final IntValue gaugeOffsetY;
+
+        public final IntValue rangeDisplayDuration;
 
 		public Client(ForgeConfigSpec.Builder builder) {
 			builder.comment("ElementalCraft client config").push("elementalcraft-client");
@@ -304,6 +342,9 @@ public class ECConfig {
 			gaugeOffsetX = builder.comment("the offset of the gauge on the X axis.").defineInRange("gaugeOffsetX", 0, -10000, 10000);
 			gaugeOffsetY = builder.comment("the offset of the gauge on the Y axis.").defineInRange("gaugeOffsetY", 0, -10000, 10000);
 			builder.pop();
+
+            builder.pop().push("range");
+            rangeDisplayDuration = builder.comment("How long the range of a cracking synthesizer should be shown for, in ticks").defineInRange("rangeDisplayDuration", 100, 0, 10000);
 		}
 	}
 }

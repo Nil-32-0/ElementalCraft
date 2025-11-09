@@ -1,0 +1,28 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "patchouli"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "category": "equipment",
+        "ingredients": [
+          {
+            "item": "elementalcraft:inert_crystal"
+          },
+          {
+            "item": "minecraft:book"
+          }
+        ],
+        "result": {
+          "item": "patchouli:guide_book"
+        }
+      }
+    }
+  ]
+}

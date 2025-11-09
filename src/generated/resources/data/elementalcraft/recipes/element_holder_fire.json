@@ -6,7 +6,7 @@
       "item": "elementalcraft:fire_crystal"
     },
     "e": {
-      "item": "elementalcraft:extractor"
+      "item": "elementalcraft:rudimentary_element_extractor"
     },
     "g": {
       "tag": "forge:ingots/gold"

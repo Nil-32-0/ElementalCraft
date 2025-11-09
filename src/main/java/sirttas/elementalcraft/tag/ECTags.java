@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.tag;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -13,6 +12,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.gameevent.GameEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -235,6 +235,13 @@ public class ECTags {
 		public static final TagKey<Block> STRIPPED_CHERRY = createTag("stripped_cherry");
         public static final TagKey<Block> STRIPPED_BAMBOO = createTag("stripped_bamboo");
 
+        public static final TagKey<Block> CRACKABLE = createTag("crackable");
+        public static final TagKey<Block> POOR_GLOBAL_CRACKABLE = createTag("crackable/global/50");
+        public static final TagKey<Block> GOOD_GLOBAL_CRACKABLE = createTag("crackable/global/100");
+        public static final TagKey<Block> GOOD_NORMAL_CRACKABLE = createTag("crackable/normal/200");
+        public static final TagKey<Block> POOR_SCULK_CRACKABLE = createTag("crackable/sculk/200");
+        public static final TagKey<Block> GOOD_SCULK_CRACKABLE = createTag("crackable/sculk/1000");
+
 		private Blocks() {}
 
 		private static TagKey<Block> createTag(String name) {
@@ -323,6 +330,21 @@ public class ECTags {
 
         private static TagKey<DamageType> createTag(String modId, String name) {
             return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(modId, name));
+        }
+    }
+
+    public static class GameEvents {
+
+        public static final TagKey<GameEvent> SYNTHESIZABLE_TO_AIR = createTag("synthesizable_to_air");
+
+        private GameEvents() { }
+
+        private static TagKey<GameEvent> createTag(String name) {
+            return createTag(ElementalCraftApi.MODID, name);
+        }
+
+        private static TagKey<GameEvent> createTag(String modId, String name) {
+            return TagKey.create(Registries.GAME_EVENT, new ResourceLocation(modId, name));
         }
     }
 

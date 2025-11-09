@@ -1,0 +1,31 @@
+{
+  "name": "block.elementalcraft.improved_element_extractor",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:improved_element_extractor",
+  "advancement": "elementalcraft:pickup/purecrystal",
+  "turnin": "elementalcraft:pickup/improved_element_extractor",
+  "sortnum": 18,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.improved_element_extractor0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:improved_element_extractor"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "I": "elementalcraft:improved_element_extractor",
+          "0": "elementalcraft:container"
+        },
+        "pattern": [
+          ["I"],
+          ["0"]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_vibration_air_synthesizer": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:vibration_air_synthesizer"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_vibration_air_synthesizer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

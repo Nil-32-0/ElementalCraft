@@ -2,10 +2,18 @@
   "values": [
     "#elementalcraft:instruments",
     "elementalcraft:evaporator",
-    "elementalcraft:extractor",
-    "elementalcraft:extractor_improved",
+    "elementalcraft:rudimentary_element_extractor",
+    "elementalcraft:element_extractor",
+    "elementalcraft:improved_element_extractor",
+    "elementalcraft:combustion_fire_synthesizer",
+    "elementalcraft:cracking_earth_synthesizer",
+    "elementalcraft:culinary_water_synthesizer",
+    "elementalcraft:sculk_cracking_earth_synthesizer",
+    "elementalcraft:draining_water_synthesizer",
     "elementalcraft:solar_synthesizer",
     "elementalcraft:mana_synthesizer",
+    "elementalcraft:air_mill_synthesizer",
+    "elementalcraft:vibration_air_synthesizer",
     "elementalcraft:diffuser"
   ]
 }

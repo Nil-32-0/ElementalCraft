@@ -44,7 +44,7 @@ public abstract class AbstractAirMillBlock extends AbstractMillBlock {
 	private static final VoxelShape OVEN_PILLAR_4 = Block.box(13D, 0D, 13D, 15D, 10D, 15D);
 	private static final VoxelShape OVEN_SHAFT = Block.box(7D, 4D, 7D, 9D, 10D, 9D);
 	protected static final VoxelShape SHAPE_LOWER = Shapes.or(OVEN_SLAB, OVEN_SLAB_2, OVEN_CONNECTION, OVEN_PILLAR_1, OVEN_PILLAR_2, OVEN_PILLAR_3, OVEN_PILLAR_4, OVEN_SHAFT);
-	protected static final VoxelShape SHAPE_UPPER =  Block.box(7D, 0D, 7D, 9D, 16D, 9D);
+	public static final VoxelShape SHAPE_UPPER =  Block.box(7D, 0D, 7D, 9D, 16D, 9D);
 
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
@@ -105,20 +105,6 @@ public abstract class AbstractAirMillBlock extends AbstractMillBlock {
 			return null;
 		}
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
-	}
-
-	@Nonnull
-    @Override
-	@Deprecated
-	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-	}
-
-	@Nonnull
-    @Override
-	@Deprecated
-	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
 	}
 
 	@Override

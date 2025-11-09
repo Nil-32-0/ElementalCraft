@@ -28,10 +28,7 @@ import sirttas.elementalcraft.datagen.registry.world.ECBiomeModifierProvider;
 import sirttas.elementalcraft.datagen.registry.world.ECFeaturesProvider;
 import sirttas.elementalcraft.datagen.registry.world.ECStructureSetsProvider;
 import sirttas.elementalcraft.datagen.registry.world.ECStructuresProvider;
-import sirttas.elementalcraft.datagen.tag.ECBiomeTagsProvider;
-import sirttas.elementalcraft.datagen.tag.ECBlockTagsProvider;
-import sirttas.elementalcraft.datagen.tag.ECDamageTypeTagsProvider;
-import sirttas.elementalcraft.datagen.tag.ECItemTagsProvider;
+import sirttas.elementalcraft.datagen.tag.*;
 import sirttas.elementalcraft.interaction.ECinteractions;
 
 import java.util.List;
@@ -71,6 +68,7 @@ public class ECDataGenerators {
 		generator.addProvider(includeServer, new ECItemTagsProvider(output, registries, blockTagsProvider.contentsGetter(), fileHelper));
 		generator.addProvider(includeServer, new ECBiomeTagsProvider(output, registries, fileHelper));
         generator.addProvider(includeServer, new ECDamageTypeTagsProvider(output, registries, fileHelper));
+        generator.addProvider(includeServer, new ECGameEventTagsProvider(output, registries, fileHelper));
 		generator.addProvider(includeServer, new ECRecipeProvider(output, fileHelper));
 		generator.addProvider(includeServer, new ForgeAdvancementProvider(output, registries, fileHelper, List.of(new ECAdvancementProvider())));
 		generator.addProvider(includeServer, new RunesProvider(output, registries, itemModelProvider));

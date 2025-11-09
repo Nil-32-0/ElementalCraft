@@ -35,8 +35,12 @@ import sirttas.elementalcraft.block.source.SourceRenderer;
 import sirttas.elementalcraft.block.source.breeder.SourceBreederRenderer;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalRenderer;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateRenderer;
+import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.draining.DrainingSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerRenderer;
 
 import java.util.function.Supplier;
 
@@ -51,7 +55,13 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.INFUSER, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5)));
 		register(ECBlockEntityTypes.EXTRACTOR, IRuneRenderer::create);
 		register(ECBlockEntityTypes.EVAPORATOR, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5), 0.5F));
-		register(ECBlockEntityTypes.SOLAR_SYNTHESIZER, SolarSynthesizerRenderer::new);
+        register(ECBlockEntityTypes.AIR_MILL_SYNTHESIZER, AirMillSynthesizerRenderer::new);
+        register(ECBlockEntityTypes.CRACKING_SYNTHESIZER, CrackingSynthesizerRenderer::new);
+        register(ECBlockEntityTypes.DRAINING_SYNTHESIZER, DrainingSynthesizerRenderer::new);
+        register(ECBlockEntityTypes.VIBRATION_SYNTHESIZER, VibrationSynthesizerRenderer::new);
+        register(ECBlockEntityTypes.SCULK_CRACKING_SYNTHESIZER, CrackingSynthesizerRenderer::new);
+        register(ECBlockEntityTypes.COMBUSTION_SYNTHESIZER, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.5, 0.5), 0.7F));
+        register(ECBlockEntityTypes.SOLAR_SYNTHESIZER, SolarSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.MANA_SYNTHESIZER, ManaSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.DIFFUSER, DiffuserRenderer::new);
 		register(ECBlockEntityTypes.BINDER, BinderRenderer::new);

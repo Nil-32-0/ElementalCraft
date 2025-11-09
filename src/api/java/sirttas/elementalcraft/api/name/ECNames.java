@@ -49,6 +49,7 @@ public class ECNames {
 	public static final String ITEM = "item";
 	public static final String JEWEL = "jewel";
 	public static final String LEVEL = "level";
+    public static final String LISTENER = "listener";
 	public static final String LUCK_RATIO = "luck_ratio";
 	public static final String LUCK_RATIO_ON_BRED = "luck_ratio_on_bred";
 	public static final String MAX_AMOUNT = "max_amount";

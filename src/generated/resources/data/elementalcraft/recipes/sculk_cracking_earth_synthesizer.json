@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "h": {
+      "item": "minecraft:diamond_hoe"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "ihi",
+    "wcw"
+  ],
+  "result": {
+    "item": "elementalcraft:sculk_cracking_earth_synthesizer"
+  },
+  "show_notification": true
+}

@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.synthesizer.solar;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -27,7 +25,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -88,8 +85,7 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-		BlockEntityHelper.getBlockEntityAs(world, pos, SolarSynthesizerBlockEntity.class).filter(SolarSynthesizerBlockEntity::isWorking).flatMap(SolarSynthesizerBlockEntity::getElementStorage)
-				.ifPresent(storage -> ParticleHelper.createElementFlowParticle(storage.getElementType(), world, Vec3.atCenterOf(pos.below()), Direction.DOWN, 1, rand));
+        SolarSynthesizerBlockEntity.renderElementFlow(world, pos, rand);
 	}
 	
 	@Override

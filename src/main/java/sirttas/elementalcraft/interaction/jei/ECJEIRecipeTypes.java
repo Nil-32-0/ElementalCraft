@@ -1,21 +1,22 @@
 package sirttas.elementalcraft.interaction.jei;
 
 import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.vanilla.IJeiFuelingRecipe;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlock;
 import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlock;
-import sirttas.elementalcraft.interaction.jei.category.element.CrystalThrowingRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.element.DisplacementRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.element.EvaporationRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.element.ExtractionRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.element.ImprovedExtractionRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.element.SolarSynthesisRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.element.SourceBreedingRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.element.*;
+import sirttas.elementalcraft.interaction.jei.category.element.synthesis.*;
+import sirttas.elementalcraft.interaction.jei.category.element.synthesis.cracking.CrackingRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.element.synthesis.cracking.SculkCrackingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.EnchantmentLiquefactionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.PurificationRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
@@ -33,9 +34,15 @@ public class ECJEIRecipeTypes {
 
     private ECJEIRecipeTypes() {}
 
-    public static final RecipeType<ElementType> EXTRACTION = create(ExtractionRecipeCategory.NAME, ElementType.class);
-    public static final RecipeType<ElementType> EXTRACTION_IMPROVED = create(ImprovedExtractionRecipeCategory.NAME, ElementType.class);
+    public static final RecipeType<ExtractionRecipeCategory.ExtractionRecipe> EXTRACTION = create(ExtractionRecipeCategory.NAME, ExtractionRecipeCategory.ExtractionRecipe.class);
     public static final RecipeType<Ingredient> EVAPORATION = create(EvaporationRecipeCategory.NAME, Ingredient.class);
+    public static final RecipeType<IngredientElementType> AIR_MILL_SYNTHESIS = create(AirMillSynthesisRecipeCategory.NAME, IngredientElementType.class);
+    public static final RecipeType<IJeiFuelingRecipe> COMBUSTION = create(CombustionRecipeCategory.NAME, IJeiFuelingRecipe.class);
+    public static final RecipeType<Block> CRACKING = create(CrackingRecipeCategory.NAME, Block.class);
+    public static final RecipeType<ItemStack> CULINARY = create(CulinaryRecipeCategory.NAME, ItemStack.class);
+    public static final RecipeType<IngredientElementType> DRAINING = create(DrainingRecipeCategory.NAME, IngredientElementType.class);
+    public static final RecipeType<Block> SCULK_CRACKING = create(SculkCrackingRecipeCategory.NAME, Block.class);
+    public static final RecipeType<IngredientElementType> VIBRATION = create(VibrationRecipeCategory.NAME, IngredientElementType.class);
     public static final RecipeType<Ingredient> SOLAR_SYNTHESIS = create(SolarSynthesisRecipeCategory.NAME, Ingredient.class);
     public static final RecipeType<IInfusionRecipe> INFUSION = create(IInfusionRecipe.NAME, IInfusionRecipe.class);
     public static final RecipeType<IInfusionRecipe> TOOL_INFUSION = create(ToolInfusionRecipe.NAME, IInfusionRecipe.class);
@@ -58,5 +65,4 @@ public class ECJEIRecipeTypes {
     private static <T> RecipeType<T> create(String path, Class<? extends T> recipeClass) {
         return RecipeType.create(ElementalCraftApi.MODID, path, recipeClass);
     }
-
 }

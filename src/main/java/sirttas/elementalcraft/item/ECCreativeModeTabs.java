@@ -40,10 +40,18 @@ public class ECCreativeModeTabs {
             .title(Component.translatable("itemGroup.elementalcraft"))
             .icon(() -> new ItemStack(ECItems.FOCUS.get()))
             .displayItems((p, o) -> {
+                o.accept(ECBlocks.RUDIMENTARY_EXTRACTOR.get());
                 o.accept(ECBlocks.EXTRACTOR.get());
-                o.accept(ECBlocks.EXTRACTOR_IMPROVED.get());
+                o.accept(ECBlocks.IMPROVED_EXTRACTOR.get());
                 o.accept(ECBlocks.EVAPORATOR.get());
                 o.accept(ECBlocks.INFUSER.get());
+                o.accept(ECBlocks.AIR_MILL_SYNTHESIZER.get());
+                o.accept(ECBlocks.COMBUSTION_SYNTHESIZER.get());
+                o.accept(ECBlocks.CRACKING_SYNTHESIZER.get());
+                o.accept(ECBlocks.CULINARY_SYNTHESIZER.get());
+                o.accept(ECBlocks.DRAINING_SYNTHESIZER.get());
+                o.accept(ECBlocks.SCULK_CRACKING_SYNTHESIZER.get());
+                o.accept(ECBlocks.VIBRATION_SYNTHESIZER.get());
                 o.accept(ECBlocks.SOLAR_SYNTHESIZER.get());
                 if (ECinteractions.isBotaniaActive()) {
                     o.accept(ECBlocks.MANA_SYNTHESIZER.get());
@@ -186,6 +194,7 @@ public class ECCreativeModeTabs {
                 ECItems.FINE_GEMS.values().forEach(gem -> o.accept(gem.get()));
                 ECItems.PRISTINE_GEMS.values().forEach(gem -> o.accept(gem.get()));
                 o.accept(ECItems.PRISTINE_SHARD.get());
+                o.accept(ECItems.AIR_MILL.get());
                 o.accept(ECItems.DRENCHED_IRON_NUGGET.get());
                 o.accept(ECItems.DRENCHED_IRON_INGOT.get());
                 o.accept(ECBlocks.DRENCHED_IRON_BLOCK.get());

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "elementalcraft:block/air_mill_synthesizer_lower"
+    },
+    "half=upper": {
+      "model": "elementalcraft:block/air_mill_upper"
+    }
+  }
+}

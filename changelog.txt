@@ -1,3 +1,8 @@
+1.20.1-m6.2.0a:
+- Add Rudimentary Extractor
+- Backport new Synthesizers from 7.0.0 future. Functionality is mostly retained
+- Backport Air Mill item, as a crafting component only
+
 1.20.1-m6.1.1:
 - Add 'ec_flux add' and 'ec_flux drain' commands to affect current chunk's source flux
 - Added more utilities to Source Flux

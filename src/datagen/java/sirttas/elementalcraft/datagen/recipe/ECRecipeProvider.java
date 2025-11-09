@@ -352,6 +352,16 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("ii ")
 				.save(consumer);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECItems.AIR_MILL.get())
+                .define('i', ECTags.Items.INGOTS_DRENCHED_IRON)
+                .define('h', ECTags.Items.HARDENED_RODS)
+                .define('c', ItemTags.WOOL_CARPETS)
+                .pattern("cic")
+                .pattern("cic")
+                .pattern(" h ")
+                .unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY))
+                .save(consumer);
+
 		PureInfusionRecipeBuilder.pureInfusionRecipe(ECBlocks.PURE_ROCK.get())
 				.setIngredient(Items.OBSIDIAN)
 				.setIngredient(ElementType.WATER, Items.PRISMARINE)
@@ -370,18 +380,28 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private void registerInstruments(@Nonnull Consumer<FinishedRecipe> consumer) {
-		prepareInstrumentRecipe(ECBlocks.EXTRACTOR)
-				.define('i', Tags.Items.INGOTS_IRON)
-				.pattern(" c ").pattern(" i ")
-				.pattern("ici")
-				.save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.EXTRACTOR_IMPROVED.get(), ECItems.PURE_CRYSTAL.get())
-				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
-				.define('e', ECBlocks.EXTRACTOR.get())
-				.pattern(" e ")
-				.pattern("eie")
-				.pattern("wcw")
-				.save(consumer);
+        prepareInstrumentRecipe(ECBlocks.RUDIMENTARY_EXTRACTOR)
+                .define('i', Tags.Items.INGOTS_IRON)
+                .pattern(" c ")
+                .pattern(" i ")
+                .pattern("ici")
+                .save(consumer);
+        prepareWhiterockInstrumentRecipe(ECBlocks.EXTRACTOR.get())
+                .define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+                .define('d', ECTags.Items.INGOTS_DRENCHED_IRON)
+                .define('e', ECBlocks.RUDIMENTARY_EXTRACTOR.get())
+                .pattern("e e")
+                .pattern("idi")
+                .pattern("wcw")
+                .save(consumer);
+        prepareWhiterockInstrumentRecipe(ECBlocks.IMPROVED_EXTRACTOR.get(), ECItems.PURE_CRYSTAL.get())
+                .define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+                .define('e', ECBlocks.EXTRACTOR.get())
+                .define('r', ECBlocks.RUDIMENTARY_EXTRACTOR.get())
+                .pattern(" r ")
+                .pattern("eie")
+                .pattern("wcw")
+                .save(consumer);
 		prepareInstrumentRecipe(ECBlocks.EVAPORATOR)
 				.define('i', Tags.Items.INGOTS_IRON)
 				.define('g', Tags.Items.GLASS)
@@ -389,6 +409,49 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("igi")
 				.pattern("ici")
 				.save(consumer);
+        prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL_SYNTHESIZER.get(), ECItems.CRYSTALS.get(ElementType.AIR).get())
+                .define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+                .define('a', ECItems.AIR_MILL.get())
+                .pattern("iai")
+                .pattern("wcw")
+                .save(consumer);
+        prepareInstrumentRecipe(ECBlocks.CRACKING_SYNTHESIZER)
+                .define('i', Tags.Items.INGOTS_IRON)
+                .define('p', Items.STONE_PICKAXE)
+                .pattern("ipi")
+                .pattern(" c ")
+                .save(consumer);
+        prepareWhiterockInstrumentRecipe(ECBlocks.CULINARY_SYNTHESIZER.get(), ECItems.CRYSTALS.get(ElementType.WATER).get())
+                .define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+                .define('l', Items.CAKE)
+                .define('b', Items.BUCKET)
+                .pattern(" l ")
+                .pattern("ibi")
+                .pattern("wcw")
+                .save(consumer);
+        prepareInstrumentRecipe(ECBlocks.DRAINING_SYNTHESIZER.get())
+                .define('i', Tags.Items.INGOTS_IRON)
+                .define('g', ECBlocks.BURNT_GLASS.get())
+                .pattern("igi")
+                .pattern(" c ")
+                .save(consumer);
+        prepareWhiterockInstrumentRecipe(ECBlocks.SCULK_CRACKING_SYNTHESIZER.get())
+                .define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+                .define('h', Items.DIAMOND_HOE)
+                .pattern("ihi")
+                .pattern("wcw")
+                .save(consumer);
+        prepareWhiterockInstrumentRecipe(ECBlocks.VIBRATION_SYNTHESIZER.get())
+                .define('i', ECTags.Items.NUGGETS_DRENCHED_IRON)
+                .define('p', ItemTags.WOOL_CARPETS)
+                .pattern("ipi")
+                .pattern("wcw")
+                .save(consumer);
+        prepareWhiterockInstrumentRecipe(ECBlocks.COMBUSTION_SYNTHESIZER.get())
+                .define('i', Tags.Items.INGOTS_IRON)
+                .pattern("i i")
+                .pattern("wcw")
+                .save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.SOLAR_SYNTHESIZER.get())
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.define('d', ECTags.Items.INGOTS_DRENCHED_IRON)
@@ -452,10 +515,9 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL_GRINDSTONE.get(), ECItems.CRYSTALS.get(ElementType.AIR).get())
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
-				.define('h', ECTags.Items.HARDENED_RODS)
-				.define('p', ItemTags.WOOL_CARPETS)
+				.define('a', ECItems.AIR_MILL.get())
 				.define('g', Items.GRINDSTONE)
-				.pattern("php")
+				.pattern(" a ")
 				.pattern("igi")
 				.pattern("wcw")
 				.save(consumer);
@@ -468,10 +530,9 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL_WOOD_SAW.get(), ECItems.CRYSTALS.get(ElementType.AIR).get())
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
-				.define('h', ECTags.Items.HARDENED_RODS)
-				.define('p', ItemTags.WOOL_CARPETS)
-				.define('s', Items.GRINDSTONE)
-				.pattern("php")
+				.define('a', ECItems.AIR_MILL.get())
+				.define('s', ECItems.DRENCHED_SAW_BLADE.get())
+				.pattern(" a ")
 				.pattern("isi")
 				.pattern("wcw")
 				.save(consumer);
@@ -610,7 +671,7 @@ public class ECRecipeProvider extends RecipeProvider {
         ElementType.ALL_VALID.forEach(type -> ShapedRecipeBuilder
                 .shaped(RecipeCategory.TOOLS, ECItems.ELEMENT_HOLDERS.get(type).get())
                 .define('g', Tags.Items.INGOTS_GOLD)
-                .define('e', ECBlocks.EXTRACTOR.get())
+                .define('e', ECBlocks.RUDIMENTARY_EXTRACTOR.get())
                 .define('t', ECBlocks.SMALL_CONTAINER.get())
                 .define('i', ECTags.Items.INGOTS_DRENCHED_IRON)
                 .define('c', ECItems.CRYSTALS.get(type).get())

@@ -1,0 +1,32 @@
+{
+  "name": "block.elementalcraft.element_extractor",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:element_extractor",
+  "advancement": "elementalcraft:pickup/small_container",
+  "turnin": "elementalcraft:pickup/extractor",
+  "priority": true,
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.element_extractor0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:element_extractor"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "I": "elementalcraft:element_extractor",
+          "0": "elementalcraft:small_container"
+        },
+        "pattern": [
+          ["I"],
+          ["0"]
+        ]
+      }
+    }
+  ]
+}

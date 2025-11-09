@@ -78,6 +78,13 @@ public class ECBlockLoot extends BlockLootSubProvider {
         add(ECBlocks.ENCHANTMENT_LIQUEFIER.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), this::createRuneable);
+        add(ECBlocks.AIR_MILL_SYNTHESIZER.get(), this::createDoubleHalfRuneable);
+        add(ECBlocks.COMBUSTION_SYNTHESIZER.get(), ECBlockLoot::createIER);
+        add(ECBlocks.CRACKING_SYNTHESIZER.get(), ECBlockLoot::createIER);
+        add(ECBlocks.CULINARY_SYNTHESIZER.get(), ECBlockLoot::createIER);
+        add(ECBlocks.DRAINING_SYNTHESIZER.get(), ECBlockLoot::createIER);
+        add(ECBlocks.SCULK_CRACKING_SYNTHESIZER.get(), ECBlockLoot::createIER);
+        add(ECBlocks.VIBRATION_SYNTHESIZER.get(), ECBlockLoot::createIER);
 		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
 		add(ECBlocks.MANA_SYNTHESIZER.get(), b -> createCopyNbt(b, "mana").withPool(dropRunes()));
 		add(ECBlocks.BREEDING_SHRINE.get(), ECBlockLoot::createBreedingShrine);

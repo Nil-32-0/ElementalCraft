@@ -62,8 +62,15 @@ import sirttas.elementalcraft.block.source.breeder.SourceBreederBlockEntity;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlockEntity;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlock;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.combustion.CombustionSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.cracking.SculkCrackingSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.culinary.CulinarySynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.draining.DrainingSynthesizerBlockEntity;
 import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerBlockEntity;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerBlockEntity;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -84,10 +91,17 @@ public class ECBlockEntityTypes {
     );
 
     public static final RegistryObject<BlockEntityType<CreativeElementContainerBlockEntity>> CREATIVE_CONTAINER = register(CreativeElementContainerBlockEntity::new, ECBlocks.CREATIVE_CONTAINER);
-    public static final RegistryObject<BlockEntityType<ExtractorBlockEntity>> EXTRACTOR = register(() -> builder(ExtractorBlockEntity::new, ECBlocks.EXTRACTOR, ECBlocks.EXTRACTOR_IMPROVED), ExtractorBlock.NAME);
+    public static final RegistryObject<BlockEntityType<ExtractorBlockEntity>> EXTRACTOR = register(() -> builder(ExtractorBlockEntity::new, ECBlocks.RUDIMENTARY_EXTRACTOR, ECBlocks.EXTRACTOR, ECBlocks.IMPROVED_EXTRACTOR), ExtractorBlock.NAME);
     public static final RegistryObject<BlockEntityType<EvaporatorBlockEntity>> EVAPORATOR = register(EvaporatorBlockEntity::new, ECBlocks.EVAPORATOR);
+    public static final RegistryObject<BlockEntityType<AirMillSynthesizerBlockEntity>> AIR_MILL_SYNTHESIZER = register(AirMillSynthesizerBlockEntity::new, ECBlocks.AIR_MILL_SYNTHESIZER);
+    public static final RegistryObject<BlockEntityType<CombustionSynthesizerBlockEntity>> COMBUSTION_SYNTHESIZER = register(CombustionSynthesizerBlockEntity::new, ECBlocks.COMBUSTION_SYNTHESIZER);
+    public static final RegistryObject<BlockEntityType<CrackingSynthesizerBlockEntity>> CRACKING_SYNTHESIZER = register(CrackingSynthesizerBlockEntity::new, ECBlocks.CRACKING_SYNTHESIZER);
+    public static final RegistryObject<BlockEntityType<CulinarySynthesizerBlockEntity>> CULINARY_SYNTHESIZER = register(CulinarySynthesizerBlockEntity::new, ECBlocks.CULINARY_SYNTHESIZER);
+    public static final RegistryObject<BlockEntityType<DrainingSynthesizerBlockEntity>> DRAINING_SYNTHESIZER = register(DrainingSynthesizerBlockEntity::new, ECBlocks.DRAINING_SYNTHESIZER);
+    public static final RegistryObject<BlockEntityType<SculkCrackingSynthesizerBlockEntity>> SCULK_CRACKING_SYNTHESIZER = register(SculkCrackingSynthesizerBlockEntity::new, ECBlocks.SCULK_CRACKING_SYNTHESIZER);
     public static final RegistryObject<BlockEntityType<SolarSynthesizerBlockEntity>> SOLAR_SYNTHESIZER = register(SolarSynthesizerBlockEntity::new, ECBlocks.SOLAR_SYNTHESIZER);
     public static final RegistryObject<BlockEntityType<SolarSynthesizerBlockEntity>> MANA_SYNTHESIZER = register(ManaSynthesizerBlock::createBlockEntity, ECBlocks.MANA_SYNTHESIZER);
+    public static final RegistryObject<BlockEntityType<VibrationSynthesizerBlockEntity>> VIBRATION_SYNTHESIZER = register(VibrationSynthesizerBlockEntity::new, ECBlocks.VIBRATION_SYNTHESIZER);
     public static final RegistryObject<BlockEntityType<DiffuserBlockEntity>> DIFFUSER = register(DiffuserBlockEntity::new, ECBlocks.DIFFUSER);
     public static final RegistryObject<BlockEntityType<InfuserBlockEntity>> INFUSER = register(InfuserBlockEntity::new, ECBlocks.INFUSER);
     public static final RegistryObject<BlockEntityType<BinderBlockEntity>> BINDER = register(BinderBlockEntity::new, ECBlocks.BINDER);

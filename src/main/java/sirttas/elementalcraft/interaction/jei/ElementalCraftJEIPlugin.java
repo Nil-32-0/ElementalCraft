@@ -1,17 +1,20 @@
 package sirttas.elementalcraft.interaction.jei;
 
+import com.mojang.datafixers.util.Pair;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
+import mezz.jei.api.recipe.vanilla.IJeiFuelingRecipe;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
+import mezz.jei.library.plugins.vanilla.cooking.fuel.FuelingRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
@@ -22,9 +25,12 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -38,9 +44,11 @@ import sirttas.elementalcraft.interaction.jei.category.element.CrystalThrowingRe
 import sirttas.elementalcraft.interaction.jei.category.element.DisplacementRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.EvaporationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ExtractionRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.element.ImprovedExtractionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.SolarSynthesisRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.SourceBreedingRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.element.synthesis.*;
+import sirttas.elementalcraft.interaction.jei.category.element.synthesis.cracking.CrackingRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.element.synthesis.cracking.SculkCrackingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.BindingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.CrystallizationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.EnchantmentLiquefactionRecipeCategory;
@@ -73,7 +81,10 @@ import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
@@ -137,7 +148,13 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	@Override
 	public void registerCategories(IRecipeCategoryRegistration registry) {
 		registry.addRecipeCategories(new ExtractionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
-		registry.addRecipeCategories(new ImprovedExtractionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new AirMillSynthesisRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new CombustionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new CrackingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new CulinaryRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new DrainingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new SculkCrackingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new VibrationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new EvaporationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SolarSynthesisRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new InfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
@@ -163,10 +180,18 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.FIRE_FURNACE.get()), RecipeTypes.SMELTING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.FIRE_BLAST_FURNACE.get()), RecipeTypes.BLASTING);
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.RUDIMENTARY_EXTRACTOR.get()), ECJEIRecipeTypes.EXTRACTION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EXTRACTOR.get()), ECJEIRecipeTypes.EXTRACTION);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EXTRACTOR_IMPROVED.get()), ECJEIRecipeTypes.EXTRACTION_IMPROVED);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.IMPROVED_EXTRACTOR.get()), ECJEIRecipeTypes.EXTRACTION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EVAPORATOR.get()), ECJEIRecipeTypes.EVAPORATION);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOLAR_SYNTHESIZER.get()), ECJEIRecipeTypes.SOLAR_SYNTHESIS);
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL_SYNTHESIZER.get()), ECJEIRecipeTypes.AIR_MILL_SYNTHESIS);
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.COMBUSTION_SYNTHESIZER.get()), ECJEIRecipeTypes.COMBUSTION);
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.CRACKING_SYNTHESIZER.get()), ECJEIRecipeTypes.CRACKING);
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.CULINARY_SYNTHESIZER.get()), ECJEIRecipeTypes.CULINARY);
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.DRAINING_SYNTHESIZER.get()), ECJEIRecipeTypes.DRAINING);
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.SCULK_CRACKING_SYNTHESIZER.get()), ECJEIRecipeTypes.SCULK_CRACKING);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.VIBRATION_SYNTHESIZER.get()), ECJEIRecipeTypes.VIBRATION);
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOLAR_SYNTHESIZER.get()), ECJEIRecipeTypes.SOLAR_SYNTHESIS);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.INFUSER.get()), ECJEIRecipeTypes.INFUSION, ECJEIRecipeTypes.TOOL_INFUSION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BINDER.get()), ECJEIRecipeTypes.BINDING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BINDER_IMPROVED.get()), ECJEIRecipeTypes.BINDING, ECJEIRecipeTypes.INFUSION, ECJEIRecipeTypes.TOOL_INFUSION);
@@ -212,9 +237,15 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	public void registerRecipes(@Nonnull IRecipeRegistration registry) {
 		RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
-		registry.addRecipes(ECJEIRecipeTypes.EXTRACTION, ElementType.ALL_VALID);
-		registry.addRecipes(ECJEIRecipeTypes.EXTRACTION_IMPROVED, ElementType.ALL_VALID);
+		registry.addRecipes(ECJEIRecipeTypes.EXTRACTION, getExtractionRecipes());
 		registry.addRecipes(ECJEIRecipeTypes.EVAPORATION, EvaporationRecipeCategory.getShards());
+        registry.addRecipes(ECJEIRecipeTypes.AIR_MILL_SYNTHESIS, List.of(new IngredientElementType(ElementType.AIR, 1)));
+        registry.addRecipes(ECJEIRecipeTypes.COMBUSTION, getFuels(registry));
+        registry.addRecipes(ECJEIRecipeTypes.CRACKING, getCrackingValues(registry, false));
+        registry.addRecipes(ECJEIRecipeTypes.CULINARY, getFoods(registry));
+        registry.addRecipes(ECJEIRecipeTypes.DRAINING, List.of(new IngredientElementType(ElementType.WATER, 1)));
+        registry.addRecipes(ECJEIRecipeTypes.SCULK_CRACKING, getCrackingValues(registry, true));
+        registry.addRecipes(ECJEIRecipeTypes.VIBRATION, List.of(new IngredientElementType(ElementType.AIR, 1)));
 		registry.addRecipes(ECJEIRecipeTypes.SOLAR_SYNTHESIS, SolarSynthesisRecipeCategory.getLenses());
 		registry.addRecipes(ECJEIRecipeTypes.INFUSION, recipeManager.getAllRecipesFor(ECRecipeTypes.INFUSION.get()).stream()
 				.filter(r -> !(r instanceof ToolInfusionRecipe))
@@ -242,6 +273,64 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
         registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, ECItems.ARTIFICIAL_SOURCE_SEEDS.values().stream().map(RegistryObject::get).toList());
         registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, ECItems.NATURAL_SOURCE_SEEDS.values().stream().map(RegistryObject::get).toList());
 	}
+
+    private static @NotNull List<ItemStack> getFoods(@NotNull IRecipeRegistration registry) {
+        return registry.getIngredientManager().getAllItemStacks().stream()
+                .filter(s -> s.getFoodProperties(null) != null)
+                .sorted(Comparator.comparing((ItemStack s) -> s.getFoodProperties(null).getNutrition())
+                        .thenComparing(s -> s.getFoodProperties(null).getSaturationModifier()))
+                .toList();
+    }
+
+    private static @NotNull List<IJeiFuelingRecipe> getFuels(@NotNull IRecipeRegistration registry) {
+        return registry.getIngredientManager().getAllItemStacks().stream()
+                .<IJeiFuelingRecipe>mapMulti((stack, consumer) -> {
+                    int burnTime = ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
+
+                    if (burnTime > 0) {
+                        consumer.accept(new FuelingRecipe(List.of(stack), burnTime));
+                    }
+                })
+                .sorted(Comparator.comparingInt(IJeiFuelingRecipe::getBurnTime))
+                .toList();
+    }
+
+    private static @NotNull List<Block> getCrackingValues(@NotNull IRecipeRegistration registry, boolean isSculk) {
+        return registry.getIngredientManager().getAllItemStacks().stream()
+                .map(stack -> Block.byItem(stack.getItem()))
+                .<Pair<Block, Integer>>mapMulti((block, consumer) -> {
+                    if (block.defaultBlockState().is(ECTags.Blocks.CRACKABLE)) {
+                        if (isSculk) {
+                            Optional<Integer> elementAmount = block.defaultBlockState().getTags().map(tag -> tag.location().getPath())
+                                    .filter(tag -> tag.startsWith("crackable/global") || tag.startsWith("crackable/sculk"))
+                                    .map(tag -> Integer.parseInt(tag.substring(tag.startsWith("crackable/global") ? 17 : 16))).findAny();
+
+                            elementAmount.ifPresent(integer -> consumer.accept(Pair.of(block, integer)));
+                        } else {
+                            Optional<Integer> elementAmount = block.defaultBlockState().getTags().map(tag -> tag.location().getPath())
+                                    .filter(tag -> tag.startsWith("crackable/global") ||
+                                            tag.startsWith("crackable/normal")
+                                    ).map(tag -> Integer.parseInt(tag.substring(17))).findAny();
+
+                            elementAmount.ifPresent(integer -> consumer.accept(Pair.of(block, integer)));
+                        }
+                    }
+                })
+                .sorted(Comparator.comparingInt(Pair::getSecond))
+                .map(Pair::getFirst)
+                .toList();
+    }
+
+    private List<ExtractionRecipeCategory.ExtractionRecipe> getExtractionRecipes() {
+        var list = new ArrayList<ExtractionRecipeCategory.ExtractionRecipe>();
+
+        for (var elementType : ElementType.ALL_VALID) {
+            list.add(new ExtractionRecipeCategory.ExtractionRecipe(new IngredientElementType(elementType, 1), new ItemStack(ECBlocks.RUDIMENTARY_EXTRACTOR.get()), List.of(new ItemStack(ECBlocks.CONTAINER.get()), new ItemStack(ECBlocks.SMALL_CONTAINER.get()))));
+            list.add(new ExtractionRecipeCategory.ExtractionRecipe(new IngredientElementType(elementType, 2), new ItemStack(ECBlocks.EXTRACTOR.get()), List.of(new ItemStack(ECBlocks.CONTAINER.get()))));
+            list.add(new ExtractionRecipeCategory.ExtractionRecipe(new IngredientElementType(elementType, 3), new ItemStack(ECBlocks.IMPROVED_EXTRACTOR.get()), List.of(new ItemStack(ECBlocks.CONTAINER.get()))));
+        }
+        return list;
+    }
 
     private List<EnchantmentLiquefactionRecipeCategory.RecipeWrapper> getEnchantmentLiquefactionRecipes(@Nonnull IRecipeRegistration registry) {
         var stacks = registry.getIngredientManager().getAllItemStacks();

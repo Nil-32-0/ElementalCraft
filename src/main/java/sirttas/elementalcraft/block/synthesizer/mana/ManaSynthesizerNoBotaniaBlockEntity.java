@@ -4,8 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.synthesizer.SynthesizerProperties;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
 
@@ -14,7 +14,7 @@ public class ManaSynthesizerNoBotaniaBlockEntity extends SolarSynthesizerBlockEn
     private int mana;
 
     public ManaSynthesizerNoBotaniaBlockEntity(BlockPos pos, BlockState state) {
-        super(ECBlockEntityTypes.MANA_SYNTHESIZER, ECConfig.SERVER.manaSynthesizerManaCapacity.get(), pos, state);
+        super(ECBlockEntityTypes.MANA_SYNTHESIZER, SynthesizerProperties.getFromConfig(ManaSynthesizerNoBotaniaBlockEntity.class), pos, state);
         this.mana = 0;
     }
 

@@ -22,6 +22,8 @@ import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShri
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.source.SourceRenderer;
+import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.rune.Runes;
@@ -51,11 +53,13 @@ public class ECModelHandler {
         ECModelShapers.getAll().forEach(shaper -> shaper.registerModels(addModel));
         event.register(ElementPipeRenderer.SIDE_LOCATION);
         event.register(ElementPipeRenderer.EXTRACT_LOCATION);
+        event.register(CrackingSynthesizerRenderer.HEAD_LOCATION);
         event.register(SolarSynthesizerRenderer.LENSE_LOCATION);
         event.register(MillRenderer.WATER_MILL_GRINDSTONE_SHAFT_LOCATION);
         event.register(MillRenderer.AIR_MILL_GRINDSTONE_SHAFT_LOCATION);
         event.register(MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION);
         event.register(MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION);
+        event.register(AirMillSynthesizerRenderer.SHAFT_LOCATION);
         event.register(DiffuserRenderer.CUBE_LOCATION);
         event.register(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
         event.register(VortexShrineUpgradeRenderer.RING_LOCATION);

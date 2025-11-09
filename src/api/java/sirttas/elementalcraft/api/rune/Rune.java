@@ -120,7 +120,8 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		NONE(ECNames.NONE),
 		SPEED(ECNames.SPEED),
 		ELEMENT_PRESERVATION(ECNames.ELEMENT_PRESERVATION),
-		LUCK(ECNames.LUCK);
+		LUCK(ECNames.LUCK),
+        RANGE(ECNames.RANGE);;
 
 		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values);
 

@@ -33,6 +33,10 @@ public record IngredientElementType(
 		return new IngredientElementType(elementType, amount);
 	}
 
+    public static int getGaugeValue(int amount) {
+        return (int) Math.log10(amount) - 1;
+    }
+
 	public static List<IngredientElementType> all() {
 		return all(-1);
 	}

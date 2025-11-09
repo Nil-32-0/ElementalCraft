@@ -149,6 +149,7 @@ public class ECItems {
             ));
 
     public static final RegistryObject<ECItem> PRISTINE_SHARD = register(ECItem::new, "pristine_shard");
+    public static final RegistryObject<ECItem> AIR_MILL = register(ECItem::new, "air_mill");
 
     public static final Map<ElementType, RegistryObject<LensItem>> LENSES =
         ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).stream()

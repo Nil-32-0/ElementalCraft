@@ -29,7 +29,8 @@ import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
 import sirttas.elementalcraft.block.diffuser.DiffuserBlock;
 import sirttas.elementalcraft.block.evaporator.EvaporatorBlock;
 import sirttas.elementalcraft.block.extractor.ExtractorBlock;
-import sirttas.elementalcraft.block.extractor.improved.ImprovedExtractorBlock;
+import sirttas.elementalcraft.block.extractor.RudimentaryElementExtractorBlock;
+import sirttas.elementalcraft.block.extractor.ImprovedExtractorBlock;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlock;
 import sirttas.elementalcraft.block.instrument.binder.improved.ImprovedBinderBlock;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlock;
@@ -88,8 +89,15 @@ import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedesta
 import sirttas.elementalcraft.block.source.displacement.plate.BrokenSourceDisplacementPlateBlock;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlock;
 import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
+import sirttas.elementalcraft.block.synthesizer.combustion.CombustionSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.cracking.SculkCrackingSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.culinary.CulinarySynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.draining.DrainingSynthesizerBlock;
 import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerBlock;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerBlock;
 import sirttas.elementalcraft.item.elemental.CrystalItem;
 import sirttas.elementalcraft.property.ECProperties;
 
@@ -119,9 +127,17 @@ public class ECBlocks {
             CreativeElementContainerBlock.NAME,
             () -> new CreativeElementContainerBlock(ECProperties.Blocks.CONTAINER));
 	public static final RegistryObject<ExtractorBlock> EXTRACTOR = registerDefault(ExtractorBlock.NAME, ExtractorBlock::new);
-	public static final RegistryObject<ImprovedExtractorBlock> EXTRACTOR_IMPROVED = registerDefault(ImprovedExtractorBlock.NAME, ImprovedExtractorBlock::new);
+	public static final RegistryObject<ImprovedExtractorBlock> IMPROVED_EXTRACTOR = registerDefault(ImprovedExtractorBlock.NAME, ImprovedExtractorBlock::new);
+    public static final RegistryObject<RudimentaryElementExtractorBlock> RUDIMENTARY_EXTRACTOR = registerDefault(RudimentaryElementExtractorBlock.NAME, RudimentaryElementExtractorBlock::new);
 	public static final RegistryObject<EvaporatorBlock> EVAPORATOR = registerDefault(EvaporatorBlock.NAME, EvaporatorBlock::new);
-	public static final RegistryObject<SolarSynthesizerBlock> SOLAR_SYNTHESIZER = registerDefault(SolarSynthesizerBlock.NAME, SolarSynthesizerBlock::new);
+	public static final RegistryObject<AirMillSynthesizerBlock> AIR_MILL_SYNTHESIZER = registerDefault(AirMillSynthesizerBlock.NAME, AirMillSynthesizerBlock::new);
+    public static final RegistryObject<CombustionSynthesizerBlock> COMBUSTION_SYNTHESIZER = registerDefault(CombustionSynthesizerBlock.NAME, CombustionSynthesizerBlock::new);
+    public static final RegistryObject<CrackingSynthesizerBlock> CRACKING_SYNTHESIZER = registerDefault(CrackingSynthesizerBlock.NAME, CrackingSynthesizerBlock::new);
+    public static final RegistryObject<CulinarySynthesizerBlock> CULINARY_SYNTHESIZER = registerDefault(CulinarySynthesizerBlock.NAME, CulinarySynthesizerBlock::new);
+    public static final RegistryObject<DrainingSynthesizerBlock> DRAINING_SYNTHESIZER = registerDefault(DrainingSynthesizerBlock.NAME, DrainingSynthesizerBlock::new);
+    public static final RegistryObject<SculkCrackingSynthesizerBlock> SCULK_CRACKING_SYNTHESIZER = registerDefault(SculkCrackingSynthesizerBlock.NAME, SculkCrackingSynthesizerBlock::new);
+    public static final RegistryObject<VibrationSynthesizerBlock> VIBRATION_SYNTHESIZER = registerDefault(VibrationSynthesizerBlock.NAME, VibrationSynthesizerBlock::new);
+    public static final RegistryObject<SolarSynthesizerBlock> SOLAR_SYNTHESIZER = registerDefault(SolarSynthesizerBlock.NAME, SolarSynthesizerBlock::new);
 	public static final RegistryObject<ManaSynthesizerBlock> MANA_SYNTHESIZER = registerDefault(ManaSynthesizerBlock.NAME, ManaSynthesizerBlock::new);
 	public static final RegistryObject<DiffuserBlock> DIFFUSER = registerDefault(DiffuserBlock.NAME, DiffuserBlock::new);
 	public static final RegistryObject<InfuserBlock> INFUSER = registerDefault(InfuserBlock.NAME, InfuserBlock::new);

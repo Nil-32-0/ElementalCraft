@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_draining_water_synthesizer": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:draining_water_synthesizer"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_draining_water_synthesizer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
