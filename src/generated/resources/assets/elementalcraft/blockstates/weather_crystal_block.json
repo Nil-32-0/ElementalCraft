@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "elementalcraft:block/weather_crystal_block"
+    }
+  }
+}

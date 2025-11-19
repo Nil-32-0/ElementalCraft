@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:source_breeding",
+  "catalyst": {
+    "item": "elementalcraft:natural_fire_source_seed"
+  },
+  "element_amount": 2500000,
+  "input": [
+    "fire",
+    "fire"
+  ],
+  "output": "fire"
+}

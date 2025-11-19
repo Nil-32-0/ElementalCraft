@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.Block;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
-import sirttas.elementalcraft.block.shrine.melting.MeltingShrineBlock;
 import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlock;
 import sirttas.elementalcraft.interaction.jei.category.element.*;
 import sirttas.elementalcraft.interaction.jei.category.element.synthesis.*;
@@ -17,8 +16,8 @@ import sirttas.elementalcraft.interaction.jei.category.element.synthesis.crackin
 import sirttas.elementalcraft.interaction.jei.category.instrument.EnchantmentLiquefactionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.PurificationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
-import sirttas.elementalcraft.item.elemental.ElementalItem;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
+import sirttas.elementalcraft.recipe.SourceBreedingRecipe;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
@@ -61,7 +60,7 @@ public class ECJEIRecipeTypes {
     public static final RecipeType<MeltingRecipe> MELTING_SHRINE = create(MeltingRecipe.NAME, MeltingRecipe.class);
     public static final RecipeType<SpringShrineBlock> SPRING_SHRINE = create(SpringShrineBlock.NAME, SpringShrineBlock.class);
     public static final RecipeType<ElementType> CRYSTAL_THROWING = create(CrystalThrowingRecipeCategory.NAME, ElementType.class);
-    public static final RecipeType<ElementalItem> SOURCE_BREEDING = create(SourceBreedingRecipeCategory.NAME, ElementalItem.class);
+    public static final RecipeType<SourceBreedingRecipe> SOURCE_BREEDING = create(SourceBreedingRecipeCategory.NAME, SourceBreedingRecipe.class);
 
     private static <T> RecipeType<T> create(String path, Class<? extends T> recipeClass) {
         return RecipeType.create(ElementalCraftApi.MODID, path, recipeClass);

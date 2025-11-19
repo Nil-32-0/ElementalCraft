@@ -1,0 +1,16 @@
+{
+  "type": "elementalcraft:crystallization",
+  "element_amount": 5000,
+  "element_type": "light",
+  "ingredients": {
+    "crystal": {
+      "item": "elementalcraft:light_crystal"
+    },
+    "gem": {
+      "item": "elementalcraft:crude_light_gem"
+    }
+  },
+  "output": {
+    "item": "elementalcraft:fine_light_gem"
+  }
+}

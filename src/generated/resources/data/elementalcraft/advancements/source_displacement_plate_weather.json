@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_source_displacement_plate_weather": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:source_displacement_plate_weather"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_source_displacement_plate_weather"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -16,17 +16,17 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
-import sirttas.elementalcraft.block.entity.AbstractECContainerBlockEntity;
+import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlockEntity;
 import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.container.IRuneableBlockEntity;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
+import sirttas.elementalcraft.recipe.SourceBreedingRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -36,18 +36,24 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity implements IElementTypeProvider, IRuneableBlockEntity {
+public class SourceBreederBlockEntity extends AbstractECCraftingBlockEntity<SourceBreederBlockEntity, SourceBreedingRecipe> implements IElementTypeProvider {
+
+    private static final Config<SourceBreederBlockEntity, SourceBreedingRecipe> CONFIG = new Config<>(
+            ECBlockEntityTypes.SOURCE_BREEDER,
+            ECRecipeTypes.BREEDING,
+            ECConfig.SERVER.sourceBreederTransferSpeed,
+            ECConfig.SERVER.sourceBreederMaxRunes,
+            0,
+            false,
+            false
+    );
 
     private final SourceBreederItemContainer container;
-    private final RuneHandler runeHandler;
 
     private final Map<Direction, PedestalWrapper> pedestalWrappers;
-    private final int baseCost;
 
     public SourceBreederBlockEntity(BlockPos pos, BlockState state) {
-        super(ECBlockEntityTypes.SOURCE_BREEDER, pos, state);
-        runeHandler = new RuneHandler(ECConfig.SERVER.sourceBreederMaxRunes.get(), this::setChanged);
-        baseCost = ECConfig.SERVER.sourceBreedingBaseCost.get();
+        super(CONFIG, pos, state);
         container = new SourceBreederItemContainer(this::setChanged);
         pedestalWrappers = new EnumMap<>(Direction.class);
         pedestalWrappers.put(Direction.NORTH, new PedestalWrapper());
@@ -70,6 +76,27 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
         });
     }
 
+    @Override
+    public void assemble() {
+       container.setItem(0, breed(
+               getElementType(),
+               getActiveWrappers().get(0).getTraitHolder(),
+               getActiveWrappers().get(1).getTraitHolder()
+       ));
+       RetrieverBlock.sendOutputToRetriever(level, worldPosition, getInventory(), 0);
+       RetrieverBlock.sendOutputToRetriever(level, worldPosition.above(), getInventory(), 0);
+    }
+
+    @Override
+    public boolean isRunning() {
+        return getActiveWrappers().stream().anyMatch(w -> !w.isRemoved() && w.progress > 0);
+    }
+
+    @Override
+    public int getProgress() {
+        return 0;
+    }
+
     @Nonnull
     @Override
     public Container getInventory() {
@@ -78,33 +105,23 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
 
     @Override
     public ElementType getElementType() {
-        var stack = container.getItem(0);
-
-        if (!stack.is(ECTags.Items.SOURCE_SEEDS)) {
-            return ElementType.NONE;
-        } else if (stack.getItem() instanceof IElementTypeProvider provider) {
-            return provider.getElementType();
+        if (recipe != null) {
+            return recipe.getResultElementType();
         }
         return ElementType.NONE;
     }
 
+    public List<PedestalWrapper> getActiveWrappers() {
+        return pedestalWrappers.values().stream().filter(w -> !w.isRemoved()).toList();
+    }
+
     private void makeProgress() {
-        var type = getElementType();
-        var activeWrappers = pedestalWrappers.values().stream()
-                .filter(w -> !w.isRemoved())
-                .toList();
-
-        if (!container.getItem(0).is(ECTags.Items.SOURCE_SEEDS) || activeWrappers.size() != 2 || !activeWrappers.stream().allMatch(w -> w.pedestal.hasSource() && w.getElementType() == type)) {
+        if (recipe != null && getActiveWrappers().stream().allMatch(w -> w.progress >= recipe.getElementAmount())) {
+            process();
             resetProgress();
-            return;
-        }
-
-        activeWrappers.forEach(this::transfer);
-
-        if (activeWrappers.stream().allMatch(w -> w.progress >= w.getCost())) {
-            container.setItem(0, breed(type, activeWrappers.get(0).getTraitHolder(), activeWrappers.get(1).getTraitHolder()));
-            RetrieverBlock.sendOutputToRetriever(level, worldPosition, getInventory(), 0);
-            RetrieverBlock.sendOutputToRetriever(level, worldPosition.above(), getInventory(), 0);
+        } else if (this.isRecipeAvailable()) {
+            getActiveWrappers().forEach(this::transfer);
+        } else if (recipe == null) {
             resetProgress();
         }
     }
@@ -114,17 +131,22 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
     }
 
     private void transfer(PedestalWrapper wrapper) {
-        var cost = wrapper.getCost();
-        var oldProgress = wrapper.progress;
-
-        float transferAmount = Math.min(getTransferSpeed(wrapper.pedestal), cost - wrapper.progress);
-
-        if (transferAmount > 0) {
-            float preservation = runeHandler.getBonus(Rune.BonusType.ELEMENT_PRESERVATION) + wrapper.pedestal.getRuneHandler().getBonus(Rune.BonusType.ELEMENT_PRESERVATION) + 1;
-
-            wrapper.progress = Math.round(wrapper.progress + Math.max(1, wrapper.pedestal.getElementStorage().extractElement(Math.round(transferAmount / preservation), false)) * preservation);
+        if (wrapper.isRemoved()) {
+            return;
         }
 
+        var oldProgress = wrapper.progress;
+
+        float transferAmount = Math.min(getTransferSpeed(wrapper.pedestal), recipe.getElementAmount() - oldProgress);
+
+        if (transferAmount <= 0) {
+            return;
+        }
+
+        float preservation = runeHandler.getBonus(Rune.BonusType.ELEMENT_PRESERVATION) + wrapper.pedestal.getRuneHandler().getBonus(Rune.BonusType.ELEMENT_PRESERVATION) + 1;
+        var newProgress = oldProgress + wrapper.pedestal.getElementStorage().extractElement(Math.max(1, Math.round(transferAmount / preservation)), false) * preservation;
+
+        wrapper.progress = Math.round(newProgress);
         if (level != null && level.isClientSide && wrapper.progress > oldProgress && level.random.nextDouble() < 0.2) {
             ParticleHelper.createElementFlowParticle(wrapper.getElementType(), level, Vec3.atCenterOf(wrapper.pedestal.getBlockPos()).relative(Direction.UP, 0.4), Vec3.atCenterOf(worldPosition).relative(Direction.UP, 1.7), level.random);
         } else if (level != null && !level.isClientSide) {
@@ -133,7 +155,7 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
     }
 
     private float getTransferSpeed(SourceBreederPedestalBlockEntity pedestal) {
-        return ECConfig.SERVER.sourceBreederTransferSpeed.get() * (runeHandler.getBonus(Rune.BonusType.SPEED) + pedestal.getRuneHandler().getBonus(Rune.BonusType.SPEED) + 1);
+        return this.transferSpeed * (runeHandler.getBonus(Rune.BonusType.SPEED) + pedestal.getRuneHandler().getBonus(Rune.BonusType.SPEED) + 1);
     }
 
     private ItemStack breed(ElementType elementType, ISourceTraitHolder source1, ISourceTraitHolder source2) {
@@ -174,13 +196,7 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
                 .toList();
     }
 
-    @Override
-    @Nonnull
-    public IRuneHandler getRuneHandler() {
-        return runeHandler;
-    }
-
-    private class PedestalWrapper implements IElementTypeProvider {
+    public class PedestalWrapper implements IElementTypeProvider {
 
         private SourceBreederPedestalBlockEntity pedestal;
         private int progress;
@@ -192,6 +208,10 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
 
         public boolean isRemoved() {
             return pedestal == null || pedestal.isRemoved();
+        }
+
+        public boolean hasSource() {
+            return pedestal.hasSource();
         }
 
         @Override
@@ -207,19 +227,6 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
 
         public ISourceTraitHolder getTraitHolder() {
             return pedestal.getTraitHolder();
-        }
-
-        public float getCost() {
-            return baseCost * getTraitHolder().getBreedingCost();
-        }
-
-        public void setPedestalInventory(ItemStack stack) {
-            if (isRemoved()) {
-                return;
-            }
-
-            pedestal.getInventory().setItem(0, stack);
-            pedestal.setChanged();
         }
     }
 }

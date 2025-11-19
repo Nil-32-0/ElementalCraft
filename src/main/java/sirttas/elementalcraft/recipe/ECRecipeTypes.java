@@ -27,6 +27,7 @@ public class ECRecipeTypes {
 	public static final RegistryObject<RecipeType<PureInfusionRecipe>> PURE_INFUSION = register(PureInfusionRecipe.NAME);
 	public static final RegistryObject<RecipeType<SpellCraftRecipe>> SPELL_CRAFT = register(SpellCraftRecipe.NAME);
     public static final RegistryObject<RecipeType<MeltingRecipe>> MELTING = register(MeltingRecipe.NAME);
+    public static final RegistryObject<RecipeType<SourceBreedingRecipe>> BREEDING = register(SourceBreedingRecipe.NAME);
 
 
 	private ECRecipeTypes() {}

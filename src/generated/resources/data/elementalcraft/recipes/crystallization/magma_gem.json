@@ -1,0 +1,16 @@
+{
+  "type": "elementalcraft:crystallization",
+  "element_amount": 5000,
+  "element_type": "magma",
+  "ingredients": {
+    "crystal": {
+      "item": "elementalcraft:magma_crystal"
+    },
+    "gem": {
+      "item": "elementalcraft:crude_magma_gem"
+    }
+  },
+  "output": {
+    "item": "elementalcraft:fine_magma_gem"
+  }
+}

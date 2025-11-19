@@ -1,10 +1,10 @@
 {
   "values": [
-    "elementalcraft:entropy_lens",
-    "elementalcraft:purity_lens",
-    "elementalcraft:water_lens",
     "elementalcraft:fire_lens",
+    "elementalcraft:purity_lens",
+    "elementalcraft:entropy_lens",
+    "elementalcraft:air_lens",
     "elementalcraft:earth_lens",
-    "elementalcraft:air_lens"
+    "elementalcraft:water_lens"
   ]
 }

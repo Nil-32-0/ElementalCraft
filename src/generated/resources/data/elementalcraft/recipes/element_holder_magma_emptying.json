@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:element_holder_magma"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:element_holder_magma"
+  }
+}

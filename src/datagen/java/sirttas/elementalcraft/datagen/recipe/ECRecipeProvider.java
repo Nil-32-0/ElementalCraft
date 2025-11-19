@@ -52,6 +52,7 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlock;
 import sirttas.elementalcraft.datagen.recipe.builder.MeltingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.PureInfusionRecipeBuilder;
+import sirttas.elementalcraft.datagen.recipe.builder.SourceBreedingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.SpellCraftRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.BindingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.CrystallizationRecipeBuilder;
@@ -81,8 +82,10 @@ import vazkii.botania.common.lib.BotaniaTags;
 import vazkii.patchouli.api.PatchouliAPI;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 public class ECRecipeProvider extends RecipeProvider {
 
@@ -639,7 +642,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("www")
 				.save(consumer);
 
-        ElementType.ALL_VALID.forEach(type -> BindingRecipeBuilder
+        ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).forEach(type -> BindingRecipeBuilder
                 .bindingRecipe(ECBlocks.RESERVOIRS.get(type).get(), type)
                 .addIngredient(ECBlocks.CONTAINER.get())
                 .addIngredient(ECBlocks.SPRINGALINE_GLASS.get())
@@ -668,7 +671,34 @@ public class ECRecipeProvider extends RecipeProvider {
                     .unlockedBy("has_powerful_"+typeName+"_shard", has(ECItems.POWERFUL_SHARDS.get(type)))
                     .save(consumer);
         });
+
+        registerCompoundShard(consumer, ElementType.LIFE, ElementType.EARTH, ElementType.WATER);
+        registerCompoundShard(consumer, ElementType.WEATHER, ElementType.WATER, ElementType.AIR);
+        registerCompoundShard(consumer, ElementType.LIGHT, ElementType.AIR, ElementType.FIRE);
+        registerCompoundShard(consumer, ElementType.MAGMA, ElementType.FIRE, ElementType.EARTH);
 	}
+
+    private static void registerCompoundShard(@Nonnull Consumer<FinishedRecipe> consumer, ElementType compoundType, ElementType... ingredients) {
+        List<String> ingredientNames = Stream.of(ingredients).map(ElementType::getSerializedName).toList();
+        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ECItems.SHARDS.get(compoundType).get());
+        ShapelessRecipeBuilder builderPowerful = ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ECItems.POWERFUL_SHARDS.get(compoundType).get());
+
+        for (ElementType type : ingredients) {
+            builder.requires(ECItems.SHARDS.get(type).get());
+            builderPowerful.requires(ECItems.POWERFUL_SHARDS.get(type).get());
+        }
+
+        builder.unlockedBy("has_"+ingredientNames.get(0)+"_shard", has(ECItems.SHARDS.get(ingredients[0]).get()));
+        builderPowerful.unlockedBy("has_powerful_"+ingredientNames.get(0)+"_shard", has(ECItems.POWERFUL_SHARDS.get(ingredients[0]).get()));
+
+        StringBuilder compoundName = new StringBuilder(ingredientNames.get(0));
+        for (String item : ingredientNames.subList(1, ingredientNames.size())) {
+            compoundName.append("_").append(item);
+        }
+
+        builder.save(consumer, compoundType.getSerializedName() + "_shard_from_" + compoundName + "_shards");
+        builderPowerful.save(consumer, "powerful_" + compoundType.getSerializedName()+"_shard_from_powerful_" + compoundName + "_shards");
+    }
 
 	private static void registerHolders(@Nonnull Consumer<FinishedRecipe> consumer) {
         ElementType.ALL_VALID.forEach(type -> ShapedRecipeBuilder
@@ -2028,25 +2058,63 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(consumer);
 
 
-        ElementType.ALL_VALID.forEach(type -> ShapedRecipeBuilder
-                .shaped(RecipeCategory.MISC, ECItems.ARTIFICIAL_SOURCE_SEEDS.get(type).get(), 8)
-                .define('f', ECTags.Items.NUGGETS_FIREITE)
-                .define('s', ECItems.SPRINGALINE_SHARD.get())
-                .define('g', ECItems.PRISTINE_GEMS.get(type).get())
-                .pattern("fsf")
-                .pattern("sgs")
-                .pattern("fsf")
-                .unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE))
-                .save(consumer)
-        );
+        ElementType.ALL_VALID.forEach(type -> {
+            ShapedRecipeBuilder
+                    .shaped(RecipeCategory.MISC, ECItems.ARTIFICIAL_SOURCE_SEEDS.get(type).get(), 8)
+                    .define('f', ECTags.Items.NUGGETS_FIREITE)
+                    .define('s', ECItems.SPRINGALINE_SHARD.get())
+                    .define('g', ECItems.PRISTINE_GEMS.get(type).get())
+                    .pattern("fsf")
+                    .pattern("sgs")
+                    .pattern("fsf")
+                    .unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE))
+                    .save(consumer);
 
-        ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).forEach(type -> ShapelessRecipeBuilder
-                .shapeless(RecipeCategory.MISC, ECItems.NATURAL_SOURCE_SEEDS.get(type).get())
-                .requires(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(type).get())
-                .requires(new NaturalSourceIngredient(type))
-                .unlockedBy("has_artificial_"+type.getSerializedName()+"_source_seed", has(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(type).get()))
-                .save(consumer)
-        );
+            SourceBreedingRecipeBuilder.sourceBreedingRecipe(type)
+                    .withElementAmount(1000000)
+                    .setCatalyst(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(type).get())
+                    .setIngredientElements(type, type)
+                    .save(consumer);
+        });
+
+        ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).forEach(type -> {
+            ShapelessRecipeBuilder
+                    .shapeless(RecipeCategory.MISC, ECItems.NATURAL_SOURCE_SEEDS.get(type).get())
+                    .requires(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(type).get())
+                    .requires(new NaturalSourceIngredient(type))
+                    .unlockedBy("has_artificial_"+type.getSerializedName()+"_source_seed", has(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(type).get()))
+                    .save(consumer);
+
+            SourceBreedingRecipeBuilder
+                    .sourceBreedingRecipe(type).withElementAmount(2500000)
+                    .setCatalyst(ECItems.NATURAL_SOURCE_SEEDS.get(type).get())
+                    .setIngredientElements(type, type)
+                    .save(consumer, "natural_"+type.getSerializedName()+"_from_" + type.getSerializedName() + "_and_" + type.getSerializedName());
+        });
+
+        SourceBreedingRecipeBuilder.sourceBreedingRecipe(ElementType.LIFE)
+                .withElementAmount(2500000)
+                .setCatalyst(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(ElementType.LIFE).get())
+                .setIngredientElements(ElementType.EARTH, ElementType.WATER)
+                .save(consumer);
+
+        SourceBreedingRecipeBuilder.sourceBreedingRecipe(ElementType.WEATHER)
+                .withElementAmount(2500000)
+                .setCatalyst(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(ElementType.WEATHER).get())
+                .setIngredientElements(ElementType.WATER, ElementType.AIR)
+                .save(consumer);
+
+        SourceBreedingRecipeBuilder.sourceBreedingRecipe(ElementType.LIGHT)
+                .withElementAmount(2500000)
+                .setCatalyst(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(ElementType.LIGHT).get())
+                .setIngredientElements(ElementType.AIR, ElementType.FIRE)
+                .save(consumer);
+
+        SourceBreedingRecipeBuilder.sourceBreedingRecipe(ElementType.MAGMA)
+                .withElementAmount(2500000)
+                .setCatalyst(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(ElementType.MAGMA).get())
+                .setIngredientElements(ElementType.FIRE, ElementType.EARTH)
+                .save(consumer);
 	}
 
 	private boolean exists(Block block) {

@@ -9,7 +9,8 @@ import java.util.stream.Stream;
 
 public enum ElementTypeTier implements StringRepresentable {
     NONE("none", 0),
-    PRIMORDIAL("primordial", 1);
+    PRIMORDIAL("primordial", 1),
+    SYNTHESIZED("synthesized", 2);
 
     private final String name;
     private final int relativeTier;

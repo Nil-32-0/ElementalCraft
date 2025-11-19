@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:source_breeding",
+  "catalyst": {
+    "item": "elementalcraft:artificial_weather_source_seed"
+  },
+  "element_amount": 2500000,
+  "input": [
+    "water",
+    "air"
+  ],
+  "output": "weather"
+}

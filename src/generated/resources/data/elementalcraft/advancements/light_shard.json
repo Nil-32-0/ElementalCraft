@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_light_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:light_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_light_shard"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

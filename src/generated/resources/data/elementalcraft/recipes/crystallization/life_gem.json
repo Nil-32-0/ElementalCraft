@@ -1,0 +1,16 @@
+{
+  "type": "elementalcraft:crystallization",
+  "element_amount": 5000,
+  "element_type": "life",
+  "ingredients": {
+    "crystal": {
+      "item": "elementalcraft:life_crystal"
+    },
+    "gem": {
+      "item": "elementalcraft:crude_life_gem"
+    }
+  },
+  "output": {
+    "item": "elementalcraft:fine_life_gem"
+  }
+}

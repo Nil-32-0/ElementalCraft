@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:earth_shard"
+    },
+    {
+      "item": "elementalcraft:water_shard"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:life_shard"
+  }
+}

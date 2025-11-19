@@ -270,9 +270,8 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.SPRING_SHRINE, List.of(ECBlocks.SPRING_SHRINE.get()));
 		registry.addRecipes(ECJEIRecipeTypes.CRYSTAL_THROWING, ElementType.ALL_VALID);
 
-        registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, ECItems.ARTIFICIAL_SOURCE_SEEDS.values().stream().map(RegistryObject::get).toList());
-        registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, ECItems.NATURAL_SOURCE_SEEDS.values().stream().map(RegistryObject::get).toList());
-	}
+        registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, getRecipes(recipeManager, ECRecipeTypes.BREEDING));
+    }
 
     private static @NotNull List<ItemStack> getFoods(@NotNull IRecipeRegistration registry) {
         return registry.getIngredientManager().getAllItemStacks().stream()

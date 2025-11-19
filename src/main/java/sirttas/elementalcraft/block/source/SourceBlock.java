@@ -14,12 +14,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.ElementTypeTier;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -93,7 +93,7 @@ public class SourceBlock extends AbstractECEntityBlock {
 	@Deprecated
 	public void onPlace(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
 		if (ElementType.getElementType(state) == ElementType.NONE) {
-			level.setBlockAndUpdate(pos, state.setValue(ElementType.STATE_PROPERTY, ElementType.random()));
+			level.setBlockAndUpdate(pos, state.setValue(ElementType.STATE_PROPERTY, ElementType.randomOfTier(ElementTypeTier.PRIMORDIAL)));
 		}
 	}
 

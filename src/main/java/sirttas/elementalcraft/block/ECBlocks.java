@@ -21,6 +21,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.ElementTypeTier;
 import sirttas.elementalcraft.block.anchor.TranslocationAnchorBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
@@ -117,7 +118,7 @@ public class ECBlocks {
 	public static final RegistryObject<ElementContainerBlock> CONTAINER = register(ElementContainerBlock.NAME, () ->
             new ElementContainerBlock(ECProperties.Blocks.CONTAINER));
 
-    public static final Map<ElementType, RegistryObject<ReservoirBlock>> RESERVOIRS = ElementType.ALL_VALID.stream()
+    public static final Map<ElementType, RegistryObject<ReservoirBlock>> RESERVOIRS = ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).stream()
             .collect(Collectors.toMap(
                     type -> type,
                     type -> register(ReservoirBlock.generateName(type), () -> new ReservoirBlock(type, ECProperties.Blocks.CONTAINER))

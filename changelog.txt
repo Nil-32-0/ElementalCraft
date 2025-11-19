@@ -1,3 +1,16 @@
+1.20.1-m6.2.1
+- Rework Source Breeding to now be recipe based
+- - Recipes can be added with datapacks
+- - Multiple element types can be bred together, using any Ingredient as a catalyst
+- Add the second tier of element, Synthesized, currently with 4 elements:
+- - Life (Earth + Water)
+- - Light (Air + Fire)
+- - Magma (Fire + Earth)
+- - Weather (Water + Air)
+- Synthesized elements cannot be synthesized through Solar synthesis and should not generate naturally
+- There are also no Natural seeds for Synthesized elements
+- Fix error in Jewel creative tab registering
+
 1.20.1-m6.2.0
 - Backport Range Runes
 - Lava Shrine is now Melting Shrine and is recipe based

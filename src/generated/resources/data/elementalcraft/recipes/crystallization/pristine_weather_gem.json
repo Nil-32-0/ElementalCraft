@@ -1,0 +1,16 @@
+{
+  "type": "elementalcraft:crystallization",
+  "element_amount": 10000,
+  "element_type": "weather",
+  "ingredients": {
+    "crystal": {
+      "item": "elementalcraft:pristine_shard"
+    },
+    "gem": {
+      "item": "elementalcraft:fine_weather_gem"
+    }
+  },
+  "output": {
+    "item": "elementalcraft:pristine_weather_gem"
+  }
+}

@@ -8,24 +8,27 @@ import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.source.breeder.SourceBreederBlockEntity;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
-import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.AbstractBlockEntityRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
-import sirttas.elementalcraft.item.elemental.ElementalItem;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
+import sirttas.elementalcraft.recipe.SourceBreedingRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SourceBreedingRecipeCategory extends AbstractECRecipeCategory<ElementalItem> {
+public class SourceBreedingRecipeCategory extends AbstractBlockEntityRecipeCategory<SourceBreederBlockEntity, SourceBreedingRecipe> {
 
 	public static final String NAME = "source_breeding";
 
@@ -54,22 +57,32 @@ public class SourceBreedingRecipeCategory extends AbstractECRecipeCategory<Eleme
 
 	@Nonnull
 	@Override
-	public RecipeType<ElementalItem> getRecipeType() {
+	public RecipeType<SourceBreedingRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.SOURCE_BREEDING;
 	}
 
 	@Override
-	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ElementalItem seed, @Nonnull IFocusGroup focuses) {
-		var type = seed.getElementType();
-		var sourceReceptacle = ReceptacleHelper.create(type);
-		var natural = new ItemStack(seed).is(ECTags.Items.NATURAL_SOURCE_SEEDS);
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull SourceBreedingRecipe recipe, @Nonnull IFocusGroup focuses) {
+		var sourceReceptacleA = ReceptacleHelper.create(recipe.getIngredientElementTypes().getFirst());
+        var sourceReceptacleB = ReceptacleHelper.create(recipe.getIngredientElementTypes().getSecond());
+		AtomicBoolean natural = new AtomicBoolean(false);
+        ForgeRegistries.ITEMS.tags().getTag(ECTags.Items.NATURAL_SOURCE_SEEDS).forEach(item -> {
+            if (recipe.getCatalyst().test(new ItemStack(item))) natural.set(true);
+        });
 
-		builder.addSlot(RecipeIngredientRole.INPUT, 25, 46).addItemStack(new ItemStack(seed));
-		builder.addSlot(RecipeIngredientRole.INPUT, 25, 62).addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(type, 4));
+		builder.addSlot(RecipeIngredientRole.INPUT, 25, 46).addIngredients(recipe.getCatalyst());
 
-		builder.addSlot(RecipeIngredientRole.CATALYST, 4, 38).addItemStack(sourceReceptacle);
-		builder.addSlot(RecipeIngredientRole.CATALYST, 48, 38).addItemStack(sourceReceptacle);
+		builder.addSlot(RecipeIngredientRole.CATALYST, 4, 38).addItemStack(sourceReceptacleA);
+		builder.addSlot(RecipeIngredientRole.CATALYST, 48, 38).addItemStack(sourceReceptacleB);
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 54).addIngredient(
+                ECIngredientTypes.ELEMENT, new IngredientElementType(
+                        recipe.getIngredientElementTypes().getFirst(), IngredientElementType.getGaugeValue(recipe.getElementAmount())
+                ));
+        builder.addSlot(RecipeIngredientRole.INPUT, 48, 54).addIngredient(
+                ECIngredientTypes.ELEMENT, new IngredientElementType(
+                        recipe.getIngredientElementTypes().getSecond(), IngredientElementType.getGaugeValue(recipe.getElementAmount())
+                ));
 
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 25, 2).addItemStack(ReceptacleHelper.create(type, natural ? Collections.emptyMap() : artificialTraitsMap));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 25, 2).addItemStack(ReceptacleHelper.create(recipe.getResultElementType(), natural.get() ? Collections.emptyMap() : artificialTraitsMap));
 	}
 }

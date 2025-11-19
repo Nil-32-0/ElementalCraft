@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:source_breeding",
+  "catalyst": {
+    "item": "elementalcraft:natural_purity_source_seed"
+  },
+  "element_amount": 2500000,
+  "input": [
+    "purity",
+    "purity"
+  ],
+  "output": "purity"
+}

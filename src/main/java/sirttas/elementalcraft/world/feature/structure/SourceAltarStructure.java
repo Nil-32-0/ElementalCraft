@@ -25,6 +25,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.ElementTypeTier;
 import sirttas.elementalcraft.world.feature.SourceFeature;
 
 import javax.annotation.Nonnull;
@@ -66,7 +67,7 @@ public class SourceAltarStructure extends Structure {
 	@Nonnull
 	@Override
 	public Optional<GenerationStub> findGenerationPoint(@Nonnull GenerationContext context) {
-		return onTopOfChunkCenter(context, Heightmap.Types.WORLD_SURFACE_WG, b -> this.generatePieces(b, context, ElementType.random(context.random())));
+		return onTopOfChunkCenter(context, Heightmap.Types.WORLD_SURFACE_WG, b -> this.generatePieces(b, context, ElementType.randomOfTier(context.random(), ElementTypeTier.PRIMORDIAL)));
 	}
 
 	@Nonnull

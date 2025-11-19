@@ -24,7 +24,11 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 	EARTH(13, 128, 37, "earth", 3, ElementTypeTier.PRIMORDIAL),
 	AIR(238, 255, 219, "air", 4, ElementTypeTier.PRIMORDIAL),
     ENTROPY(31, 31, 31, "entropy", 6, ElementTypeTier.PRIMORDIAL),
-    PURITY(255, 255, 255, "purity", 7, ElementTypeTier.PRIMORDIAL);
+    PURITY(255, 255, 255, "purity", 7, ElementTypeTier.PRIMORDIAL),
+    LIFE(180, 17, 59, "life", 1, "textures/gui/synthesized_element_gauge.png", ElementTypeTier.SYNTHESIZED),
+    LIGHT(220, 214, 59, "light", 2, "textures/gui/synthesized_element_gauge.png", ElementTypeTier.SYNTHESIZED),
+    WEATHER(96, 125, 130, "weather", 3, "textures/gui/synthesized_element_gauge.png", ElementTypeTier.SYNTHESIZED),
+    MAGMA(85, 19, 19, "magma", 4, "textures/gui/synthesized_element_gauge.png", ElementTypeTier.SYNTHESIZED);
 
 	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).toList());
 	public static final Codec<ElementType> CODEC = StringRepresentable.fromEnum(ElementType::values);
@@ -102,6 +106,10 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 		int random = rand.nextInt(ALL_VALID.size());
         return ALL_VALID.get(random);
 	}
+
+    public static ElementType randomOfTier(ElementTypeTier tier) {
+        return randomOfTier(RandomSource.create(), tier);
+    }
 
     public static ElementType randomOfTier(RandomSource rand, ElementTypeTier tier) {
         int random = rand.nextInt(getElementsTier(tier).size());

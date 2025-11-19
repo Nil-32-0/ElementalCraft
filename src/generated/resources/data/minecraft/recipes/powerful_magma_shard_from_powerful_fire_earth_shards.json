@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:powerful_fire_shard"
+    },
+    {
+      "item": "elementalcraft:powerful_earth_shard"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:powerful_magma_shard"
+  }
+}

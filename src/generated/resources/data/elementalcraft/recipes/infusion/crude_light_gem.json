@@ -1,0 +1,11 @@
+{
+  "type": "elementalcraft:infusion",
+  "element_amount": 1000,
+  "element_type": "light",
+  "input": {
+    "tag": "forge:gems/diamond"
+  },
+  "output": {
+    "item": "elementalcraft:crude_light_gem"
+  }
+}

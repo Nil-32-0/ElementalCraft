@@ -17,6 +17,18 @@
     "elementalcraft:pristine_entropy_gem",
     "elementalcraft:crude_purity_gem",
     "elementalcraft:fine_purity_gem",
-    "elementalcraft:pristine_purity_gem"
+    "elementalcraft:pristine_purity_gem",
+    "elementalcraft:crude_life_gem",
+    "elementalcraft:fine_life_gem",
+    "elementalcraft:pristine_life_gem",
+    "elementalcraft:crude_light_gem",
+    "elementalcraft:fine_light_gem",
+    "elementalcraft:pristine_light_gem",
+    "elementalcraft:crude_weather_gem",
+    "elementalcraft:fine_weather_gem",
+    "elementalcraft:pristine_weather_gem",
+    "elementalcraft:crude_magma_gem",
+    "elementalcraft:fine_magma_gem",
+    "elementalcraft:pristine_magma_gem"
   ]
 }

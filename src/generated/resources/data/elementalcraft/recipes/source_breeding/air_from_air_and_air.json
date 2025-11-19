@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:source_breeding",
+  "catalyst": {
+    "item": "elementalcraft:artificial_air_source_seed"
+  },
+  "element_amount": 1000000,
+  "input": [
+    "air",
+    "air"
+  ],
+  "output": "air"
+}

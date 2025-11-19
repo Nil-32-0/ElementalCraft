@@ -307,7 +307,10 @@ public class ECCreativeModeTabs {
     private static void generateJewels(@Nonnull CreativeModeTab.Output output) {
         var item = ECItems.JEWEL.get();
 
-        Jewels.REGISTRY.get().forEach(j -> output.accept(item.getJewelStack(j)));
+        Jewels.REGISTRY.get().forEach(j -> {
+            if (j.equals(Jewels.NONE.get())) return;
+            output.accept(item.getJewelStack(j));
+        });
     }
 
     private ECCreativeModeTabs() { }

@@ -14,6 +14,7 @@ public class ECNames {
 	public static final String ATTRIBUTES = "attributes";
 	public static final String BONUSES = "bonuses";
 	public static final String BONUS_TYPE = "bonus_type";
+    public static final String CATALYST = "catalyst";
 	public static final String CHANCE = "chance";
 	public static final String CHANCE_ON_BRED = "chance_on_bred";
 	public static final String COLOR = "color";

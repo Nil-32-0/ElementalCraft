@@ -45,6 +45,7 @@ public class ECRecipeSerializers {
 	public static final RegistryObject<SpellCraftRecipe.Serializer> SPELL_CRAFT = register(SpellCraftRecipe.Serializer::new, SpellCraftRecipe.NAME);
 	public static final RegistryObject<ShapedRecipe.Serializer> STAFF = register(StaffRecipe.Serializer::new, StaffItem.NAME);
 	public static final RegistryObject<MeltingRecipe.Serializer> MELTING = register(MeltingRecipe.Serializer::new, MeltingRecipe.NAME);
+    public static final RegistryObject<SourceBreedingRecipe.Serializer> BREEDING = register(SourceBreedingRecipe.Serializer::new, SourceBreedingRecipe.NAME);
 
 
 	private ECRecipeSerializers() {}

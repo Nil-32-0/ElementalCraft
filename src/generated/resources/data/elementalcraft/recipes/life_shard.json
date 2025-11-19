@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:powerful_life_shard"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "elementalcraft:life_shard"
+  }
+}

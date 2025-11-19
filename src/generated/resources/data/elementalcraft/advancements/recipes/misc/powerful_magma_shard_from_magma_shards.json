@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_magma_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:magma_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementalcraft:powerful_magma_shard_from_magma_shards"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_magma_shard",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementalcraft:powerful_magma_shard_from_magma_shards"
+    ]
+  },
+  "sends_telemetry_event": false
+}

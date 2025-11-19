@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementalcraft:powerful_weather_shard_from_weather_shards"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_weather_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:weather_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_weather_shard",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementalcraft:powerful_weather_shard_from_weather_shards"
+    ]
+  },
+  "sends_telemetry_event": false
+}
