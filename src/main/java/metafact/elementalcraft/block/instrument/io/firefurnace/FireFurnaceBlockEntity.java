@@ -1,0 +1,27 @@
+package metafact.elementalcraft.block.instrument.io.firefurnace;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.level.block.state.BlockState;
+import metafact.elementalcraft.block.entity.ECBlockEntityTypes;
+import metafact.elementalcraft.config.ECConfig;
+import metafact.elementalcraft.recipe.instrument.io.FurnaceRecipeWrapper;
+
+public class FireFurnaceBlockEntity extends AbstractFireFurnaceBlockEntity<SmeltingRecipe> {
+
+	private static final Config<AbstractFireFurnaceBlockEntity<SmeltingRecipe>, FurnaceRecipeWrapper<SmeltingRecipe>> CONFIG = new Config<>(
+			ECBlockEntityTypes.FIRE_FURNACE,
+			null,
+			ECConfig.SERVER.fireFurnaceTransferSpeed,
+			ECConfig.SERVER.fireFurnaceMaxRunes,
+			1,
+			false,
+            false
+	);
+
+	public FireFurnaceBlockEntity(BlockPos pos, BlockState state) {
+		super(CONFIG, RecipeType.SMELTING, pos, state);
+	}
+
+}

@@ -2,9 +2,7 @@
   "type": "elementalcraft:melting",
   "cooldown": 10,
   "element_amount": 1,
-  "input": {
-    "tag": "shrines/melting/liquifiables/water"
-  },
+  "input": "#shrines/melting/liquifiables/water",
   "result": {
     "fluid": "minecraft:water"
   },

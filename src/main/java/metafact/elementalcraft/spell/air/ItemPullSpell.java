@@ -1,0 +1,34 @@
+package metafact.elementalcraft.spell.air;
+
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.phys.AABB;
+import metafact.elementalcraft.particle.ParticleHelper;
+import metafact.elementalcraft.spell.Spell;
+
+import javax.annotation.Nonnull;
+
+public class ItemPullSpell extends Spell {
+
+	public static final String NAME = "item_pull";
+
+	public ItemPullSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
+
+	@Override
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+		var pos = caster.position();
+		var level = caster.level();
+
+		level.getEntitiesOfClass(ItemEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).forEach(i -> {
+			if (level.isClientSide) {
+				ParticleHelper.createEnderParticle(level, i.position(), 3, level.random);
+			}
+			i.setPos(pos.x, pos.y, pos.z);
+		});
+		return InteractionResult.SUCCESS;
+	}
+}

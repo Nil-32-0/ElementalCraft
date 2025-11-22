@@ -21,7 +21,7 @@ mixin {
 }
 
 version = project.hasProperty('tag_version') ? "${minecraft_version}-${tag_version}" : "${elementalcraft_version}"
-group = 'sirttas.elementalcraft'
+group = 'metafact.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
 logger.info('Building Elemental Craft: ' + project.version)
@@ -157,8 +157,6 @@ dependencies {
         datagenRuntimeOnly dpAnvil.sourceSets.main.output
     } else {
         logger.info("DPAnvil not found locally, looking in maven repo")
-//        compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
-//        runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
         compileOnly fg.deobf("metafact.dpanvil_m:dpanvil_m:${dpanvil_version}:api")
         runtimeOnly fg.deobf("metafact.dpanvil_m:dpanvil_m:${dpanvil_version}")
 
@@ -256,7 +254,7 @@ test {
     useJUnitPlatform()
     jacoco {
         includeNoLocationClasses = true
-        includes = ["sirttas.elementalcraft.*"]
+        includes = ["metafact.elementalcraft.*"]
     }
 }
 jacoco {
@@ -277,15 +275,15 @@ tasks.configureEach {
         jacoco.applyTo(it)
         it.extensions.configure(JacocoTaskExtension) { extension ->
             extension.includeNoLocationClasses = true
-            extension.includes = ["sirttas.elementalcraft.*"]
+            extension.includes = ["metafact.elementalcraft.*"]
         }
     }
 }
 
 sonarqube {
 	properties {
-    	property "sonar.projectKey", "Sirttas_ElementalCraft"
-    	property "sonar.organization", "sirttas"
+    	property "sonar.projectKey", "Metafact_ElementalCraft"
+    	property "sonar.organization", "metafact"
     	property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/*.exec"
         property "sonar.coverage.exclusions", "src/datagen/**"

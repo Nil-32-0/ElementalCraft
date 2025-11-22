@@ -1,0 +1,22 @@
+package metafact.elementalcraft.api.infusion.tool.effect;
+
+import com.mojang.serialization.Codec;
+import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import metafact.dpanvil_m.api.codec.CodecHelper;
+import metafact.elementalcraft.api.ElementalCraftApi;
+
+public interface IToolInfusionEffect {
+	
+	Codec<IToolInfusionEffect> CODEC = CodecHelper.getRegistryCodec(ElementalCraftApi.TOOL_INFUSION_EFFECT_TYPE_REGISTRY_KEY).dispatch(IToolInfusionEffect::getType, ToolInfusionEffectType::codec);
+	
+	@OnlyIn(Dist.CLIENT)
+	Component getDescription();
+	
+	ToolInfusionEffectType<? extends IToolInfusionEffect> getType();
+	
+
+
+	
+}

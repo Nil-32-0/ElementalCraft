@@ -1,0 +1,125 @@
+package metafact.elementalcraft.recipe.instrument.infusion;
+
+import com.google.gson.JsonObject;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+import metafact.dpanvil_m.api.data.IDataManager;
+import metafact.elementalcraft.api.ElementalCraftApi;
+import metafact.elementalcraft.api.element.ElementType;
+import metafact.elementalcraft.api.infusion.tool.ToolInfusion;
+import metafact.elementalcraft.api.name.ECNames;
+import metafact.elementalcraft.block.instrument.infuser.IInfuser;
+import metafact.elementalcraft.infusion.tool.ToolInfusionHelper;
+import metafact.elementalcraft.recipe.ECRecipeSerializers;
+import metafact.elementalcraft.recipe.RecipeHelper;
+
+import javax.annotation.Nonnull;
+
+public class ToolInfusionRecipe implements IInfusionRecipe {
+
+	public static final String NAME = "tool_" + IInfusionRecipe.NAME;
+	
+	private final Ingredient input;
+	private final int elementAmount;
+	private final Holder<ToolInfusion> toolInfusion;
+	protected final ResourceLocation id;
+	
+	public ToolInfusionRecipe(ResourceLocation id, ResourceLocation toolInfusion, Ingredient input, int elementAmount) {
+		this.id = id;
+		this.toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(IDataManager.createKey(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, toolInfusion));
+		this.input = input;
+		this.elementAmount = elementAmount;
+	}
+	
+	@Override
+	public boolean matches(IInfuser instrument, @Nonnull Level level) {
+		return IInfusionRecipe.super.matches(instrument, level) && !getToolInfusion().equals(ToolInfusionHelper.getInfusion(instrument.getItem()));
+	}
+
+	@Override
+	public int getElementAmount() {
+		return elementAmount;
+	}
+
+	@Override
+	public Ingredient getInput() {
+		return input;
+	}
+	
+	@Override
+	public @NotNull ItemStack assemble(@NotNull IInfuser instrument, @Nonnull RegistryAccess registry) {
+		ItemStack stack = instrument.getItem().copy();
+
+		ToolInfusionHelper.setInfusion(stack, getToolInfusion());
+		return stack;
+	}
+
+	@Nonnull
+    @Override
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
+		return ItemStack.EMPTY;
+	}
+
+	@Override
+	public boolean isSpecial() {
+		return true;
+	}
+	
+	@Nonnull
+    @Override
+	public ResourceLocation getId() {
+		return id;
+	}
+
+	@Override
+	public ElementType getElementType() {
+		return getToolInfusion().getElementType();
+	}
+
+	public ToolInfusion getToolInfusion() {
+		return  toolInfusion.get();
+	}
+	
+	@Nonnull
+    @Override
+	public RecipeSerializer<?> getSerializer() {
+		return ECRecipeSerializers.TOOL_INFUSION.get();
+	}
+
+	public static class Serializer implements RecipeSerializer<ToolInfusionRecipe> {
+
+		@Nonnull
+        @Override
+		public ToolInfusionRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
+			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
+			ResourceLocation toolInfusion = new ResourceLocation(GsonHelper.getAsString(json, ECNames.TOOL_INFUSION));
+
+			return new ToolInfusionRecipe(recipeId, toolInfusion, input, elementAmount);
+		}
+
+		@Override
+		public ToolInfusionRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
+			int elementAmount = buffer.readInt();
+			Ingredient input = Ingredient.fromNetwork(buffer);
+			ResourceLocation toolInfusion = buffer.readResourceLocation();
+
+			return new ToolInfusionRecipe(recipeId, toolInfusion, input, elementAmount);
+		}
+
+		@Override
+		public void toNetwork(FriendlyByteBuf buffer, ToolInfusionRecipe recipe) {
+			buffer.writeInt(recipe.getElementAmount());
+			recipe.getInput().toNetwork(buffer);
+			buffer.writeResourceLocation(recipe.getToolInfusion().getId());
+		}
+	}
+}

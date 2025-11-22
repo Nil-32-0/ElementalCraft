@@ -1,3 +1,8 @@
+1.20.1-m6.2.2
+- Fix Air Mill and Air Saw recipes
+- Change top-level package to 'metafact'
+- Fix Melting Shrine recipes, now tag-only
+
 1.20.1-m6.2.1
 - Rework Source Breeding to now be recipe based
 - - Recipes can be added with datapacks

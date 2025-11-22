@@ -1,0 +1,125 @@
+package metafact.elementalcraft.recipe.instrument.binding;
+
+import com.google.gson.JsonObject;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
+import metafact.elementalcraft.api.element.ElementType;
+import metafact.elementalcraft.api.name.ECNames;
+import metafact.elementalcraft.block.instrument.binder.IBinder;
+import metafact.elementalcraft.config.ECConfig;
+import metafact.elementalcraft.recipe.ECRecipeSerializers;
+import metafact.elementalcraft.recipe.RecipeHelper;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+
+public class BindingRecipe extends AbstractBindingRecipe {
+
+	private final NonNullList<Ingredient> ingredients;
+	private final ItemStack output;
+	private final int elementAmount;
+
+	public BindingRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
+		super(id, type);
+		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
+		this.output = output;
+		this.elementAmount = elementAmount;
+	}
+
+	@Override
+	public int getElementAmount() {
+		return elementAmount;
+	}
+
+	@Override
+	public boolean matches(IBinder binder, @Nonnull Level level) {
+		if (binder.getContainerElementType() != getElementType() || binder.getItemCount() != ingredients.size()) {
+			return false;
+		}
+		return Boolean.TRUE.equals(ECConfig.SERVER.binderRecipeMatchOrder.get()) ? matchesOrdered(binder) : RecipeHelper.matchesUnordered(binder.getInventory(), ingredients);
+	}
+
+	private boolean matchesOrdered(IBinder binder) {
+		var inv = binder.getInventory();
+
+		int ingredientIndex = 0;
+
+		for (int i = 0; i < inv.getContainerSize(); i++) {
+			var s = inv.getItem(i);
+
+			if (s.isEmpty()) {
+				continue;
+			} else if (ingredientIndex >= ingredients.size() || !ingredients.get(ingredientIndex).test(s)) {
+				return false;
+			}
+			ingredientIndex++;
+		}
+		return true;
+	}
+
+	@Nonnull
+	@Override
+	public NonNullList<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	@Nonnull
+	@Override
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
+		return output;
+	}
+
+	@Nonnull
+	@Override
+	public RecipeSerializer<?> getSerializer() {
+		return ECRecipeSerializers.BINDING.get();
+	}
+
+	public static class Serializer implements RecipeSerializer<BindingRecipe> {
+
+		@Nonnull
+		@Override
+		public BindingRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
+			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
+			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(GsonHelper.getAsJsonArray(json, ECNames.INGREDIENTS));
+			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
+
+			if (!output.isEmpty()) {
+				return new BindingRecipe(recipeId, type, elementAmount, output, ingredients);
+			}
+			throw new IllegalStateException("Binding recipe output is empty!");
+		}
+
+		@Override
+		public BindingRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
+			var type = ElementType.byName(buffer.readUtf());
+			var elementAmount = buffer.readInt();
+			var output = buffer.readItem();
+			var i = buffer.readVarInt();
+			var ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
+
+			ingredients.replaceAll(ignored -> Ingredient.fromNetwork(buffer));
+			return new BindingRecipe(recipeId, type, elementAmount, output, ingredients);
+		}
+
+		@Override
+		public void toNetwork(FriendlyByteBuf buffer, BindingRecipe recipe) {
+			buffer.writeUtf(recipe.getElementType().getSerializedName());
+			buffer.writeInt(recipe.getElementAmount());
+			buffer.writeItem(recipe.output);
+			buffer.writeVarInt(recipe.getIngredients().size());
+
+			for (Ingredient ingredient : recipe.getIngredients()) {
+				ingredient.toNetwork(buffer);
+			}
+		}
+	}
+}

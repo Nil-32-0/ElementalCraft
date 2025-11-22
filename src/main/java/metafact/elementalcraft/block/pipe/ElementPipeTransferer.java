@@ -1,0 +1,261 @@
+package metafact.elementalcraft.block.pipe;
+
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
+import metafact.elementalcraft.api.ElementalCraftApi;
+import metafact.elementalcraft.api.element.ElementType;
+import metafact.elementalcraft.api.element.storage.ElementStorageHelper;
+import metafact.elementalcraft.api.element.storage.IElementStorage;
+import metafact.elementalcraft.api.element.transfer.ElementTransfererHelper;
+import metafact.elementalcraft.api.element.transfer.IElementTransferer;
+import metafact.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
+import metafact.elementalcraft.block.ECBlocks;
+import metafact.elementalcraft.block.entity.BlockEntityHelper;
+import metafact.elementalcraft.block.pipe.upgrade.PipeUpgrade;
+import metafact.elementalcraft.block.pipe.upgrade.PipeUpgradeHelper;
+import metafact.elementalcraft.config.ECConfig;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
+public class ElementPipeTransferer implements IElementTransferer {
+
+    private static final Collection<ElementPipeTransferer> TRANSFERERS = new ReferenceOpenHashSet<>();
+
+    final ElementPipeBlockEntity pipe;
+    final Map<Direction, ConnectionType> connections;
+    final Map<Direction, PipeUpgrade> upgrades;
+    final int maxTransferAmount;
+    private boolean initialized;
+    int transferedAmount;
+
+    ElementPipeTransferer(ElementPipeBlockEntity pipe) {
+        this.pipe = pipe;
+        this.initialized = pipe.getBlockState().is(ECBlocks.PIPE_CREATIVE.get());
+        this.connections = new EnumMap<>(Direction.class);
+
+        for (var direction : Direction.values()) {
+            this.connections.put(direction, ConnectionType.NONE);
+        }
+
+        this.upgrades = new EnumMap<>(Direction.class);
+        this.maxTransferAmount = switch (((ElementPipeBlock) pipe.getBlockState().getBlock()).getType()) {
+            case IMPAIRED -> ECConfig.SERVER.impairedPipeTransferAmount.get();
+            case STANDARD -> ECConfig.SERVER.pipeTransferAmount.get();
+            case IMPROVED -> ECConfig.SERVER.improvedPipeTransferAmount.get();
+            case CREATIVE -> Integer.MAX_VALUE;
+        };
+    }
+
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            var it = TRANSFERERS.iterator();
+
+            while (it.hasNext()) {
+                var transferer = it.next();
+
+                if (transferer.pipe.isRemoved()) {
+                    it.remove();
+                } else {
+                    transferer.transferedAmount = 0;
+                }
+            }
+        }
+    }
+
+    public int getUpgradeWeight(Direction face) {
+        var upgrade = this.getUpgrade(face);
+
+        if (upgrade == null) {
+            return 0;
+        }
+
+        return upgrade.getWeight();
+    }
+
+    public ConnectionType getConnection(Direction face) {
+        return connections.getOrDefault(face, ConnectionType.NONE);
+    }
+
+    public Map<Direction, ConnectionType> getConnections() {
+        return connections;
+    }
+
+    synchronized void init() {
+        if (initialized) {
+            return;
+        }
+
+        var level = pipe.getLevel();
+
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+        TRANSFERERS.add(this);
+        initialized = true;
+    }
+
+    @Override
+    public List<IElementTransferPathNode> getConnectedNodes(@Nonnull ElementType type) {
+        var pipePos = pipe.getBlockPos();
+        var level = pipe.getLevel();
+
+        return this.connections.entrySet().stream()
+                .<IElementTransferPathNode>mapMulti((entry, downstream) -> {
+                    var side = entry.getKey();
+                    var opposite = side.getOpposite();
+                    var connection = entry.getValue();
+                    var upgrade = this.getUpgrade(side);
+                    var foundConnections = upgrade != null ? upgrade.getConnections(type, connection) : getDefaultPos(pipePos, side, connection);
+
+                    if (foundConnections.isEmpty()) return;
+
+                    foundConnections.forEach(p -> downstream.accept(createNode(level, p, type, opposite, connection).orElseThrow()));
+                }).toList();
+    }
+
+    public Optional<IElementTransferPathNode> createNode(Level level, BlockPos pos, ElementType type, Direction side, ConnectionType connection) {
+        return BlockEntityHelper.getBlockEntity(level, pos).map(be -> {
+            var transferer = ElementTransfererHelper.get(be, side).resolve().orElse(null);
+
+            if (transferer instanceof ElementPipeTransferer elementPipeTransferer) {
+                var upgrade = elementPipeTransferer.getUpgrade(side);
+
+                if (upgrade != null && !upgrade.canTransfer(type, connection)) {
+                    transferer = null;
+                }
+            }
+
+            var storage = ElementStorageHelper.get(be, side).resolve().orElse(null);
+
+            if (storage != null && !storage.canPipeInsert(type, side)) storage = null;
+
+            return new Node(pos, transferer, storage);
+        });
+    }
+
+    public static List<BlockPos> getDefaultPos(BlockPos pos, Direction face, ConnectionType connection) {
+        if (connection == ConnectionType.CONNECT || connection == ConnectionType.INSERT) {
+            return List.of(pos.relative(face));
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public int getRemainingTransferAmount() {
+        if (!this.initialized) {
+            return 0;
+        }
+
+        return this.maxTransferAmount - this.transferedAmount;
+    }
+
+    @Override
+    public void onTransfer(@Nonnull ElementType type, int amount, @Nullable IElementTransferPathNode prev, @Nullable IElementTransferPathNode next) {
+        getInvolvedUpgrades(type, prev, next).forEach(upgrade -> upgrade.onTransfer(type, amount, prev, next));
+        this.transferedAmount += amount;
+    }
+
+    private List<PipeUpgrade> getInvolvedUpgrades(@Nonnull ElementType type, @Nullable IElementTransferPathNode prev, @Nullable IElementTransferPathNode next) {
+        var list = new ArrayList<PipeUpgrade>(this.connections.size());
+
+        this.connections.forEach((side, connection) -> {
+            var upgrade = this.getUpgrade(side);
+
+            if (upgrade != null && (isUpgradeConnectedTo(upgrade, prev, type, connection) || isUpgradeConnectedTo(upgrade, next, type, connection))) {
+                list.add(upgrade);
+            }
+        });
+        return List.copyOf(list);
+    }
+
+    private static boolean isUpgradeConnectedTo(PipeUpgrade upgrade, @Nullable IElementTransferPathNode to, @NotNull ElementType type, ConnectionType connection) {
+        if (to == null) {
+            return false;
+        }
+        return upgrade.getConnections(type, connection).contains(to.getPos());
+    }
+
+    @Override
+    public boolean isValid() {
+        return this.initialized && this.transferedAmount < this.maxTransferAmount && !pipe.isRemoved();
+    }
+
+    void setConnection(Direction face, ConnectionType type) {
+        connections.put(face, type);
+    }
+
+    public Map<Direction, PipeUpgrade> getUpgrades() {
+        return Map.copyOf(upgrades);
+    }
+
+    public PipeUpgrade getUpgrade(Direction face) {
+        return upgrades.get(face);
+    }
+
+    void setUpgrade(Direction face, PipeUpgrade upgrade) {
+        if (upgrade != null) {
+            upgrades.put(face, upgrade);
+        }
+    }
+
+    public void removeUpgrade(Direction side) {
+        this.upgrades.remove(side);
+    }
+
+    void load(CompoundTag compound) {
+        for (Direction face : Direction.values()) {
+            this.setConnection(face, ConnectionType.fromInteger(compound.getInt(face.getSerializedName())));
+            this.setUpgrade(face, PipeUpgradeHelper.load(pipe, face, compound.getCompound(face.getSerializedName() + "_upgrades")));
+        }
+    }
+
+    CompoundTag save(CompoundTag compound) {
+        connections.forEach((k, v) -> compound.putInt(k.getSerializedName(), v.getValue()));
+        upgrades.forEach((k, v) -> compound.put(k.getSerializedName() + "_upgrades", v.save()));
+        return compound;
+    }
+
+    public record Node(
+            BlockPos pos,
+            IElementTransferer transferer,
+            IElementStorage storage
+    ) implements IElementTransferPathNode {
+
+        @Override
+        public BlockPos getPos() {
+            return pos;
+        }
+
+        @Override
+        public IElementTransferer getTransferer() {
+            return transferer;
+        }
+
+        @Override
+        public IElementStorage getStorage() {
+            return storage;
+        }
+
+        @Override
+        public int getWeight(@NotNull ElementType type, @Nullable IElementTransferPathNode prev, @Nullable IElementTransferPathNode next) {
+            if (!(transferer instanceof ElementPipeTransferer pipeTransferer)) {
+                return 1;
+            }
+            return 1 + pipeTransferer.getInvolvedUpgrades(type, prev, next).stream()
+                    .mapToInt(PipeUpgrade::getWeight)
+                    .sum();
+        }
+    }
+
+}

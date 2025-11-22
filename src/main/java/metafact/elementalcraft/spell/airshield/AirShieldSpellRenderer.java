@@ -1,0 +1,44 @@
+package metafact.elementalcraft.spell.airshield;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import metafact.elementalcraft.renderer.ECRendererHelper;
+import metafact.elementalcraft.spell.Spell;
+import metafact.elementalcraft.spell.renderer.ISpellRenderer;
+
+public class AirShieldSpellRenderer implements ISpellRenderer {
+
+    public static final Material BACKGROUND = ECRendererHelper.getBlockMaterial("effect/air_shield_background");
+    public static final Material BLADE = ECRendererHelper.getBlockMaterial("effect/air_shield_blade");
+
+    @Override
+    public void render(Spell spell, Entity caster, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        var angle = ECRendererHelper.getClientTicks(partialTicks) * 10;
+
+        poseStack.translate(-1, 0, -1);
+        poseStack.scale(1/64f, 1/64f, 1/64f);
+        ECRendererHelper.renderIcon(poseStack, buffer, BACKGROUND, 128, 128, packedLight, OverlayTexture.NO_OVERLAY);
+        renderBlade(poseStack, buffer, packedLight, angle);
+        renderBlade(poseStack, buffer, packedLight, angle);
+    }
+
+    @Override
+    public void renderFirstPerson(Spell spell, LocalPlayer caster, InteractionHand hand, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        poseStack.translate(0, -1, 0);
+        ISpellRenderer.super.renderFirstPerson(spell, caster, hand, partialTicks, poseStack, buffer, packedLight);
+    }
+
+    private void renderBlade(PoseStack poseStack, MultiBufferSource buffer, int packedLight, float angle) {
+        poseStack.translate(64, 64, -0.01f);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(angle));
+        poseStack.translate(-64, -64, 0);
+        ECRendererHelper.renderIcon(poseStack, buffer, BLADE, 128, 128, packedLight, OverlayTexture.NO_OVERLAY);
+    }
+
+}

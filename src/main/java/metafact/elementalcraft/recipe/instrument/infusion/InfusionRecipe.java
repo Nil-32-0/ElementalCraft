@@ -1,0 +1,86 @@
+package metafact.elementalcraft.recipe.instrument.infusion;
+
+import com.google.gson.JsonObject;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import metafact.elementalcraft.api.element.ElementType;
+import metafact.elementalcraft.api.name.ECNames;
+import metafact.elementalcraft.block.instrument.infuser.IInfuser;
+import metafact.elementalcraft.recipe.ECRecipeSerializers;
+import metafact.elementalcraft.recipe.RecipeHelper;
+import metafact.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
+
+import javax.annotation.Nonnull;
+
+public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implements IInfusionRecipe {
+
+	private final Ingredient input;
+	private final ItemStack output;
+	private final int elementAmount;
+
+	public InfusionRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, Ingredient input) {
+		super(id, type);
+		this.input = input;
+		this.output = output;
+		this.elementAmount = elementAmount;
+	}
+
+	@Override
+	public int getElementAmount() {
+		return elementAmount;
+	}
+	
+	@Override
+	public Ingredient getInput() {
+		return input;
+	}
+
+	@Nonnull
+    @Override
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
+		return output;
+	}
+
+	@Nonnull
+    @Override
+	public RecipeSerializer<?> getSerializer() {
+		return ECRecipeSerializers.INFUSION.get();
+	}
+
+	public static class Serializer implements RecipeSerializer<InfusionRecipe> {
+
+		@Nonnull
+        @Override
+		public InfusionRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
+			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
+			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
+			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
+
+			return new InfusionRecipe(recipeId, type, elementAmount, output, input);
+		}
+
+		@Override
+		public InfusionRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
+			ElementType type = ElementType.byName(buffer.readUtf());
+			int elementAmount = buffer.readInt();
+			Ingredient input = Ingredient.fromNetwork(buffer);
+			ItemStack output = buffer.readItem();
+
+			return new InfusionRecipe(recipeId, type, elementAmount, output, input);
+		}
+
+		@Override
+		public void toNetwork(FriendlyByteBuf buffer, InfusionRecipe recipe) {
+			buffer.writeUtf(recipe.getElementType().getSerializedName());
+			buffer.writeInt(recipe.getElementAmount());
+			recipe.getInput().toNetwork(buffer);
+			buffer.writeItem(recipe.output);
+		}
+	}
+}

@@ -1,0 +1,140 @@
+package metafact.elementalcraft.item.holder;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import metafact.elementalcraft.api.element.ElementType;
+import metafact.elementalcraft.api.element.IElementTypeProvider;
+import metafact.elementalcraft.api.element.storage.ElementStorageHelper;
+import metafact.elementalcraft.api.element.storage.IElementStorage;
+import metafact.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import metafact.elementalcraft.api.element.storage.single.StaticElementStorage;
+import metafact.elementalcraft.api.name.ECNames;
+import metafact.elementalcraft.api.source.ISourceInteractable;
+import metafact.elementalcraft.config.ECConfig;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+public class ElementHolderItem extends AbstractElementHolderItem implements ISourceInteractable, IElementTypeProvider {
+
+	public static final String NAME = "element_holder";
+
+    public static String generateName(ElementType type) {
+        return NAME + "_" + type.getSerializedName();
+    }
+
+	private final ElementType elementType;
+
+	public ElementHolderItem(ElementType elementType) {
+		super(ECConfig.SERVER.elementHolderCapacity::get, ECConfig.SERVER.elementHolderTransferAmount::get);
+		this.elementType = elementType;
+	}
+
+	@Override
+	public ElementType getElementType() {
+		return elementType;
+	}
+	
+	@Override
+	protected ElementType getElementType(IElementStorage target, BlockState blockstate) {
+		return elementType;
+	}
+	
+	@Override
+	@Nullable
+	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+		ElementStorage storage = new ElementStorage(stack);
+		
+		if (nbt != null && nbt.contains(ECNames.PARENT)) {
+			storage.deserializeNBT(nbt.getCompound(ECNames.PARENT));
+		}
+		return ElementStorageHelper.createProvider(storage);
+	}
+
+	@Override
+	public ISingleElementStorage getElementStorage(ItemStack stack) {
+		return (ISingleElementStorage) ElementStorageHelper.get(stack).orElse(new StaticElementStorage(elementType, 0));
+	}
+
+	@Override
+	protected boolean isValidSource(BlockState state) {
+		return super.isValidSource(state) && ElementType.getElementType(state) == elementType;
+	}
+
+	@Override
+	public int getBarColor(@Nonnull ItemStack stack) {
+		return elementType.getColor();
+	}
+
+	@Override
+	public int getBarWidth(@Nonnull ItemStack stack) {
+		return Math.round(getElementStorage(stack).getElementAmount() * 13F / getElementCapacity());
+	}
+
+	@Override
+	public boolean isBarVisible(@Nonnull ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public boolean canBeDepleted() {
+		return true;
+	}
+	
+	private class ElementStorage extends StaticElementStorage {
+
+		private final ItemStack stack;
+		
+		public ElementStorage(ItemStack stack) {
+			super(ElementHolderItem.this.elementType, ElementHolderItem.this.getElementCapacity());
+			this.stack = stack;
+		}
+
+
+		@Override
+		public boolean usableInInventory() {
+			return true;
+		}
+		
+		@Override
+		public int getElementAmount() {
+			refresh();
+			return super.getElementAmount();
+		}
+		
+		@Override
+		public int insertElement(int count, ElementType type, boolean simulate) {
+			refresh();
+			
+			int value = super.insertElement(count, type, simulate);
+
+			updateAmount();
+			return value;
+		}
+
+		@Override
+		public int extractElement(int count, ElementType type, boolean simulate) {
+			refresh();
+			
+			int value = super.extractElement(count, type, simulate);
+
+			updateAmount();
+			return value;
+		}
+		
+
+		private void refresh() {
+			CompoundTag tag = stack.getTag();
+			
+			if (tag != null && tag.contains(ECNames.ELEMENT_AMOUNT)) {
+				elementAmount = tag.getInt(ECNames.ELEMENT_AMOUNT);
+			}
+		}
+		
+		private void updateAmount() {
+			stack.getOrCreateTag().putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
+		}
+	}
+}

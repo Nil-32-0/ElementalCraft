@@ -1,0 +1,85 @@
+package metafact.elementalcraft.block.shrine.vacuum;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
+import metafact.elementalcraft.block.entity.ECBlockEntityTypes;
+import metafact.elementalcraft.block.shrine.AbstractShrineBlockEntity;
+import metafact.elementalcraft.block.shrine.properties.ShrineProperties;
+import metafact.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
+import metafact.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import metafact.elementalcraft.block.shrine.upgrade.vortex.VortexPullPlayerMessage;
+import metafact.elementalcraft.container.ECContainerHelper;
+import metafact.elementalcraft.entity.EntityHelper;
+import metafact.elementalcraft.network.message.MessageHelper;
+import metafact.elementalcraft.particle.ParticleHelper;
+
+import java.util.List;
+
+public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
+
+	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(VacuumShrineBlock.NAME);
+	public VacuumShrineBlockEntity(BlockPos pos, BlockState state) {
+		super(ECBlockEntityTypes.VACUUM_SHRINE, pos, state, PROPERTIES_KEY);
+	}
+
+	private List<? extends Entity> getEntities() {
+		if (this.hasUpgrade(ShrineUpgrades.VORTEX)) {
+			var protection = this.hasUpgrade(ShrineUpgrades.PROTECTION);
+
+			return this.getLevel().getEntitiesOfClass(LivingEntity.class, getRange()).stream()
+						.filter(e -> !(e instanceof Player player && player.getAbilities().instabuild) && (!protection || EntityHelper.isHostile(e)))
+						.toList();
+		}
+		return this.getLevel().getEntitiesOfClass(ItemEntity.class, getRange());
+	}
+	
+	@Override
+	protected boolean doPeriod() {
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, worldPosition.below(), Direction.UP);
+
+		return this.hasUpgrade(ShrineUpgrades.PICKUP) ? pickup(inv) : pull(inv);
+	}
+
+	private boolean pickup(IItemHandler inv) {
+		return getEntities().stream().findAny().map(entity -> {
+			doPickup(inv, (ItemEntity) entity);
+			return true;
+		}).orElse(false);
+	}
+
+	private boolean pull(IItemHandler inv) {
+		int consumeAmount = this.getConsumeAmount();
+		double pullSpeed = this.getStrength();
+		Vec3 pos3d = Vec3.atCenterOf(this.getTargetPos());
+
+		getEntities().forEach(entity -> {
+			if (this.elementStorage.getElementAmount() >= consumeAmount) {
+				this.consumeElement(consumeAmount);
+				if (entity instanceof ServerPlayer player) {
+					MessageHelper.sendToPlayer(player, new VortexPullPlayerMessage(pos3d, pullSpeed));
+				} else {
+					entity.setDeltaMovement(pos3d.subtract(entity.position()).normalize().multiply(pullSpeed, pullSpeed, pullSpeed));
+				}
+				if (entity instanceof ItemEntity itemEntity && pos3d.distanceTo(entity.position()) <= 2 * Math.max(1, this.getMultiplier(BonusType.RANGE))) {
+					doPickup(inv, itemEntity);
+				}
+			}
+		});
+		return false;
+	}
+
+	private void doPickup(IItemHandler inv, ItemEntity entity) {
+		entity.setItem(ItemHandlerHelper.insertItem(inv, entity.getItem(), false));
+		ParticleHelper.createEnderParticle(level, entity.position(), 3, level.random);
+	}
+}

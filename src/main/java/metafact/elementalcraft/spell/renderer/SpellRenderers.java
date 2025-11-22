@@ -1,0 +1,33 @@
+package metafact.elementalcraft.spell.renderer;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.registries.RegistryObject;
+import metafact.elementalcraft.spell.Spell;
+import metafact.elementalcraft.spell.Spells;
+import metafact.elementalcraft.spell.airshield.AirShieldSpellRenderer;
+import metafact.elementalcraft.spell.flamecleave.FlameCleaveSpellRenderer;
+import metafact.elementalcraft.spell.repair.RepairSpellRenderer;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SpellRenderers {
+
+    private static final Map<ResourceLocation, ISpellRenderer> SPELL_RENDERERS = new HashMap<>();
+
+    static {
+        register(Spells.FLAME_CLEAVE, new FlameCleaveSpellRenderer());
+        register(Spells.AIR_SHIELD, new AirShieldSpellRenderer());
+        register(Spells.REPAIR, new RepairSpellRenderer());
+    }
+
+    private SpellRenderers() {}
+
+    public static ISpellRenderer get(Spell spell) {
+        return SPELL_RENDERERS.get(spell.getKey());
+    }
+
+    public static void register(RegistryObject<? extends Spell> spell, ISpellRenderer renderer) {
+        SPELL_RENDERERS.put(spell.getId(), renderer);
+    }
+}

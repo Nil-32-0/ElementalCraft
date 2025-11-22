@@ -1,15 +1,15 @@
 {
   "values": [
     "elementalcraft:pure_element_holder",
-    "elementalcraft:element_holder_fire",
-    "elementalcraft:element_holder_purity",
-    "elementalcraft:element_holder_life",
-    "elementalcraft:element_holder_weather",
     "elementalcraft:element_holder_entropy",
-    "elementalcraft:element_holder_air",
+    "elementalcraft:element_holder_magma",
+    "elementalcraft:element_holder_purity",
     "elementalcraft:element_holder_earth",
+    "elementalcraft:element_holder_fire",
+    "elementalcraft:element_holder_air",
+    "elementalcraft:element_holder_life",
     "elementalcraft:element_holder_light",
     "elementalcraft:element_holder_water",
-    "elementalcraft:element_holder_magma"
+    "elementalcraft:element_holder_weather"
   ]
 }

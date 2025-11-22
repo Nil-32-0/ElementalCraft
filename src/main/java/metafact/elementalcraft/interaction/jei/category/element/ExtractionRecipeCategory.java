@@ -1,0 +1,53 @@
+package metafact.elementalcraft.interaction.jei.category.element;
+
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.world.item.ItemStack;
+import metafact.elementalcraft.api.ElementalCraftApi;
+import metafact.elementalcraft.block.ECBlocks;
+import metafact.elementalcraft.interaction.jei.ECJEIRecipeTypes;
+import metafact.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
+import metafact.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
+import metafact.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
+import metafact.elementalcraft.interaction.jei.ingredient.source.IngredientSource;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+
+public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ExtractionRecipeCategory.ExtractionRecipe> {
+
+	public static final String NAME = "extraction";
+
+    public ExtractionRecipeCategory(IGuiHelper guiHelper) {
+        super("elementalcraft.jei.extraction", createDrawableStack(guiHelper, new ItemStack(ECBlocks.RUDIMENTARY_EXTRACTOR.get())), guiHelper.createBlankDrawable(64, 48));
+        setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 21, 35);
+    }
+
+	@Nonnull
+	@Override
+	public RecipeType<ExtractionRecipe> getRecipeType() {
+		return ECJEIRecipeTypes.EXTRACTION;
+	}
+
+	@Override
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ExtractionRecipe recipe, @Nonnull IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0).addIngredient(ECIngredientTypes.SOURCE, recipe.source());
+		builder.addSlot(RecipeIngredientRole.CATALYST, 0, 16).addItemStack(recipe.extractor());
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 0, 32).addItemStacks(recipe.containers());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 32).addIngredient(ECIngredientTypes.ELEMENT, recipe.element());
+	}
+
+    public record ExtractionRecipe(
+            IngredientElementType element,
+            ItemStack extractor,
+            List<ItemStack> containers
+    ) {
+
+        public IngredientSource source() {
+            return new IngredientSource(element.elementType());
+        }
+    }
+}

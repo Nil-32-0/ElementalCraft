@@ -2,27 +2,24 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
+    "a": {
+      "item": "elementalcraft:air_mill"
+    },
     "c": {
       "item": "elementalcraft:air_crystal"
     },
     "g": {
       "item": "minecraft:grindstone"
     },
-    "h": {
-      "tag": "forge:rods/hardened"
-    },
     "i": {
       "tag": "forge:ingots/swift_alloy"
-    },
-    "p": {
-      "tag": "minecraft:wool_carpets"
     },
     "w": {
       "item": "elementalcraft:whiterock"
     }
   },
   "pattern": [
-    "php",
+    " a ",
     "igi",
     "wcw"
   ],

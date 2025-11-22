@@ -1,13 +1,3 @@
-[//]: # ([![]&#40;http://cf.way2muchnoise.eu/395158.svg&#41;]&#40;https://www.curseforge.com/minecraft/mc-mods/elemental-craft&#41;)
-
-[//]: # ([![Modrinth]&#40;https://img.shields.io/modrinth/dt/o51LXm0t?label=modrinth&#41;]&#40;https://modrinth.com/mod/elemental-craft&#41;)
-
-[//]: # ([![Discord]&#40;https://img.shields.io/discord/726853121816526878.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2&#41;]&#40;https://discord.gg/BFfAmJP&#41;)
-
-[//]: # ([![build]&#40;https://github.com/Sirttas/ElementalCraft/actions/workflows/build.yml/badge.svg&#41;]&#40;https://github.com/Sirttas/ElementalCraft/actions&#41;)
-
-[//]: # ([![Quality Gate Status]&#40;https://sonarcloud.io/api/project_badges/measure?project=Sirttas_ElementalCraft&metric=alert_status&#41;]&#40;https://sonarcloud.io/dashboard?id=Sirttas_ElementalCraft&#41;)
-
 # ElementalCraft: Metafactory Edition
 
 This is an unofficial fork of ElementalCraft for 1.20.1, intended solely for use within the Metafactory modpack.
@@ -18,47 +8,14 @@ Questions should be directed to Nil instead, as things have been changed in this
 
 ---
 
-ElementalCraft is a magic mod based around the 4 primary elements: fire, water, earth and air.
+ElementalCraft is a magic mod based around the primary elements: fire, water, earth, air, entropy, and purity.
 
 This project features new resources: Elements, ways to gather those elements and use them for different crafts: infusion, binding, etc. You can also use shrines to channel elements in the world and act on it for things like crop growth, turning stone into lava or extracting ores. You can also use an infuser to improve existing enchantments or add new abilities to tools.
 
 You can find a presentation video [here](https://www.reddit.com/r/feedthebeast/comments/in2ask/elemental_craft_first_release_forge_1152_and_1162/).
-
-
-[//]: # (### Simple startup guide:)
-
-[//]: # (First, find Inert Crystals from ore, this is the starting point of the mod, you will need to craft contained crystals from inert ones by circling them with gold nuggets. With them craft two tanks an extractor, an infuser and some pipes.)
-
-[//]: # ()
-[//]: # (Once you got all of these start exploring and find an element source put the extractor under it and the tank under the extractor. then put the second tank nearby and the infuser on top of it, connect them with pipes and right click the pipe section connected to the extractor's tank. You can now put an inert crystal in the infuser by right clicking it to craft an infused crystal.)
-
-[//]: # ()
-[//]: # (Elemental Craft is hosted on [ModMaven]&#40;https://modmaven.dev/&#41; add this to your `build.gradle`:)
-
-[//]: # (```grouvy)
-
-[//]: # (repositories {)
-
-[//]: # (    maven { url 'https://modmaven.dev/' })
-
-[//]: # (})
-
-[//]: # ()
-[//]: # (dependencies {)
-
-[//]: # (    compileOnly fg.deobf&#40;"sirttas.elementalcraft:ElementalCraft:${elementalcraft_version}:api"&#41;)
-
-[//]: # (    runtimeOnly fg.deobf&#40;"sirttas.elementalcraft:ElementalCraft:${elementalcraft_version}"&#41;)
-
-[//]: # (})
-
-[//]: # (```)
-
-[//]: # (You will also need to add dependency to [DataPack Anvil]&#40;https://github.com/Sirttas/DataPack-Anvil&#41;.)
 
 Elemental craft also has a [wiki](http://wiki.elementalcraft.org/).
 
 Support the original Dev:
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X8CLYPH)
-[![discord](https://i.imgur.com/mANW7ms.png "discord")](https://discord.gg/BFfAmJP "")

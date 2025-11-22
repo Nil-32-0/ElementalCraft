@@ -1,0 +1,30 @@
+package metafact.elementalcraft.api;
+
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
+import metafact.elementalcraft.api.element.storage.IElementStorage;
+import metafact.elementalcraft.api.element.transfer.IElementTransferer;
+import metafact.elementalcraft.api.rune.handler.IRuneHandler;
+import metafact.elementalcraft.api.source.flux.ISourceFlux;
+import metafact.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
+
+public class ElementalCraftCapabilities {
+
+    public static final Capability<IElementStorage> ELEMENT_STORAGE = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IElementTransferer> ELEMENT_TRANSFERER = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<ISourceTraitHolder> SOURCE_TRAIT_HOLDER = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<IRuneHandler> RUNE_HANDLE = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<ISourceFlux> SOURCE_FLUX = CapabilityManager.get(new CapabilityToken<ISourceFlux>() {});
+
+
+    private ElementalCraftCapabilities() {}
+
+    public static class RuneHandler {
+        private RuneHandler() {}
+
+        public static final Capability<IRuneHandler> BLOCK = CapabilityManager.get(new CapabilityToken<>() {});
+        public static final Capability<IRuneHandler> ENTITY = CapabilityManager.get(new CapabilityToken<>() {});
+    }
+
+}

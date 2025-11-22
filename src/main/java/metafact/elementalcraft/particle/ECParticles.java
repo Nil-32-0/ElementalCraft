@@ -1,0 +1,48 @@
+package metafact.elementalcraft.particle;
+
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import metafact.elementalcraft.api.ElementalCraftApi;
+import metafact.elementalcraft.particle.element.ElementCraftingParticle;
+import metafact.elementalcraft.particle.element.ElementFlowParticle;
+import metafact.elementalcraft.particle.element.ElementTypeParticleData;
+import metafact.elementalcraft.particle.element.source.SourceParticle;
+
+import java.util.function.Supplier;
+
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class ECParticles {
+
+	private static final DeferredRegister<ParticleType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, ElementalCraftApi.MODID);
+
+	public static final RegistryObject<ParticleType<ElementTypeParticleData>> SOURCE = register(() -> ElementTypeParticleData.createParticleType(true), "source");
+	public static final RegistryObject<ParticleType<ElementTypeParticleData>> ELEMENT_FLOW = register(() -> ElementTypeParticleData.createParticleType(false), "element_flow");
+	public static final RegistryObject<ParticleType<ElementTypeParticleData>> ELEMENT_CRAFTING = register(() -> ElementTypeParticleData.createParticleType(false), "elementcrafting");
+
+	private ECParticles() {}
+
+	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
+	public static void registerFactories(RegisterParticleProvidersEvent evt) {
+		evt.registerSpriteSet(SOURCE.get(), SourceParticle.FACTORY);
+		evt.registerSpriteSet(ELEMENT_FLOW.get(), ElementFlowParticle.FACTORY);
+		evt.registerSpriteSet(ELEMENT_CRAFTING.get(), ElementCraftingParticle.FACTORY);
+	}
+
+	private static <O extends ParticleOptions, T extends ParticleType<O>> RegistryObject<T> register(Supplier<T> type, String name) {
+		return DEFERRED_REGISTER.register(name, type);
+	}
+
+	public static void register(IEventBus bus) {
+		DEFERRED_REGISTER.register(bus);
+	}
+}
