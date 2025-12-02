@@ -55,6 +55,7 @@ import metafact.elementalcraft.spell.properties.SpellProperties;
 import metafact.elementalcraft.world.feature.ECFeatures;
 import metafact.elementalcraft.world.feature.placement.ECPlacements;
 import metafact.elementalcraft.world.feature.structure.ECStructureTypes;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.Map;
 
@@ -89,7 +90,9 @@ public class ElementalCraft {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ECConfig.SERVER_SPEC);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ECConfig.CLIENT_SPEC);
 
-        MinecraftForge.EVENT_BUS.register(new ClientEvents());
+        if (FMLEnvironment.dist.equals(Dist.CLIENT)) {
+            MinecraftForge.EVENT_BUS.register(new ClientEvents());
+        }
 
 		ECBlocks.register(modBus);
 		ECBlockEntityTypes.register(modBus);

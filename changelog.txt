@@ -1,3 +1,6 @@
+1.20.1-m6.2.3
+- Fix error with Source Flux display in Debug menu, to allow running on a server
+
 1.20.1-m6.2.2
 - Fix Air Mill and Air Saw recipes
 - Change top-level package to 'metafact'
