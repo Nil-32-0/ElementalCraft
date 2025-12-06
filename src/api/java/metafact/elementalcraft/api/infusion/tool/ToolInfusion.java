@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
+import metafact.elementalcraft.api.ElementalCraftApi;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -59,7 +60,8 @@ public class ToolInfusion implements IElementTypeProvider {
 	}
 
 	public ResourceLocation getId() {
-		return id;
+        if (id != null) return id;
+		return ElementalCraftApi.createRL("");
 	}
 
 	public void setId(ResourceLocation id) {

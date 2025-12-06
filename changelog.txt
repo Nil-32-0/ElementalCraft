@@ -1,3 +1,6 @@
+1.20.1-m6.2.4
+- Hotfix to correct crash on using anvil
+
 1.20.1-m6.2.3
 - Fix error with Source Flux display in Debug menu, to allow running on a server
 
