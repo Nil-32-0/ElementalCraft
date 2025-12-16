@@ -334,6 +334,7 @@
   "block.elementalcraft.springaline_glass": "Springaline Glass",
   "block.elementalcraft.springaline_glass_pane": "Springaline Glass Pane",
   "block.elementalcraft.springaline_lantern": "Springaline Lantern",
+  "block.elementalcraft.item_diffuser": "Item Diffuser",
 
   "spell.elementalcraft.none": "",
   "spell.elementalcraft.gravelfall": "Gravel Fall",
@@ -451,6 +452,7 @@
   "elementalcraft.jei.springshrine": "Spring Shrine",
   "elementalcraft.jei.crystal_throwing": "Crystal Throwing",
   "elementalcraft.jei.source_breeding": "Source Breeding",
+  "elementalcraft.jei.item_diffusion": "Item Diffusion",
 
   "tooltip.elementalcraft.do_not_use": "Functional Item, DO NOT USE!!!",
 

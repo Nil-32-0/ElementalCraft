@@ -1,3 +1,6 @@
+1.20.1-m6.3.0
+- Add Item Diffuser, which can dissolve items into elements
+
 1.20.1-m6.2.4
 - Hotfix to correct crash on using anvil
 

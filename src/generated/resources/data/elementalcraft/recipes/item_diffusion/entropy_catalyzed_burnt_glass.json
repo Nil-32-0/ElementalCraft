@@ -1,0 +1,14 @@
+{
+  "type": "elementalcraft:item_diffusion",
+  "element_amount": 500,
+  "element_type": "entropy",
+  "input": {
+    "item": "elementalcraft:burnt_glass"
+  },
+  "outputs": [
+    {
+      "element_amount": 500,
+      "element_type": "fire"
+    }
+  ]
+}

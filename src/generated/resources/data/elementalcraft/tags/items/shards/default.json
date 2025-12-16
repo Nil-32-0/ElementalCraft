@@ -1,14 +1,14 @@
 {
   "values": [
-    "elementalcraft:entropy_shard",
-    "elementalcraft:magma_shard",
-    "elementalcraft:purity_shard",
-    "elementalcraft:earth_shard",
-    "elementalcraft:fire_shard",
-    "elementalcraft:air_shard",
     "elementalcraft:life_shard",
-    "elementalcraft:light_shard",
     "elementalcraft:water_shard",
-    "elementalcraft:weather_shard"
+    "elementalcraft:entropy_shard",
+    "elementalcraft:air_shard",
+    "elementalcraft:purity_shard",
+    "elementalcraft:light_shard",
+    "elementalcraft:magma_shard",
+    "elementalcraft:fire_shard",
+    "elementalcraft:weather_shard",
+    "elementalcraft:earth_shard"
   ]
 }

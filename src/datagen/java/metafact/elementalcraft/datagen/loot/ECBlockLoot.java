@@ -76,6 +76,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.AIR_MILL_WOOD_SAW.get(), this::createDoubleHalfRuneable);
         add(ECBlocks.ENCHANTMENT_LIQUEFIER.get(), this::createDoubleHalfRuneable);
+        add(ECBlocks.ITEM_DIFFUSER.get(), this::createRuneable);
 		add(ECBlocks.SOURCE_BREEDER.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), this::createRuneable);
         add(ECBlocks.AIR_MILL_SYNTHESIZER.get(), this::createDoubleHalfRuneable);

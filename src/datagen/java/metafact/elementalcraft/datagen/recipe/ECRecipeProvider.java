@@ -4,50 +4,6 @@ import com.google.gson.JsonObject;
 import mekanism.api.MekanismAPI;
 import mekanism.api.datagen.recipe.builder.ItemStackToItemStackRecipeBuilder;
 import mekanism.api.recipes.ingredients.creator.IngredientCreatorAccess;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
-import net.minecraft.data.recipes.SingleItemRecipeBuilder;
-import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagEntry;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.WallBlock;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.ConditionalRecipe;
-import net.minecraftforge.common.crafting.PartialNBTIngredient;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
-import net.minecraftforge.common.crafting.conditions.NotCondition;
-import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import org.apache.commons.lang3.StringUtils;
 import metafact.elementalcraft.ElementalCraft;
 import metafact.elementalcraft.api.ElementalCraftApi;
 import metafact.elementalcraft.api.element.ElementType;
@@ -60,11 +16,7 @@ import metafact.elementalcraft.datagen.recipe.builder.MeltingRecipeBuilder;
 import metafact.elementalcraft.datagen.recipe.builder.PureInfusionRecipeBuilder;
 import metafact.elementalcraft.datagen.recipe.builder.SourceBreedingRecipeBuilder;
 import metafact.elementalcraft.datagen.recipe.builder.SpellCraftRecipeBuilder;
-import metafact.elementalcraft.datagen.recipe.builder.instrument.BindingRecipeBuilder;
-import metafact.elementalcraft.datagen.recipe.builder.instrument.CrystallizationRecipeBuilder;
-import metafact.elementalcraft.datagen.recipe.builder.instrument.GrindingRecipeBuilder;
-import metafact.elementalcraft.datagen.recipe.builder.instrument.InscriptionRecipeBuilder;
-import metafact.elementalcraft.datagen.recipe.builder.instrument.SawingRecipeBuilder;
+import metafact.elementalcraft.datagen.recipe.builder.instrument.*;
 import metafact.elementalcraft.datagen.recipe.builder.instrument.infusion.InfusionRecipeBuilder;
 import metafact.elementalcraft.datagen.recipe.builder.instrument.infusion.ToolInfusionRecipeBuilder;
 import metafact.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
@@ -81,6 +33,36 @@ import metafact.elementalcraft.rune.Runes;
 import metafact.elementalcraft.spell.Spell;
 import metafact.elementalcraft.spell.Spells;
 import metafact.elementalcraft.tag.ECTags;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import net.minecraftforge.common.crafting.PartialNBTIngredient;
+import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
+import net.minecraftforge.common.crafting.conditions.NotCondition;
+import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import org.apache.commons.lang3.StringUtils;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -93,7 +75,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ECRecipeProvider extends RecipeProvider {
@@ -153,6 +134,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		registerDecorations(consumer);
 		registerSourceBreeding(consumer);
         registerMelting(consumer);
+        registerItemDiffusion(consumer);
 	}
 
 	private static void registerMaterials(@Nonnull Consumer<FinishedRecipe> consumer) {
@@ -568,6 +550,13 @@ public class ECRecipeProvider extends RecipeProvider {
                 .define('g', ECItems.PRISTINE_GEMS.get(ElementType.WATER).get())
                 .pattern("ege")
                 .pattern("iti")
+                .pattern("wcw")
+                .save(consumer);
+        prepareWhiterockInstrumentRecipe(ECBlocks.ITEM_DIFFUSER.get(), ECItems.CRYSTALS.get(ElementType.ENTROPY).get())
+                .define('i', ECTags.Items.INGOTS_DRENCHED_IRON)
+                .define('s', ECBlocks.SMALL_CONTAINER.get())
+                .pattern("wcw")
+                .pattern("isi")
                 .pattern("wcw")
                 .save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.FIRE_FURNACE.get(), ECItems.CRYSTALS.get(ElementType.FIRE).get())
@@ -1728,20 +1717,6 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
     private void registerMelting(Consumer<FinishedRecipe> consumer) {
-//        TagsProvider.TagLookup<Block> lookup = null;
-//
-//        try {
-//            lookup = lookupProvider.get();
-//        } catch (ExecutionException | InterruptedException e) {
-//            ElementalCraftApi.LOGGER.error(e.getMessage());
-//        }
-//
-//        if (lookup == null) return;
-//
-//        var t = lookup.apply(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_LAVA).orElseThrow();
-//
-//        var s = t.entries.stream().map(TagEntry::getId).map(ForgeRegistries.BLOCKS::getValue).toList();
-
         HolderLookup.RegistryLookup<Block> lookup = null;
 
         try {
@@ -1761,6 +1736,37 @@ public class ECRecipeProvider extends RecipeProvider {
                 .cooldown(10)
                 .elementAmount(1)
                 .fillingAmount(1000)
+                .save(consumer);
+    }
+
+    private void registerItemDiffusion(Consumer<FinishedRecipe> consumer) {
+        ItemDiffuserRecipeBuilder.itemDiffuserRecipe(ElementType.ENTROPY, ECTags.Items.INGOTS_DRENCHED_IRON)
+                .withElementAmount(500)
+                .withResult(ElementType.WATER, 500)
+                .save(consumer);
+        ItemDiffuserRecipeBuilder.itemDiffuserRecipe(ElementType.ENTROPY, ECBlocks.WHITE_ROCK.get())
+                .withElementAmount(500)
+                .withResult(ElementType.EARTH, 500)
+                .save(consumer);
+        ItemDiffuserRecipeBuilder.itemDiffuserRecipe(ElementType.ENTROPY, ECBlocks.BURNT_GLASS.get())
+                .withElementAmount(500)
+                .withResult(ElementType.FIRE, 500)
+                .save(consumer);
+        ItemDiffuserRecipeBuilder.itemDiffuserRecipe(ElementType.ENTROPY, ECItems.AIR_SILK.get())
+                .withElementAmount(500)
+                .withResult(ElementType.AIR, 500)
+                .save(consumer);
+
+        ItemDiffuserRecipeBuilder.itemDiffuserRecipe(ElementType.ENTROPY, ECItems.PURE_CRYSTAL.get())
+                .withElementAmount(100000)
+                .withResult(ElementType.AIR, 100000)
+                .withResult(ElementType.EARTH, 100000)
+                .withResult(ElementType.FIRE, 100000)
+                .withResult(ElementType.WATER, 100000)
+                .withResult(ElementType.LIFE, 50000)
+                .withResult(ElementType.LIGHT, 50000)
+                .withResult(ElementType.MAGMA, 50000)
+                .withResult(ElementType.WEATHER, 50000)
                 .save(consumer);
     }
 

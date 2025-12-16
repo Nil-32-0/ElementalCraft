@@ -1,5 +1,6 @@
 package metafact.elementalcraft.recipe;
 
+import metafact.elementalcraft.recipe.instrument.ItemDiffusionRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -28,7 +29,7 @@ public class ECRecipeTypes {
 	public static final RegistryObject<RecipeType<SpellCraftRecipe>> SPELL_CRAFT = register(SpellCraftRecipe.NAME);
     public static final RegistryObject<RecipeType<MeltingRecipe>> MELTING = register(MeltingRecipe.NAME);
     public static final RegistryObject<RecipeType<SourceBreedingRecipe>> BREEDING = register(SourceBreedingRecipe.NAME);
-
+    public static final RegistryObject<RecipeType<ItemDiffusionRecipe>> ITEM_DIFFUSION = register(ItemDiffusionRecipe.NAME);
 
 	private ECRecipeTypes() {}
 

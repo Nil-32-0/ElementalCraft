@@ -1,0 +1,42 @@
+{
+  "type": "elementalcraft:item_diffusion",
+  "element_amount": 100000,
+  "element_type": "entropy",
+  "input": {
+    "item": "elementalcraft:pure_crystal"
+  },
+  "outputs": [
+    {
+      "element_amount": 50000,
+      "element_type": "life"
+    },
+    {
+      "element_amount": 100000,
+      "element_type": "water"
+    },
+    {
+      "element_amount": 100000,
+      "element_type": "air"
+    },
+    {
+      "element_amount": 50000,
+      "element_type": "light"
+    },
+    {
+      "element_amount": 50000,
+      "element_type": "magma"
+    },
+    {
+      "element_amount": 100000,
+      "element_type": "fire"
+    },
+    {
+      "element_amount": 50000,
+      "element_type": "weather"
+    },
+    {
+      "element_amount": 100000,
+      "element_type": "earth"
+    }
+  ]
+}

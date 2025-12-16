@@ -150,6 +150,10 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		return progress;
 	}
 
+    protected void setProgress(int amount) {
+        this.progress = amount;
+    }
+
 	@Override
 	public ISingleElementStorage getContainer() {
 		if (containerCache == null) {

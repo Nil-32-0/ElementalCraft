@@ -2,6 +2,7 @@ package metafact.elementalcraft.interaction.jei;
 
 import com.mojang.datafixers.util.Pair;
 import metafact.elementalcraft.interaction.jei.category.element.synthesis.*;
+import metafact.elementalcraft.interaction.jei.category.instrument.*;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -49,10 +50,6 @@ import metafact.elementalcraft.interaction.jei.category.element.SolarSynthesisRe
 import metafact.elementalcraft.interaction.jei.category.element.SourceBreedingRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.element.synthesis.cracking.CrackingRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.element.synthesis.cracking.SculkCrackingRecipeCategory;
-import metafact.elementalcraft.interaction.jei.category.instrument.BindingRecipeCategory;
-import metafact.elementalcraft.interaction.jei.category.instrument.CrystallizationRecipeCategory;
-import metafact.elementalcraft.interaction.jei.category.instrument.EnchantmentLiquefactionRecipeCategory;
-import metafact.elementalcraft.interaction.jei.category.instrument.InscriptionRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.instrument.io.mill.GrindingRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.instrument.io.InfusionRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.instrument.io.PurificationRecipeCategory;
@@ -174,6 +171,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new SpringShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new CrystalThrowingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SourceBreedingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new ItemDiffusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -223,6 +221,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER_PEDESTAL.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
 		registry.addRecipeCatalyst(new ItemStack(Blocks.DISPENSER), ECJEIRecipeTypes.CRYSTAL_THROWING);
+        registry.addRecipeCatalyst(new ItemStack(ECBlocks.ITEM_DIFFUSER.get()), ECJEIRecipeTypes.ITEM_DIFFUSION);
 
 		if (ECinteractions.isMekanismActive()) {
 			MekanismInteraction.addAirMillToCrushing(registry);
@@ -271,6 +270,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.CRYSTAL_THROWING, ElementType.ALL_VALID);
 
         registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, getRecipes(recipeManager, ECRecipeTypes.BREEDING));
+        registry.addRecipes(ECJEIRecipeTypes.ITEM_DIFFUSION, getRecipes(recipeManager, ECRecipeTypes.ITEM_DIFFUSION));
     }
 
     private static @NotNull List<ItemStack> getFoods(@NotNull IRecipeRegistration registry) {

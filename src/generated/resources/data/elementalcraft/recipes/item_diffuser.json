@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:entropy_crystal"
+    },
+    "i": {
+      "tag": "forge:ingots/drenched_iron"
+    },
+    "s": {
+      "item": "elementalcraft:small_container"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "wcw",
+    "isi",
+    "wcw"
+  ],
+  "result": {
+    "item": "elementalcraft:item_diffuser"
+  },
+  "show_notification": true
+}

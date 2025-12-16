@@ -87,6 +87,11 @@ public class ECConfig {
         public final IntValue enchantmentLiquefierBreakChanceUncommon;
         public final IntValue enchantmentLiquefierBreakChanceRare;
         public final IntValue enchantmentLiquefierBreakChanceVeryRare;
+        public final IntValue itemDiffuserTransferSpeed;
+        public final IntValue itemDiffuserMaxRunes;
+        public final IntValue itemDiffuserMaxOutputs;
+        public final DoubleValue itemDiffuserOutputBonus;
+        public final DoubleValue itemDiffuserMaxBonus;
 		public final IntValue purifierTransferSpeed;
 		public final IntValue purifierMaxRunes;
 		public final BooleanValue pureOreRecipeInjection;
@@ -206,7 +211,13 @@ public class ECConfig {
             enchantmentLiquefierBreakChanceUncommon = builder.comment("The chance of breaking uncommon echantments.").defineInRange("enchantmentLiquefierBreakChanceUncommon", 10, 0, 100);
             enchantmentLiquefierBreakChanceRare = builder.comment("The chance of breaking rare echantments.").defineInRange("enchantmentLiquefierBreakChanceRare", 20, 0, 100);
             enchantmentLiquefierBreakChanceVeryRare = builder.comment("The chance of breaking very rare echantments.").defineInRange("enchantmentLiquefierBreakChanceVeryRare", 25, 0, 100);
-            builder.pop(2).push("purifier");
+            builder.pop(2).push("itemDiffuser");
+            itemDiffuserTransferSpeed = builder.comment("The max amount of element consumed by the Item Diffuser per tick.").defineInRange("itemDiffuserTransferSpeed", 50, 0, 10000);
+            itemDiffuserMaxRunes = builder.comment("The max amount of runes on an Item Diffuser.").defineInRange("itemDiffuserMaxRunes", 2, 0, 10);
+            itemDiffuserMaxOutputs = builder.comment("The max amount of outputs above an Item Diffuser.").defineInRange("itemDiffuserMaxOutputs", 8, 1, 64);
+            itemDiffuserOutputBonus = builder.comment("The bonus additional containers gives to Item Diffuser results.").defineInRange("itemDiffuserOutputBonus", 1.25, 0, 10);
+            itemDiffuserMaxBonus = builder.comment("The bonus to results from having the maximum number of Item Infuser containers.").defineInRange("itemDiffuserMaxBonus", 0.10, -10, 10);
+            builder.pop().push("purifier");
 			purifierTransferSpeed = builder.comment("The max amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierTransferSpeed", 25, 0, 1000);
 			purifierMaxRunes = builder.comment("The max amount of runes on an purifier.").defineInRange("purifierMaxRunes", 3, 0, 10);
 			builder.push("pureOre");

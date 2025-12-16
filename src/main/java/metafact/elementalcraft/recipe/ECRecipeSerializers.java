@@ -1,5 +1,6 @@
 package metafact.elementalcraft.recipe;
 
+import metafact.elementalcraft.recipe.instrument.ItemDiffusionRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -46,7 +47,7 @@ public class ECRecipeSerializers {
 	public static final RegistryObject<ShapedRecipe.Serializer> STAFF = register(StaffRecipe.Serializer::new, StaffItem.NAME);
 	public static final RegistryObject<MeltingRecipe.Serializer> MELTING = register(MeltingRecipe.Serializer::new, MeltingRecipe.NAME);
     public static final RegistryObject<SourceBreedingRecipe.Serializer> BREEDING = register(SourceBreedingRecipe.Serializer::new, SourceBreedingRecipe.NAME);
-
+    public static final RegistryObject<ItemDiffusionRecipe.Serializer> ITEM_DIFFUSION = register(ItemDiffusionRecipe.Serializer::new, ItemDiffusionRecipe.NAME);
 
 	private ECRecipeSerializers() {}
 

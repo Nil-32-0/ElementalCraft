@@ -1,16 +1,11 @@
 package metafact.elementalcraft.interaction.jei;
 
-import metafact.elementalcraft.interaction.jei.category.element.*;
-import metafact.elementalcraft.interaction.jei.category.element.synthesis.*;
-import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.vanilla.IJeiFuelingRecipe;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Block;
 import metafact.elementalcraft.api.ElementalCraftApi;
 import metafact.elementalcraft.api.element.ElementType;
 import metafact.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import metafact.elementalcraft.block.shrine.spring.SpringShrineBlock;
+import metafact.elementalcraft.interaction.jei.category.element.*;
+import metafact.elementalcraft.interaction.jei.category.element.synthesis.*;
 import metafact.elementalcraft.interaction.jei.category.element.synthesis.cracking.CrackingRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.element.synthesis.cracking.SculkCrackingRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.instrument.EnchantmentLiquefactionRecipeCategory;
@@ -21,6 +16,7 @@ import metafact.elementalcraft.recipe.SourceBreedingRecipe;
 import metafact.elementalcraft.recipe.SpellCraftRecipe;
 import metafact.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import metafact.elementalcraft.recipe.instrument.InscriptionRecipe;
+import metafact.elementalcraft.recipe.instrument.ItemDiffusionRecipe;
 import metafact.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 import metafact.elementalcraft.recipe.instrument.enchantment.liquefaction.EnchantmentLiquefactionRecipe;
 import metafact.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
@@ -29,6 +25,11 @@ import metafact.elementalcraft.recipe.instrument.io.IPurifierRecipe;
 import metafact.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import metafact.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 import metafact.elementalcraft.recipe.melting.MeltingRecipe;
+import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.vanilla.IJeiFuelingRecipe;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 
 public class ECJEIRecipeTypes {
 
@@ -61,6 +62,7 @@ public class ECJEIRecipeTypes {
     public static final RecipeType<SpringShrineBlock> SPRING_SHRINE = create(SpringShrineBlock.NAME, SpringShrineBlock.class);
     public static final RecipeType<ElementType> CRYSTAL_THROWING = create(CrystalThrowingRecipeCategory.NAME, ElementType.class);
     public static final RecipeType<SourceBreedingRecipe> SOURCE_BREEDING = create(SourceBreedingRecipeCategory.NAME, SourceBreedingRecipe.class);
+    public static final RecipeType<ItemDiffusionRecipe> ITEM_DIFFUSION = create(ItemDiffusionRecipe.NAME, ItemDiffusionRecipe.class);
 
     private static <T> RecipeType<T> create(String path, Class<? extends T> recipeClass) {
         return RecipeType.create(ElementalCraftApi.MODID, path, recipeClass);

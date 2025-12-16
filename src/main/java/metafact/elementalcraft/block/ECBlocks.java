@@ -1,5 +1,6 @@
 package metafact.elementalcraft.block;
 
+import metafact.elementalcraft.block.instrument.itemdiffuser.ItemDiffuserBlock;
 import metafact.elementalcraft.block.shrine.upgrade.horizontal.*;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.AmethystBlock;
@@ -151,6 +152,7 @@ public class ECBlocks {
 	public static final RegistryObject<WaterMillWoodSawBlock> WATER_MILL_WOOD_SAW = registerDefault(WaterMillWoodSawBlock.NAME, WaterMillWoodSawBlock::new);
 	public static final RegistryObject<AirMillWoodSawBlock> AIR_MILL_WOOD_SAW = registerDefault(AirMillWoodSawBlock.NAME, AirMillWoodSawBlock::new);
 	public static final RegistryObject<EnchantmentLiquefierBlock> ENCHANTMENT_LIQUEFIER = registerDefault(EnchantmentLiquefierBlock.NAME, EnchantmentLiquefierBlock::new);
+    public static final RegistryObject<ItemDiffuserBlock> ITEM_DIFFUSER = registerNoOcclusion(ItemDiffuserBlock.NAME, ItemDiffuserBlock::new);
     public static final RegistryObject<PedestalBlock> FIRE_PEDESTAL = register(PedestalBlock.NAME_FIRE, () ->
             new PedestalBlock(ElementType.FIRE, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
 	public static final RegistryObject<PedestalBlock> WATER_PEDESTAL = register(PedestalBlock.NAME_WATER, () ->

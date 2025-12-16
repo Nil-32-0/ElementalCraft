@@ -66,6 +66,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.WATER_MILL_WOOD_SAW.get());
                 o.accept(ECBlocks.AIR_MILL_WOOD_SAW.get());
                 o.accept(ECBlocks.ENCHANTMENT_LIQUEFIER.get());
+                o.accept(ECBlocks.ITEM_DIFFUSER.get());
                 o.accept(ECBlocks.FIRE_PEDESTAL.get());
                 o.accept(ECBlocks.WATER_PEDESTAL.get());
                 o.accept(ECBlocks.EARTH_PEDESTAL.get());

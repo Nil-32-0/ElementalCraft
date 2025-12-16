@@ -1,5 +1,6 @@
 package metafact.elementalcraft.block.entity;
 
+import metafact.elementalcraft.block.instrument.itemdiffuser.ItemDiffuserBlockEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -113,6 +114,7 @@ public class ECBlockEntityTypes {
     public static final RegistryObject<BlockEntityType<WaterMillWoodSawBlockEntity>> WATER_MILL_WOOD_SAW = register(WaterMillWoodSawBlockEntity::new, ECBlocks.WATER_MILL_WOOD_SAW);
     public static final RegistryObject<BlockEntityType<AirMillWoodSawBlockEntity>> AIR_MILL_WOOD_SAW = register(AirMillWoodSawBlockEntity::new, ECBlocks.AIR_MILL_WOOD_SAW);
     public static final RegistryObject<BlockEntityType<EnchantmentLiquefierBlockEntity>> ENCHANTMENT_LIQUEFIER = register(EnchantmentLiquefierBlockEntity::new, ECBlocks.ENCHANTMENT_LIQUEFIER);
+    public static final RegistryObject<BlockEntityType<ItemDiffuserBlockEntity>> ITEM_DIFFUSER = register(ItemDiffuserBlockEntity::new, ECBlocks.ITEM_DIFFUSER);
     public static final RegistryObject<BlockEntityType<PedestalBlockEntity>> PEDESTAL = register(() -> builder(PedestalBlockEntity::new, ECBlocks.FIRE_PEDESTAL, ECBlocks.WATER_PEDESTAL, ECBlocks.EARTH_PEDESTAL, ECBlocks.AIR_PEDESTAL), PedestalBlock.NAME);
     public static final RegistryObject<BlockEntityType<PureInfuserBlockEntity>> PURE_INFUSER = register(PureInfuserBlockEntity::new, ECBlocks.PURE_INFUSER);
     public static final RegistryObject<BlockEntityType<FireFurnaceBlockEntity>> FIRE_FURNACE = register(FireFurnaceBlockEntity::new, ECBlocks.FIRE_FURNACE);
