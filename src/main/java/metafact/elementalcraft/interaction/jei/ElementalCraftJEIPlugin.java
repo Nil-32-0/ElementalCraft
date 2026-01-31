@@ -153,6 +153,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
         registry.addRecipeCategories(new SculkCrackingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
         registry.addRecipeCategories(new VibrationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new EvaporationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new RunicChannelerRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SolarSynthesisRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new InfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new ToolInfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
@@ -182,6 +183,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EXTRACTOR.get()), ECJEIRecipeTypes.EXTRACTION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.IMPROVED_EXTRACTOR.get()), ECJEIRecipeTypes.EXTRACTION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EVAPORATOR.get()), ECJEIRecipeTypes.EVAPORATION);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.RUNIC_CHANNELER.get()), ECJEIRecipeTypes.RUNIC_CHANNELER);
         registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL_SYNTHESIZER.get()), ECJEIRecipeTypes.AIR_MILL_SYNTHESIS);
         registry.addRecipeCatalyst(new ItemStack(ECBlocks.COMBUSTION_SYNTHESIZER.get()), ECJEIRecipeTypes.COMBUSTION);
         registry.addRecipeCatalyst(new ItemStack(ECBlocks.CRACKING_SYNTHESIZER.get()), ECJEIRecipeTypes.CRACKING);
@@ -238,6 +240,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 
 		registry.addRecipes(ECJEIRecipeTypes.EXTRACTION, getExtractionRecipes());
 		registry.addRecipes(ECJEIRecipeTypes.EVAPORATION, EvaporationRecipeCategory.getShards());
+		registry.addRecipes(ECJEIRecipeTypes.RUNIC_CHANNELER, getRecipes(recipeManager, ECRecipeTypes.RUNIC_CHANNELER));
         registry.addRecipes(ECJEIRecipeTypes.AIR_MILL_SYNTHESIS, List.of(new IngredientElementType(ElementType.AIR, 1)));
         registry.addRecipes(ECJEIRecipeTypes.COMBUSTION, getFuels(registry));
         registry.addRecipes(ECJEIRecipeTypes.CRACKING, getCrackingValues(registry, false));

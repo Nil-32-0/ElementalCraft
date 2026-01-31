@@ -65,6 +65,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
         add(ECBlocks.CRYSTAL_ORE.get(), this::createInertCrystalOreDrops);
         add(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), this::createInertCrystalOreDrops);
 		add(ECBlocks.EVAPORATOR.get(), ECBlockLoot::createIER);
+		add(ECBlocks.RUNIC_CHANNELER.get(), ECBlockLoot::createIER);
 		add(ECBlocks.CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.SMALL_CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), b -> createCopyNbt(b, ECNames.TARGET));

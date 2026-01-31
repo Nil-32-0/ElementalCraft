@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_runic_channeler": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:runic_channeler"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_runic_channeler"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,17 @@
+{
+  "type": "elementalcraft:runic_channeler",
+  "element_amount": 100000,
+  "element_type": "purity",
+  "input": {
+    "item": "elementalcraft:artificial_purity_source_seed"
+  },
+  "output": {
+    "item": "elementalcraft:natural_purity_source_seed"
+  },
+  "rune_list": [
+    "elementalcraft:tzeentch",
+    "elementalcraft:zod",
+    "elementalcraft:zod",
+    "elementalcraft:tano"
+  ]
+}

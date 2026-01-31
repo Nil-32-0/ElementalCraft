@@ -9,6 +9,7 @@ import metafact.elementalcraft.interaction.jei.category.element.synthesis.*;
 import metafact.elementalcraft.interaction.jei.category.element.synthesis.cracking.CrackingRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.element.synthesis.cracking.SculkCrackingRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.instrument.EnchantmentLiquefactionRecipeCategory;
+import metafact.elementalcraft.interaction.jei.category.instrument.RunicChannelerRecipeCategory;
 import metafact.elementalcraft.interaction.jei.category.instrument.io.PurificationRecipeCategory;
 import metafact.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import metafact.elementalcraft.recipe.PureInfusionRecipe;
@@ -17,6 +18,7 @@ import metafact.elementalcraft.recipe.SpellCraftRecipe;
 import metafact.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import metafact.elementalcraft.recipe.instrument.InscriptionRecipe;
 import metafact.elementalcraft.recipe.instrument.ItemDiffusionRecipe;
+import metafact.elementalcraft.recipe.instrument.RunicChannelerRecipe;
 import metafact.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 import metafact.elementalcraft.recipe.instrument.enchantment.liquefaction.EnchantmentLiquefactionRecipe;
 import metafact.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
@@ -37,6 +39,7 @@ public class ECJEIRecipeTypes {
 
     public static final RecipeType<ExtractionRecipeCategory.ExtractionRecipe> EXTRACTION = create(ExtractionRecipeCategory.NAME, ExtractionRecipeCategory.ExtractionRecipe.class);
     public static final RecipeType<Ingredient> EVAPORATION = create(EvaporationRecipeCategory.NAME, Ingredient.class);
+    public static final RecipeType<RunicChannelerRecipe> RUNIC_CHANNELER = create(RunicChannelerRecipeCategory.NAME, RunicChannelerRecipe.class);
     public static final RecipeType<IngredientElementType> AIR_MILL_SYNTHESIS = create(AirMillSynthesisRecipeCategory.NAME, IngredientElementType.class);
     public static final RecipeType<IJeiFuelingRecipe> COMBUSTION = create(CombustionRecipeCategory.NAME, IJeiFuelingRecipe.class);
     public static final RecipeType<Block> CRACKING = create(CrackingRecipeCategory.NAME, Block.class);

@@ -1,3 +1,6 @@
+1.20.1-m6.3.1
+- Add Runic Channeler, which can direct elements with runes to perform stronger item infusions
+
 1.20.1-m6.3.0
 - Add Item Diffuser, which can dissolve items into elements
 

@@ -51,6 +51,8 @@ public class ECConfig {
         public final IntValue rudimentaryExtractorExtractionAmount;
 		public final IntValue evaporatorExtractionAmount;
 		public final IntValue evaporatorMaxRunes;
+		public final IntValue runicChannelerTransferSpeed;
+		public final IntValue runicChannelerMaxRunes;
         public final Map<Class<? extends AbstractSynthesizerBlockEntity>, Map<String, ForgeConfigSpec.ConfigValue<?>>> synthesizerValues = new HashMap<>();
 		public final IntValue diffuserDiffusionAmount;
 		public final IntValue diffuserMaxRunes;
@@ -163,6 +165,9 @@ public class ECConfig {
             builder.pop().push("evaporator");
 			evaporatorExtractionAmount = builder.comment("The amount of element extracted by an evaporator.").defineInRange("evaporatorExtractionAmount", 1, 0, 100);
 			evaporatorMaxRunes = builder.comment("The max amount of runes on an evaporator.").defineInRange("evaporatorMaxRunes", 1, 0, 10);
+			builder.pop().push("runicChanneler");
+			runicChannelerTransferSpeed = builder.comment("The amount of element transfered by a runic channeler.").defineInRange("runicChannelerTransferSpeed", 100, 0, 100000);
+			runicChannelerMaxRunes = builder.comment("The max amount of runes on a runic channeler.").defineInRange("runicChannelerMaxRunes", 7, 0, 50);
 			builder.pop().push("diffuser");
 			diffuserDiffusionAmount = builder.comment("The amount of element transfered by a diffuser.").defineInRange("diffuserDiffusionAmount", 5, 0, 100);
 			diffuserMaxRunes = builder.comment("The max amount of runes on a diffuser.").defineInRange("diffuserMaxRunes", 3, 0, 10);

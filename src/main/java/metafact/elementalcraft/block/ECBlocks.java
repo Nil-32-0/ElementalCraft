@@ -1,6 +1,7 @@
 package metafact.elementalcraft.block;
 
 import metafact.elementalcraft.block.instrument.itemdiffuser.ItemDiffuserBlock;
+import metafact.elementalcraft.block.instrument.runicchanneler.RunicChannelerBlock;
 import metafact.elementalcraft.block.shrine.upgrade.horizontal.*;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.AmethystBlock;
@@ -132,6 +133,7 @@ public class ECBlocks {
 	public static final RegistryObject<ImprovedExtractorBlock> IMPROVED_EXTRACTOR = registerDefault(ImprovedExtractorBlock.NAME, ImprovedExtractorBlock::new);
     public static final RegistryObject<RudimentaryElementExtractorBlock> RUDIMENTARY_EXTRACTOR = registerDefault(RudimentaryElementExtractorBlock.NAME, RudimentaryElementExtractorBlock::new);
 	public static final RegistryObject<EvaporatorBlock> EVAPORATOR = registerDefault(EvaporatorBlock.NAME, EvaporatorBlock::new);
+	public static final RegistryObject<RunicChannelerBlock> RUNIC_CHANNELER = registerDefault(RunicChannelerBlock.NAME, RunicChannelerBlock::new);
 	public static final RegistryObject<AirMillSynthesizerBlock> AIR_MILL_SYNTHESIZER = registerDefault(AirMillSynthesizerBlock.NAME, AirMillSynthesizerBlock::new);
     public static final RegistryObject<CombustionSynthesizerBlock> COMBUSTION_SYNTHESIZER = registerDefault(CombustionSynthesizerBlock.NAME, CombustionSynthesizerBlock::new);
     public static final RegistryObject<CrackingSynthesizerBlock> CRACKING_SYNTHESIZER = registerDefault(CrackingSynthesizerBlock.NAME, CrackingSynthesizerBlock::new);

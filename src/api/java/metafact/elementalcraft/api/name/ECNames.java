@@ -80,6 +80,7 @@ public class ECNames {
 	public static final String RESULT = "result";
 	public static final String RUNE = "rune";
 	public static final String RUNE_HANDLER = "rune_handler";
+	public static final String RUNE_LIST = "rune_list";
 	public static final String RUNNING = "running";
 	public static final String SHARD = "shard";
 	public static final String SHRINE_UPGRADE = "shrine_upgrade";

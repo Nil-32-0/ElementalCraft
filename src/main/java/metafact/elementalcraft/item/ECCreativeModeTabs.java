@@ -44,6 +44,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.EXTRACTOR.get());
                 o.accept(ECBlocks.IMPROVED_EXTRACTOR.get());
                 o.accept(ECBlocks.EVAPORATOR.get());
+                o.accept(ECBlocks.RUNIC_CHANNELER.get());
                 o.accept(ECBlocks.INFUSER.get());
                 o.accept(ECBlocks.AIR_MILL_SYNTHESIZER.get());
                 o.accept(ECBlocks.COMBUSTION_SYNTHESIZER.get());

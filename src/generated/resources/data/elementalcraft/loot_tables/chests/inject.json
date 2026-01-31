@@ -123,7 +123,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:life_crystal",
+          "name": "elementalcraft:purity_crystal",
           "weight": 10
         },
         {
@@ -187,55 +187,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:purity_crystal",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
           "name": "elementalcraft:light_crystal",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "elementalcraft:magma_crystal",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "elementalcraft:fire_crystal",
           "weight": 10
         },
         {
@@ -267,7 +219,55 @@
               "function": "minecraft:set_count"
             }
           ],
+          "name": "elementalcraft:life_crystal",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "elementalcraft:magma_crystal",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
           "name": "elementalcraft:earth_crystal",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "elementalcraft:fire_crystal",
           "weight": 10
         },
         {
@@ -283,7 +283,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:life_shard",
+          "name": "elementalcraft:purity_shard",
           "weight": 5
         },
         {
@@ -347,55 +347,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:purity_shard",
-          "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 8.0,
-                "min": 3.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
           "name": "elementalcraft:light_shard",
-          "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 8.0,
-                "min": 3.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "elementalcraft:magma_shard",
-          "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 8.0,
-                "min": 3.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "elementalcraft:fire_shard",
           "weight": 5
         },
         {
@@ -427,12 +379,60 @@
               "function": "minecraft:set_count"
             }
           ],
+          "name": "elementalcraft:life_shard",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 3.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "elementalcraft:magma_shard",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 3.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
           "name": "elementalcraft:earth_shard",
           "weight": 5
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:powerful_life_shard",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 3.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "elementalcraft:fire_shard",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:powerful_purity_shard",
           "weight": 2
         },
         {
@@ -452,22 +452,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:powerful_purity_shard",
-          "weight": 2
-        },
-        {
-          "type": "minecraft:item",
           "name": "elementalcraft:powerful_light_shard",
-          "weight": 2
-        },
-        {
-          "type": "minecraft:item",
-          "name": "elementalcraft:powerful_magma_shard",
-          "weight": 2
-        },
-        {
-          "type": "minecraft:item",
-          "name": "elementalcraft:powerful_fire_shard",
           "weight": 2
         },
         {
@@ -477,7 +462,22 @@
         },
         {
           "type": "minecraft:item",
+          "name": "elementalcraft:powerful_life_shard",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:powerful_magma_shard",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
           "name": "elementalcraft:powerful_earth_shard",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:powerful_fire_shard",
           "weight": 2
         }
       ],

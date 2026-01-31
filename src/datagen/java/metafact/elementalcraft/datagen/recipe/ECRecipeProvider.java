@@ -135,6 +135,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		registerSourceBreeding(consumer);
         registerMelting(consumer);
         registerItemDiffusion(consumer);
+		registerRunicChanneling(consumer);
 	}
 
 	private static void registerMaterials(@Nonnull Consumer<FinishedRecipe> consumer) {
@@ -580,6 +581,14 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("gig")
 				.pattern("wew")
 				.pattern("ici")
+				.save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.RUNIC_CHANNELER.get(), ECItems.PURE_CRYSTAL.get())
+				.define('n', ECTags.Items.INGOTS_FIREITE)
+				.define('g', Tags.Items.GLASS)
+				.define('d', ECTags.Items.INGOTS_DRENCHED_IRON)
+				.pattern("dnd")
+				.pattern("gcg")
+				.pattern("www")
 				.save(consumer);
 	}
 
@@ -1769,6 +1778,16 @@ public class ECRecipeProvider extends RecipeProvider {
                 .withResult(ElementType.WEATHER, 50000)
                 .save(consumer);
     }
+
+	private void registerRunicChanneling(Consumer<FinishedRecipe> consumer) {
+		ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL).forEach(type -> {
+			RunicChannelerRecipeBuilder.runicChannelerRecipe(ECItems.NATURAL_SOURCE_SEEDS.get(type).get(), type)
+				.withElementAmount(100000)
+				.setIngredient(ECItems.ARTIFICIAL_SOURCE_SEEDS.get(type).get())
+				.setRunesKeys(List.of(Runes.TZEENTCH, Runes.ZOD, Runes.ZOD, Runes.TANO))
+				.save(consumer);
+		});
+	}
 
 	private void grindToDye(ItemLike dye, ItemLike from, Consumer<FinishedRecipe> consumer) {
 		GrindingRecipeBuilder.grindingRecipe(dye)

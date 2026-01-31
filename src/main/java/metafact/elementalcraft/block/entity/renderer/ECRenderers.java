@@ -55,6 +55,7 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.INFUSER, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5)));
 		register(ECBlockEntityTypes.EXTRACTOR, IRuneRenderer::create);
 		register(ECBlockEntityTypes.EVAPORATOR, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5), 0.5F));
+		register(ECBlockEntityTypes.RUNIC_CHANNELER, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5), 0.5F));
         register(ECBlockEntityTypes.AIR_MILL_SYNTHESIZER, AirMillSynthesizerRenderer::new);
         register(ECBlockEntityTypes.CRACKING_SYNTHESIZER, CrackingSynthesizerRenderer::new);
         register(ECBlockEntityTypes.DRAINING_SYNTHESIZER, DrainingSynthesizerRenderer::new);

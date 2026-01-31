@@ -77,7 +77,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
                 ECBlocks.INSCRIBER.get(), ECBlocks.FIRE_FURNACE.get(), ECBlocks.FIRE_BLAST_FURNACE.get(),
                 ECBlocks.PURIFIER.get(), ECBlocks.WATER_MILL_GRINDSTONE.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(),
                 ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.ENCHANTMENT_LIQUEFIER.get(),
-                ECBlocks.ITEM_DIFFUSER.get(), ECBlocks.BINDER_IMPROVED.get());
+                ECBlocks.ITEM_DIFFUSER.get(), ECBlocks.BINDER_IMPROVED.get(), ECBlocks.RUNIC_CHANNELER.get());
 
 		tag(ECTags.Blocks.CONTAINER_TOOLS).addTag(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.EVAPORATOR.get(),
                 ECBlocks.RUDIMENTARY_EXTRACTOR.get(), ECBlocks.EXTRACTOR.get(), ECBlocks.IMPROVED_EXTRACTOR.get(),
@@ -86,16 +86,16 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
                 ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlocks.MANA_SYNTHESIZER.get(), ECBlocks.AIR_MILL_SYNTHESIZER.get(),
                 ECBlocks.VIBRATION_SYNTHESIZER.get(), ECBlocks.DIFFUSER.get());
 
-		runeBase(ECTags.Blocks.RUNE_AFFECTED_SPEED).add(ECBlocks.DIFFUSER.get(), ECBlocks.SORTER.get());
-		runeBase(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION);
-		runeBase(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION);
+		runeBase(ECTags.Blocks.RUNE_AFFECTED_SPEED).add(ECBlocks.DIFFUSER.get(), ECBlocks.SORTER.get(), ECBlocks.RUNIC_CHANNELER.get());
+		runeBase(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).add(ECBlocks.RUNIC_CHANNELER.get());
+		runeBase(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION).add(ECBlocks.RUNIC_CHANNELER.get());
 		tag(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.CRYSTALLIZER.get(),
                 ECBlocks.WATER_MILL_GRINDSTONE.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(),
-                ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.ENCHANTMENT_LIQUEFIER.get(), ECBlocks.SOURCE_BREEDER.get());
+                ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.ENCHANTMENT_LIQUEFIER.get(), ECBlocks.SOURCE_BREEDER.get(), ECBlocks.RUNIC_CHANNELER.get());
         tag(ECTags.Blocks.RUNE_AFFECTED_TZEENTCH).addTag(ECTags.Blocks.RUNE_AFFECTED_LUCK)
-                .add(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get());
+                .add(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get(), ECBlocks.RUNIC_CHANNELER.get());
         tag(ECTags.Blocks.RUNE_AFFECTED_RANGE).add(ECBlocks.DIFFUSER.get(), ECBlocks.CRACKING_SYNTHESIZER.get(),
-                ECBlocks.VIBRATION_SYNTHESIZER.get());
+                ECBlocks.VIBRATION_SYNTHESIZER.get(), ECBlocks.RUNIC_CHANNELER.get());
 
 		tag(ECTags.Blocks.SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS).add(Blocks.SUGAR_CANE, Blocks.BAMBOO, Blocks.KELP, Blocks.KELP_PLANT, Blocks.CACTUS).addOptional(IEBlocks.Misc.HEMP_PLANT.getId());
         tag(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_LAVA).add(Blocks.BASALT, Blocks.POLISHED_BASALT, Blocks.SMOOTH_BASALT);

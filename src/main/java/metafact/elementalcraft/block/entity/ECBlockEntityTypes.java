@@ -1,6 +1,7 @@
 package metafact.elementalcraft.block.entity;
 
 import metafact.elementalcraft.block.instrument.itemdiffuser.ItemDiffuserBlockEntity;
+import metafact.elementalcraft.block.instrument.runicchanneler.RunicChannelerBlockEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -94,6 +95,7 @@ public class ECBlockEntityTypes {
     public static final RegistryObject<BlockEntityType<CreativeElementContainerBlockEntity>> CREATIVE_CONTAINER = register(CreativeElementContainerBlockEntity::new, ECBlocks.CREATIVE_CONTAINER);
     public static final RegistryObject<BlockEntityType<ExtractorBlockEntity>> EXTRACTOR = register(() -> builder(ExtractorBlockEntity::new, ECBlocks.RUDIMENTARY_EXTRACTOR, ECBlocks.EXTRACTOR, ECBlocks.IMPROVED_EXTRACTOR), ExtractorBlock.NAME);
     public static final RegistryObject<BlockEntityType<EvaporatorBlockEntity>> EVAPORATOR = register(EvaporatorBlockEntity::new, ECBlocks.EVAPORATOR);
+    public static final RegistryObject<BlockEntityType<RunicChannelerBlockEntity>> RUNIC_CHANNELER = register(RunicChannelerBlockEntity::new, ECBlocks.RUNIC_CHANNELER);
     public static final RegistryObject<BlockEntityType<AirMillSynthesizerBlockEntity>> AIR_MILL_SYNTHESIZER = register(AirMillSynthesizerBlockEntity::new, ECBlocks.AIR_MILL_SYNTHESIZER);
     public static final RegistryObject<BlockEntityType<CombustionSynthesizerBlockEntity>> COMBUSTION_SYNTHESIZER = register(CombustionSynthesizerBlockEntity::new, ECBlocks.COMBUSTION_SYNTHESIZER);
     public static final RegistryObject<BlockEntityType<CrackingSynthesizerBlockEntity>> CRACKING_SYNTHESIZER = register(CrackingSynthesizerBlockEntity::new, ECBlocks.CRACKING_SYNTHESIZER);
