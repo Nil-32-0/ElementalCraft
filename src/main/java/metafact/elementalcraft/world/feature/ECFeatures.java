@@ -11,6 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import metafact.elementalcraft.api.ElementalCraftApi;
 import metafact.elementalcraft.api.element.ElementType;
+import metafact.elementalcraft.api.element.ElementTypeTier;
 import metafact.elementalcraft.config.ECConfig;
 import metafact.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 import metafact.elementalcraft.world.feature.placement.SourcePlacement;
@@ -33,7 +34,7 @@ public class ECFeatures {
 
 		BlockPos pos = level.getSharedSpawnPos().offset(-RADIUS / 2, 0, -RADIUS / 2);
 
-		for (var type : ElementType.ALL_VALID) {
+		for (var type : ElementType.getElementsTier(ElementTypeTier.PRIMORDIAL)) {
 			for (int i = 0; i < ECConfig.SERVER.sourceSpawnCount.get(); i++) {
 				addSpawnSource(level, pos.offset(level.random.nextInt(RADIUS), 0, level.random.nextInt(RADIUS)), type);
 			}
